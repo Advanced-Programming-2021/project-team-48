@@ -1,7 +1,7 @@
 package Card;
 
 
-class MonsterForUser<User, Deck> extends MonsterCard {
+public class MonsterForUser<User, Deck> extends MonsterCard {
     public User user;
     public Position position;
     public int address;

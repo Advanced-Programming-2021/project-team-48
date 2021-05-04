@@ -1,3 +1,8 @@
+import Card.MonsterForUser;
+import Card.SpellCardForUser;
+import Card.TrapCard;
+import Card.TrapCardForUser;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -267,7 +272,7 @@ boolean exist=false;
                 checker = true;
                 boolean exist=false;
                 String name=matcher.group(1);
-                for (Deck deck:Deck.getAllDecks()){
+                for (Deck deck:Deck.allDecks){
                     if (deck.getName().equals(name)){
                         System.out.println("deck with name +"+name+" already exists");
                         exist=true;
@@ -294,11 +299,41 @@ boolean exist=false;
                     }
                     if (!exist){
                         Deck.allDecks.remove(Deck.getDeckByName(name));
-                        for ()
+                        for (MonsterForUser monsterForUser:Deck.allMonsterForUser){
+                            monsterForUser.deck=null;
+                            monsterForUser.isInDeck=false;
+                        }
+                        for (SpellCardForUser spellCardForUser:Deck.allSpellCardsForUser){
+                            spellCardForUser.deck=null;
+                            spellCardForUser.isInDeck=false;
+                        }
+                        for (TrapCardForUser trapCardForUser:Deck.allTrapCardsForUser){
+                            trapCardForUser.deck=null;
+                            trapCardForUser.isInDeck=false;
+                        }
                         System.out.println("deck deleted successfully");
                     }
                 }
 
+            }
+
+            pattern = Pattern.compile("deck set-activate (.+)");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                boolean exist=false;
+                String name=matcher.group(1);
+                for (Deck deck:Deck.allDecks){
+                    if (deck.name.equals(name)){
+                        System.out.println("deck with name +"+name+" already exists");
+                        exist=true;
+                        break;
+                    }
+                    if (!exist){
+
+                        System.out.println("deck created successfully!");
+                    }
+                }
             }
         }
     }

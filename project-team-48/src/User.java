@@ -8,19 +8,6 @@ public class User {
     private int money;
     private static ArrayList<User> listOfUsers = new ArrayList<>();
 
-    public static HashMap<User,Integer> userAndscore;
-    static {
-        userAndscore=new HashMap<>();
-    }
-
- /*   public static HashMap<String,User> usernameAndUsers;
-    static {
-        usernameAndUsers=new HashMap<>();
-    }
-
-  */
-
-
     //-------------------------------------------------
     User(String username,String nickname,String password){
         setUsername(username);
