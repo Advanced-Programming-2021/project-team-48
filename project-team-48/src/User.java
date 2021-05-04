@@ -5,7 +5,7 @@ public class User {
     public  String username;
     public String nickname;
     private String password;
-    public static int score=0;
+    public int score=0;
     public int money;
     public static ArrayList<User> listOfUsers;
     static {
@@ -58,5 +58,9 @@ public class User {
 
     public static boolean passwordChecker(String username,String password){
         return User.getUserByUsername(username).equals(password);
+    }
+
+    public int getScore() {
+        return score;
     }
 }
