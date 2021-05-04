@@ -1,7 +1,7 @@
 package Card;
 
 public enum Position {
-    ATTACT,
+    ATTACK,
     DEFEND,
     HIDDEN;
 }
