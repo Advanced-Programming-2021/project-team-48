@@ -1,6 +1,5 @@
 package Card;
 
-import Card.MonsterCard;
 
 class MonsterForUser<User> extends MonsterCard {
     public User user;
