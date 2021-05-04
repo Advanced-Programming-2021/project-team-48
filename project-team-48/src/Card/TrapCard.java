@@ -3,7 +3,7 @@ package Card;
 import java.util.ArrayList;
 
 public class TrapCard extends Card {
-    private Property property;
+    public Property property;
     private static ArrayList<TrapCard> allTrapCard = new ArrayList<>();
 
     public TrapCard(String name, String description, int price, Property property) {
