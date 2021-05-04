@@ -1,14 +1,14 @@
 
 import java.util.ArrayList;
 
-    public class MonsterCard extends Card{
+    public class MonsterCard extends Card {
 
-        private String type;
-        private int level;
-        private int ATK;
-        private int DEF;
-        private String description;
-        private MonsterType cardType;
+        public String type;
+        public int level;
+        public int ATK;
+        public int DEF;
+        public String description;
+        public MonsterType cardType;
         private Attribute attribute;
         public static ArrayList<MonsterCard> allMonsterCards = new ArrayList<>();
 
