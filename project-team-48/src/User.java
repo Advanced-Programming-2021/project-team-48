@@ -5,7 +5,7 @@ public class User {
     public  String username;
     public String nickname;
     private String password;
-    public int score=0;
+    public static int score=0;
     public int money;
     public static ArrayList<User> listOfUsers;
     static {
