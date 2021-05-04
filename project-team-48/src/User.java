@@ -7,7 +7,7 @@ public class User {
     private int score=0;
     private int money;
     private static ArrayList<User> listOfUsers = new ArrayList<>();
-
+    private Deck activeDeck;
     //-------------------------------------------------
     User(String username,String nickname,String password){
         setUsername(username);
@@ -36,6 +36,13 @@ public class User {
         this.score = score;
     }
 
+    public void setActiveDeck(Deck activeDeck){
+        this.activeDeck=activeDeck;
+    }
+
+    public Deck getActiveDeck() {
+        return activeDeck;
+    }
 
     public String getPassword() { return password;}
 

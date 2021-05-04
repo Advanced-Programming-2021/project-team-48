@@ -293,11 +293,10 @@ boolean exist=false;
                 String name=matcher.group(1);
                 for (Deck deck:Deck.allDecks){
                     if (deck.name.equals(name)){
-                        System.out.println("deck with name +"+name+" already exists");
                         exist=true;
                         break;
                     }
-                    if (!exist){
+                    if (exist){
                         Deck.allDecks.remove(Deck.getDeckByName(name));
                         for (MonsterForUser monsterForUser:Deck.allMonsterForUser){
                             monsterForUser.deck=null;
@@ -312,6 +311,8 @@ boolean exist=false;
                             trapCardForUser.isInDeck=false;
                         }
                         System.out.println("deck deleted successfully");
+                    }else {
+                        System.out.println("deck with name "+name+" does not exist");
                     }
                 }
 
@@ -325,13 +326,14 @@ boolean exist=false;
                 String name=matcher.group(1);
                 for (Deck deck:Deck.allDecks){
                     if (deck.name.equals(name)){
-                        System.out.println("deck with name +"+name+" already exists");
                         exist=true;
                         break;
                     }
-                    if (!exist){
-
-                        System.out.println("deck created successfully!");
+                    if (exist){
+           user.setActiveDeck(Deck.getDeckByName(name));
+                        System.out.println("deck activated successfully");
+                    }else {
+                        System.out.println("deck with name "+name+" does not exist");
                     }
                 }
             }
