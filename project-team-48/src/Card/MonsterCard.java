@@ -16,10 +16,6 @@ import java.util.ArrayList;
         public boolean hasEffect;
         public Position activeEffectPosition;
 
-        public enum Position {
-
-        }
-
 //-----------------------------------------------------------------
 
         public MonsterCard(String name, String description, int price, int level, String type, int ATK, int DEF, MonsterType monsterType) {
