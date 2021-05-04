@@ -9,44 +9,53 @@ public class Card {
     public int DEF;
     public String description;
     public CardType cardType;
-    public enum CardType{
+
+    public enum CardType {
 
     }
+
     public int numberOfCard;
     public int price;
-    public static  ArrayList<Card> allCards;
+    public static ArrayList<Card> allCards;
+
     static {
-        allCards=new ArrayList<>();
+        allCards = new ArrayList<>();
     }
+
     public boolean hasEffect;
     public Position activeEffectPostion;
-    public enum Position{
+
+    public enum Position {
 
     }
+
     public MonsterType monsterType;
-    public enum MonsterType{
+
+    public enum MonsterType {
 
     }
-    public enum SpellType{
+
+    public enum SpellType {
 
     }
+
     public SpellType spellType;
 
 
 //-----------------------------------------------------------------
 
-public Card(String name,int level,String type,int ATK,int DEF,String description,CardType cardType,int price){
-    setName(name);
-    setATK(ATK);
-    setDEF(DEF);
-    setLevel(level);
-    setDescription(description);
-    setType(type);
-    setPrice(price);
-    setCardType(cardType);
-    allCards.add(this);
+    public Card(String name, int level, String type, int ATK, int DEF, String description, CardType cardType, int price) {
+        setName(name);
+        setATK(ATK);
+        setDEF(DEF);
+        setLevel(level);
+        setDescription(description);
+        setType(type);
+        setPrice(price);
+        setCardType(cardType);
+        allCards.add(this);
 
-}
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -80,12 +89,14 @@ public Card(String name,int level,String type,int ATK,int DEF,String description
         this.cardType = cardType;
     }
 
-    public static Card getCardByName(String name){
-    for (Card card:allCards){
-        if (card.name.equals(name)){
-            return card;
+    public static Card getCardByName(String name) {
+        for (Card card : allCards) {
+            if (card.name.equals(name)) {
+                return card;
+            }
         }
+        return null;
     }
-    return null;
-    }
+
+
 }
