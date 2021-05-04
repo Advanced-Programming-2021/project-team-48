@@ -59,4 +59,8 @@ public class User {
     public static boolean passwordChecker(String username,String password){
         return User.getUserByUsername(username).equals(password);
     }
+
+    public int getScore() {
+        return score;
+    }
 }
