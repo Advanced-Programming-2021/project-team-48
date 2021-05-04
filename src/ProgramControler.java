@@ -193,7 +193,7 @@ public class ProgramControler {
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-
+boolean exist=false;
                 String newNickname = matcher.group(1);
 
                 if (user.nickname.equals(newNickname)) {
@@ -203,10 +203,13 @@ public class ProgramControler {
                     for (User user1 : User.listOfUsers) {
                         if (user1.nickname.equals(newNickname)) {
                             System.out.println("user with nickname " + newNickname + " already exists");
+                            exist=true;
                             break;
                         }
-                        user.setNickname(newNickname);
-                        System.out.println("nickname changed successfully!");
+                        if (!exist) {
+                            user.setNickname(newNickname);
+                            System.out.println("nickname changed successfully!");
+                        }
                     }
 
                 }
@@ -254,8 +257,29 @@ public class ProgramControler {
             if (matcher.find()) {
                 checker = true;
 
-
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             }
+
+            pattern = Pattern.compile("deck create (.+)");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                boolean exist=false;
+                String name=matcher.group(1);
+                for (Deck deck:Deck.allDecks){
+                    if (deck.name.equals(name)){
+                        System.out.println("deck with name +"+name+" already exists");
+                        exist=true;
+                        break;
+                    }
+                    if (!exist){
+
+                    }
+                }
+            }
+
+
+
         }
     }
 }
