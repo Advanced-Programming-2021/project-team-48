@@ -1,15 +1,12 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 public class User {
-    public  String username;
-    public String nickname;
+    private String username;
+    private String nickname;
     private String password;
-    public int score=0;
-    public int money;
-    public static ArrayList<User> listOfUsers;
-    static {
-        listOfUsers=new ArrayList<>();
-    }
+    private int score=0;
+    private int money;
+    private static ArrayList<User> listOfUsers = new ArrayList<>();
 
     public static HashMap<User,Integer> userAndscore;
     static {
@@ -44,6 +41,15 @@ public class User {
         this.password = password;
     }
 
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+
     public String getPassword() { return password;}
 
     public static User getUserByUsername(String username){
@@ -55,7 +61,23 @@ public class User {
         return null;
     }
 
-    public static boolean passwordChecker(String username,String password){
+    public static ArrayList<User> getListOfUsers() {
+        return listOfUsers;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public static boolean passwordChecker(String username, String password){
         return User.getUserByUsername(username).equals(password);
     }
 

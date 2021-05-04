@@ -58,14 +58,14 @@ public class ProgramController {
 
 
     private static void creatUser(String username, String nickname, String password) {
-        for (User user : User.listOfUsers) {
-            if (user.username.equals(username)) {
+        for (User user : User.getListOfUsers()) {
+            if (user.getUsername().equals(username)) {
                 System.out.println("user with username " + username + " already exists");
                 return;
             }
         }
-        for (User user : User.listOfUsers) {
-            if (user.nickname.equals(nickname)) {
+        for (User user : User.getListOfUsers()) {
+            if (user.getNickname().equals(nickname)) {
                 System.out.println("user with nickname " + nickname + " already exists");
                 return;
             }
@@ -152,9 +152,9 @@ public class ProgramController {
                 checker = true;
                Sort();
                int j=1;
-                for (int i = 1; i < User.listOfUsers.size(); ++i) {
-                        System.out.println(j+"- "+User.listOfUsers.get(i).nickname+": "+User.listOfUsers.get(i).score);
-                        if (User.listOfUsers.get(i+1)!=User.listOfUsers.get(i)) j++;
+                for (int i = 1; i < User.getListOfUsers().size(); ++i) {
+                        System.out.println(j+"- "+User.getListOfUsers().get(i).getNickname()+": "+User.getListOfUsers().get(i).getScore());
+                        if (User.getListOfUsers().get(i+1)!=User.getListOfUsers().get(i)) j++;
                     }
             }
 
@@ -165,14 +165,14 @@ public class ProgramController {
 //ham emtiaza check shan!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     private static void Sort()
     {
-        for (int i = 1; i < User.listOfUsers.size(); ++i) {
-            User key = User.listOfUsers.get(i);
+        for (int i = 1; i < User.getListOfUsers().size(); ++i) {
+            User key = User.getListOfUsers().get(i);
             int j = i - 1;
-            while (j >= 0 && User.listOfUsers.get(j).getScore() > key.getScore()) {
-                User.listOfUsers.set(j+1,User.listOfUsers.get(j));
+            while (j >= 0 && User.getListOfUsers().get(j).getScore() > key.getScore()) {
+                User.getListOfUsers().set(j+1,User.getListOfUsers().get(j));
                 j = j - 1;
             }
-            User.listOfUsers.set(j+1,key);
+            User.getListOfUsers().set(j+1,key);
         }
     }
 
@@ -197,12 +197,12 @@ public class ProgramController {
 boolean exist=false;
                 String newNickname = matcher.group(1);
 
-                if (user.nickname.equals(newNickname)) {
+                if (user.getNickname().equals(newNickname)) {
                     System.out.println("this nickname is same to the nickname you have now!");
 
                 } else {
-                    for (User user1 : User.listOfUsers) {
-                        if (user1.nickname.equals(newNickname)) {
+                    for (User user1 : User.getListOfUsers()) {
+                        if (user1.getNickname().equals(newNickname)) {
                             System.out.println("user with nickname " + newNickname + " already exists");
                             exist=true;
                             break;
@@ -267,8 +267,8 @@ boolean exist=false;
                 checker = true;
                 boolean exist=false;
                 String name=matcher.group(1);
-                for (Deck deck:Deck.allDecks){
-                    if (deck.name.equals(name)){
+                for (Deck deck:Deck.getAllDecks()){
+                    if (deck.getName().equals(name)){
                         System.out.println("deck with name +"+name+" already exists");
                         exist=true;
                         break;
