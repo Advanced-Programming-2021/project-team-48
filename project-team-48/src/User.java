@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-
 public class User {
     public  String username;
     public String nickname;

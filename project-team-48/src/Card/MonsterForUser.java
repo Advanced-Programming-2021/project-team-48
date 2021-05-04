@@ -5,11 +5,6 @@ class MonsterForUser<User> extends MonsterCard {
     public User user;
     public Position position;
     public int address;
-
-    public enum Field {
-        GRAVE, HAND, GAME, DECK
-    }
-
     public Field field;
 
     public MonsterForUser(MonsterCard monsterCard, User user) {
