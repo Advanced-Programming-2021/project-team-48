@@ -273,13 +273,17 @@ boolean exist=false;
                         break;
                     }
                     if (!exist){
-
+                        new Deck(user,name);
+                        System.out.println("deck created successfully!");
                     }
                 }
             }
 
-
-
+            pattern = Pattern.compile("deck create (.+)");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+            }
         }
     }
 }
