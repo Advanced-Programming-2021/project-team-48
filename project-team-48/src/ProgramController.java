@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -279,10 +280,25 @@ boolean exist=false;
                 }
             }
 
-            pattern = Pattern.compile("deck create (.+)");
+            pattern = Pattern.compile("deck delete (.+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
+                boolean exist=false;
+                String name=matcher.group(1);
+                for (Deck deck:Deck.allDecks){
+                    if (deck.name.equals(name)){
+                        System.out.println("deck with name +"+name+" already exists");
+                        exist=true;
+                        break;
+                    }
+                    if (!exist){
+                        Deck.allDecks.remove(Deck.getDeckByName(name));
+                        for ()
+                        System.out.println("deck deleted successfully");
+                    }
+                }
+
             }
         }
     }
