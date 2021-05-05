@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Deck {
-    public String name;
+    private String name;
     public User user;
     public int numberOfCardsInMain;
     public int numberOfCardsInSide;

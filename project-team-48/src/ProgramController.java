@@ -294,7 +294,7 @@ public class ProgramController {
                 boolean exist = false;
                 String name = matcher.group(1);
                 for (Deck deck : user.allDecks) {
-                    if (deck.name.equals(name)) {
+                    if (deck.getName().equals(name)) {
                         exist = true;
                         break;
                     }
@@ -345,7 +345,7 @@ public class ProgramController {
                 boolean exist = false;
                 String name = matcher.group(1);
                 for (Deck deck : user.allDecks) {
-                    if (deck.name.equals(name)) {
+                    if (deck.getName().equals(name)) {
                         exist = true;
                         break;
                     }
@@ -382,11 +382,11 @@ public class ProgramController {
                 if (user.getActiveDeck() != null) {
                     System.out.println("Decks:");
                     System.out.println("Active deck:");
-                    System.out.println(user.getActiveDeck().name + ": main deck" + user.getActiveDeck().numberOfCardsInMain + ", side deck" + user.getActiveDeck().numberOfCardsInSide + ", " + user.getActiveDeck().isValid());
+                    System.out.println(user.getActiveDeck().getName() + ": main deck" + user.getActiveDeck().numberOfCardsInMain + ", side deck" + user.getActiveDeck().numberOfCardsInSide + ", " + user.getActiveDeck().isValid());
                     System.out.println("Other decks:");
                     for (Deck deck : user.allDecks) {
-                        if (!deck.getName().equals(user.getActiveDeck().name)) {
-                            System.out.println(deck.name + ": main deck" + deck.numberOfCardsInMain + ", side deck" + deck.numberOfCardsInSide + ", " + deck.isValid());
+                        if (!deck.getName().equals(user.getActiveDeck().getName())) {
+                            System.out.println(deck.getName() + ": main deck" + deck.numberOfCardsInMain + ", side deck" + deck.numberOfCardsInSide + ", " + deck.isValid());
                         }
                     }
                 } else {
@@ -394,19 +394,48 @@ public class ProgramController {
                     System.out.println("Active deck:");
                     System.out.println("Other decks:");
                     for (Deck deck : user.allDecks) {
-                        if (!deck.getName().equals(user.getActiveDeck().name)) {
-                            System.out.println(deck.name + ": main deck" + deck.numberOfCardsInMain + ", side deck" + deck.numberOfCardsInSide + ", " + deck.isValid());
+                        if (!deck.getName().equals(user.getActiveDeck().getName())) {
+                            System.out.println(deck.getName() + ": main deck" + deck.numberOfCardsInMain + ", side deck" + deck.numberOfCardsInSide + ", " + deck.isValid());
                         }
                     }
 
                 }
             }
 
+            pattern = Pattern.compile("^deck show --deck-name (^\\s+)$");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                boolean exist=false;
+                String name=matcher.group(1);
+                for (Deck deck:user.allDecks){
+                    if (deck.getName().equals(name)){
+                        ShowMainDeck(deck);
+                        exist=true;
+                        break;
+                    }
+                }
+                if (!exist){
+                    System.out.println("deck with name "+name+" does not exist");
+                }
+
+            }
+
+
+
+
+
 
             input = scanner.nextLine();
         }
     }
 
+    private static void ShowMainDeck(Deck deck){
+        System.out.println("Deck: "+deck.getName());
+        System.out.print("Side/Main deck: Main");
+        System.out.println("Monsters:");
+
+    }
 
     private static void CardAdder(String cardName, String deckName, User user) {
         boolean cardExist = false;
