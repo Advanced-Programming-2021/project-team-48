@@ -300,15 +300,33 @@ public class ProgramController {
                     }
                     if (exist) {
 
-                        for (MonsterForUser monsterForUser : user.getDeckByName(name).allMonsterForUser) {
+                        for (MonsterForUser monsterForUser : user.getDeckByName(name).allMonsterForUserMain) {
+                            user.allMonsters.add(monsterForUser);
                             monsterForUser.deck = null;
                             monsterForUser.isInDeck = false;
                         }
-                        for (SpellCardForUser spellCardForUser : user.getDeckByName(name).allSpellCardsForUser) {
+                        for (MonsterForUser monsterForUser : user.getDeckByName(name).allMonsterForUserSide) {
+                            user.allMonsters.add(monsterForUser);
+                            monsterForUser.deck = null;
+                            monsterForUser.isInDeck = false;
+                        }
+                        for (SpellCardForUser spellCardForUser : user.getDeckByName(name).allSpellCardsForUserMain) {
+                            user.allSpells.add(spellCardForUser);
                             spellCardForUser.deck = null;
                             spellCardForUser.isInDeck = false;
                         }
-                        for (TrapCardForUser trapCardForUser : user.getDeckByName(name).allTrapCardsForUser) {
+                        for (SpellCardForUser spellCardForUser : user.getDeckByName(name).allSpellCardsForUserSide) {
+                            user.allSpells.add(spellCardForUser);
+                            spellCardForUser.deck = null;
+                            spellCardForUser.isInDeck = false;
+                        }
+                        for (TrapCardForUser trapCardForUser : user.getDeckByName(name).allTrapCardsForUserMain) {
+                            user.allTraps.add(trapCardForUser);
+                            trapCardForUser.deck = null;
+                            trapCardForUser.isInDeck = false;
+                        }
+                        for (TrapCardForUser trapCardForUser : user.getDeckByName(name).allTrapCardsForUserSide) {
+                            user.allTraps.add(trapCardForUser);
                             trapCardForUser.deck = null;
                             trapCardForUser.isInDeck = false;
                         }
@@ -356,6 +374,35 @@ public class ProgramController {
                 String deckName = matcher.group(2);
                 CardAdderSidedeck(cardName, deckName, user);
             }
+
+            pattern = Pattern.compile("deck show --all");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                if (user.getActiveDeck() != null) {
+                    System.out.println("Decks:");
+                    System.out.println("Active deck:");
+                    System.out.println(user.getActiveDeck().name + ": main deck" + user.getActiveDeck().numberOfCardsInMain + ", side deck" + user.getActiveDeck().numberOfCardsInSide + ", " + user.getActiveDeck().isValid());
+                    System.out.println("Other decks:");
+                    for (Deck deck : user.allDecks) {
+                        if (!deck.getName().equals(user.getActiveDeck().name)) {
+                            System.out.println(deck.name + ": main deck" + deck.numberOfCardsInMain + ", side deck" + deck.numberOfCardsInSide + ", " + deck.isValid());
+                        }
+                    }
+                } else {
+                    System.out.println("Decks:");
+                    System.out.println("Active deck:");
+                    System.out.println("Other decks:");
+                    for (Deck deck : user.allDecks) {
+                        if (!deck.getName().equals(user.getActiveDeck().name)) {
+                            System.out.println(deck.name + ": main deck" + deck.numberOfCardsInMain + ", side deck" + deck.numberOfCardsInSide + ", " + deck.isValid());
+                        }
+                    }
+
+                }
+            }
+
+
             input = scanner.nextLine();
         }
     }
@@ -370,7 +417,7 @@ public class ProgramController {
                 cardExist = true;
             }
         }
-        if (cardExist){
+        if (cardExist) {
             MonsterAdder(cardName, deckName, user);
             return;
         }
@@ -381,9 +428,9 @@ public class ProgramController {
                 cardExist = true;
             }
         }
-        if (cardExist){
-            SpellAdder(cardName,deckName,user);
-        return;
+        if (cardExist) {
+            SpellAdder(cardName, deckName, user);
+            return;
         }
 
         for (TrapCardForUser trapCardForUser : user.allTraps) {
@@ -391,8 +438,8 @@ public class ProgramController {
                 cardExist = true;
             }
         }
-        if (cardExist){
-            TrapAdder(cardName,deckName,user);
+        if (cardExist) {
+            TrapAdder(cardName, deckName, user);
             return;
         }
 
@@ -421,7 +468,7 @@ public class ProgramController {
 
         if (user.getDeckByName(deckName).numberOfCardsInMain < 60) {
 
-            for (MonsterForUser monsterForUser1 : user.getDeckByName(deckName).allMonsterForUser) {
+            for (MonsterForUser monsterForUser1 : user.getDeckByName(deckName).allMonsterForUserMain) {
                 if (monsterForUser1.getName().equals(cardName)) {
                     check++;
                 }
@@ -430,9 +477,9 @@ public class ProgramController {
                 for (MonsterForUser monsterForUser1 : user.allMonsters) {
                     if (monsterForUser1.getName().equals(cardName) && !monsterForUser1.isInDeck) {
                         user.allMonsters.remove(monsterForUser1);
-                        user.getDeckByName(deckName).allMonsterForUser.add(monsterForUser1);
+                        user.getDeckByName(deckName).allMonsterForUserMain.add(monsterForUser1);
                         monsterForUser1.deck = user.getDeckByName(deckName);
-                        monsterForUser1.isInDeck=true;
+                        monsterForUser1.isInDeck = true;
                         user.getDeckByName(deckName).numberOfCardsInMain++;
                         return;
                     }
@@ -463,7 +510,7 @@ public class ProgramController {
 
         if (user.getDeckByName(deckName).numberOfCardsInMain < 60) {
 
-            for (SpellCardForUser spellCardForUser : user.getDeckByName(deckName).allSpellCardsForUser) {
+            for (SpellCardForUser spellCardForUser : user.getDeckByName(deckName).allSpellCardsForUserMain) {
                 if (spellCardForUser.getName().equals(cardName)) {
                     check++;
                 }
@@ -472,9 +519,9 @@ public class ProgramController {
                 for (SpellCardForUser spellCardForUser : user.allSpells) {
                     if (spellCardForUser.getName().equals(cardName) && !spellCardForUser.isInDeck) {
                         user.allSpells.remove(spellCardForUser);
-                        user.getDeckByName(deckName).allSpellCardsForUser.add(spellCardForUser);
+                        user.getDeckByName(deckName).allSpellCardsForUserMain.add(spellCardForUser);
                         spellCardForUser.deck = user.getDeckByName(deckName);
-                        spellCardForUser.isInDeck=true;
+                        spellCardForUser.isInDeck = true;
                         user.getDeckByName(deckName).numberOfCardsInMain++;
                         return;
                     }
@@ -505,7 +552,7 @@ public class ProgramController {
 
         if (user.getDeckByName(deckName).numberOfCardsInMain < 60) {
 
-            for (TrapCardForUser trapCardForUser : user.getDeckByName(deckName).allTrapCardsForUser) {
+            for (TrapCardForUser trapCardForUser : user.getDeckByName(deckName).allTrapCardsForUserMain) {
                 if (trapCardForUser.getName().equals(cardName)) {
                     check++;
                 }
@@ -514,9 +561,9 @@ public class ProgramController {
                 for (TrapCardForUser trapCardForUser : user.allTraps) {
                     if (trapCardForUser.getName().equals(cardName) && !trapCardForUser.isInDeck) {
                         user.allTraps.remove(trapCardForUser);
-                        user.getDeckByName(deckName).allTrapCardsForUser.add(trapCardForUser);
+                        user.getDeckByName(deckName).allTrapCardsForUserMain.add(trapCardForUser);
                         trapCardForUser.deck = user.getDeckByName(deckName);
-                        trapCardForUser.isInDeck=true;
+                        trapCardForUser.isInDeck = true;
                         user.getDeckByName(deckName).numberOfCardsInMain++;
                         return;
                     }
@@ -528,6 +575,7 @@ public class ProgramController {
             System.out.println("main deck is full");
         }
     }
+
     private static void CardAdderSidedeck(String cardName, String deckName, User user) {
         boolean cardExist = false;
         boolean deckExist = false;
@@ -537,7 +585,7 @@ public class ProgramController {
                 cardExist = true;
             }
         }
-        if (cardExist){
+        if (cardExist) {
             MonsterAdderSidedeck(cardName, deckName, user);
             return;
         }
@@ -547,9 +595,9 @@ public class ProgramController {
                 cardExist = true;
             }
         }
-        if (cardExist){
-            SpellAdderSidedeck(cardName,deckName,user);
-        return;
+        if (cardExist) {
+            SpellAdderSidedeck(cardName, deckName, user);
+            return;
         }
 
         for (TrapCardForUser trapCardForUser : user.allTraps) {
@@ -557,8 +605,8 @@ public class ProgramController {
                 cardExist = true;
             }
         }
-        if (cardExist){
-            TrapAdderSidedeck(cardName,deckName,user);
+        if (cardExist) {
+            TrapAdderSidedeck(cardName, deckName, user);
             return;
         }
 
@@ -587,7 +635,7 @@ public class ProgramController {
 
         if (user.getDeckByName(deckName).numberOfCardsInSide < 15) {
 
-            for (MonsterForUser monsterForUser1 : user.getDeckByName(deckName).allMonsterForUser) {
+            for (MonsterForUser monsterForUser1 : user.getDeckByName(deckName).allMonsterForUserSide) {
                 if (monsterForUser1.getName().equals(cardName)) {
                     check++;
                 }
@@ -596,9 +644,9 @@ public class ProgramController {
                 for (MonsterForUser monsterForUser1 : user.allMonsters) {
                     if (monsterForUser1.getName().equals(cardName) && !monsterForUser1.isInDeck) {
                         user.allMonsters.remove(monsterForUser1);
-                        user.getDeckByName(deckName).allMonsterForUser.add(monsterForUser1);
+                        user.getDeckByName(deckName).allMonsterForUserSide.add(monsterForUser1);
                         monsterForUser1.deck = user.getDeckByName(deckName);
-                        monsterForUser1.isInDeck=true;
+                        monsterForUser1.isInDeck = true;
                         user.getDeckByName(deckName).numberOfCardsInSide++;
                         return;
                     }
@@ -629,7 +677,7 @@ public class ProgramController {
 
         if (user.getDeckByName(deckName).numberOfCardsInSide < 15) {
 
-            for (SpellCardForUser spellCardForUser : user.getDeckByName(deckName).allSpellCardsForUser) {
+            for (SpellCardForUser spellCardForUser : user.getDeckByName(deckName).allSpellCardsForUserSide) {
                 if (spellCardForUser.getName().equals(cardName)) {
                     check++;
                 }
@@ -638,9 +686,9 @@ public class ProgramController {
                 for (SpellCardForUser spellCardForUser : user.allSpells) {
                     if (spellCardForUser.getName().equals(cardName) && !spellCardForUser.isInDeck) {
                         user.allSpells.remove(spellCardForUser);
-                        user.getDeckByName(deckName).allSpellCardsForUser.add(spellCardForUser);
+                        user.getDeckByName(deckName).allSpellCardsForUserSide.add(spellCardForUser);
                         spellCardForUser.deck = user.getDeckByName(deckName);
-                        spellCardForUser.isInDeck=true;
+                        spellCardForUser.isInDeck = true;
                         user.getDeckByName(deckName).numberOfCardsInSide++;
                         return;
                     }
@@ -671,7 +719,7 @@ public class ProgramController {
 
         if (user.getDeckByName(deckName).numberOfCardsInSide < 15) {
 
-            for (TrapCardForUser trapCardForUser : user.getDeckByName(deckName).allTrapCardsForUser) {
+            for (TrapCardForUser trapCardForUser : user.getDeckByName(deckName).allTrapCardsForUserSide) {
                 if (trapCardForUser.getName().equals(cardName)) {
                     check++;
                 }
@@ -680,9 +728,9 @@ public class ProgramController {
                 for (TrapCardForUser trapCardForUser : user.allTraps) {
                     if (trapCardForUser.getName().equals(cardName) && !trapCardForUser.isInDeck) {
                         user.allTraps.remove(trapCardForUser);
-                        user.getDeckByName(deckName).allTrapCardsForUser.add(trapCardForUser);
+                        user.getDeckByName(deckName).allTrapCardsForUserSide.add(trapCardForUser);
                         trapCardForUser.deck = user.getDeckByName(deckName);
-                        trapCardForUser.isInDeck=true;
+                        trapCardForUser.isInDeck = true;
                         user.getDeckByName(deckName).numberOfCardsInSide++;
                         return;
                     }
