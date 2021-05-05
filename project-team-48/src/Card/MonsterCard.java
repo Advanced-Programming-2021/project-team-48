@@ -9,8 +9,8 @@ public class MonsterCard extends Card {
     public int ATK;
     public int DEF;
     public String description;
-    public MonsterType cardType;
-    private Attribute attribute;
+    public String monsterTYpe;
+    protected String attribute;
     private static ArrayList<MonsterCard> allMonsterCards;
 
     static {
@@ -22,13 +22,14 @@ public class MonsterCard extends Card {
 
 //-----------------------------------------------------------------
 
-    public MonsterCard(String name, String description, int price, int level, String type, int ATK, int DEF, MonsterType monsterType) {
+    public MonsterCard(String name, String description, int price, int level, String type, int ATK, int DEF, String monsterType, String attribute) {
         super(name, description, price, "MONSTER");
         setATK(ATK);
         setDEF(DEF);
         setLevel(level);
         setType(type);
-        setCardType(monsterType);
+        setMonsterTYpe(monsterType);
+        setAttribute(attribute);
         allMonsterCards.add(this);
     }
 
@@ -49,8 +50,40 @@ public class MonsterCard extends Card {
         this.type = type;
     }
 
-    public void setCardType(MonsterType cardType) {
-        this.cardType = cardType;
+    public void setMonsterTYpe(String monsterTYpe) {
+        this.monsterTYpe = monsterTYpe;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public int getATK() {
+        return ATK;
+    }
+
+    public int getDEF() {
+        return DEF;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public String getMonsterTYpe() {
+        return monsterTYpe;
+    }
+
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Position getActiveEffectPosition() {
+        return activeEffectPosition;
     }
 
     public static MonsterCard getMonsterCardByName(String name) {
