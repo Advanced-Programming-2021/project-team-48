@@ -155,29 +155,29 @@ public class ProgramController {
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-               Sort();
-               int j=1;
+                Sort();
+                int j = 1;
                 for (int i = 1; i < User.getListOfUsers().size(); ++i) {
-                        System.out.println(j+"- "+User.getListOfUsers().get(i).getNickname()+": "+User.getListOfUsers().get(i).getScore());
-                        if (User.getListOfUsers().get(i+1)!=User.getListOfUsers().get(i)) j++;
-                    }
+                    System.out.println(j + "- " + User.getListOfUsers().get(i).getNickname() + ": " + User.getListOfUsers().get(i).getScore());
+                    if (User.getListOfUsers().get(i + 1) != User.getListOfUsers().get(i)) j++;
+                }
             }
 
 
             input = scanner.nextLine();
         }
     }
-//ham emtiaza check shan!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    private static void Sort()
-    {
+
+    //ham emtiaza check shan!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    private static void Sort() {
         for (int i = 1; i < User.getListOfUsers().size(); ++i) {
             User key = User.getListOfUsers().get(i);
             int j = i - 1;
             while (j >= 0 && User.getListOfUsers().get(j).getScore() > key.getScore()) {
-                User.getListOfUsers().set(j+1,User.getListOfUsers().get(j));
+                User.getListOfUsers().set(j + 1, User.getListOfUsers().get(j));
                 j = j - 1;
             }
-            User.getListOfUsers().set(j+1,key);
+            User.getListOfUsers().set(j + 1, key);
         }
     }
 
@@ -199,7 +199,7 @@ public class ProgramController {
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-boolean exist=false;
+                boolean exist = false;
                 String newNickname = matcher.group(1);
 
                 if (user.getNickname().equals(newNickname)) {
@@ -209,7 +209,7 @@ boolean exist=false;
                     for (User user1 : User.getListOfUsers()) {
                         if (user1.getNickname().equals(newNickname)) {
                             System.out.println("user with nickname " + newNickname + " already exists");
-                            exist=true;
+                            exist = true;
                             break;
                         }
                         if (!exist) {
@@ -245,7 +245,8 @@ boolean exist=false;
             }
         }
     }
-    public static void deck(User user){
+
+    public static void deck(User user) {
         String input = scanner.nextLine();
         while (!input.equals("menu exit")) {
             boolean checker = false;
@@ -270,16 +271,16 @@ boolean exist=false;
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                boolean exist=false;
-                String name=matcher.group(1);
-                for (Deck deck:user.allDecks){
-                    if (deck.getName().equals(name)){
-                        System.out.println("deck with name +"+name+" already exists");
-                        exist=true;
+                boolean exist = false;
+                String name = matcher.group(1);
+                for (Deck deck : user.allDecks) {
+                    if (deck.getName().equals(name)) {
+                        System.out.println("deck with name +" + name + " already exists");
+                        exist = true;
                         break;
                     }
-                    if (!exist){
-                      Deck deck1=new Deck(user,name);
+                    if (!exist) {
+                        Deck deck1 = new Deck(user, name);
                         user.allDecks.add(deck1);
                         System.out.println("deck created successfully!");
                     }
@@ -290,30 +291,30 @@ boolean exist=false;
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                boolean exist=false;
-                String name=matcher.group(1);
-                for (Deck deck:user.allDecks){
-                    if (deck.name.equals(name)){
-                        exist=true;
+                boolean exist = false;
+                String name = matcher.group(1);
+                for (Deck deck : user.allDecks) {
+                    if (deck.name.equals(name)) {
+                        exist = true;
                         break;
                     }
-                    if (exist){
+                    if (exist) {
 
-                        for (MonsterForUser monsterForUser:user.getDeckByName(name).allMonsterForUser){
-                            monsterForUser.deck=null;
-                            monsterForUser.isInDeck=false;
+                        for (MonsterForUser monsterForUser : user.getDeckByName(name).allMonsterForUser) {
+                            monsterForUser.deck = null;
+                            monsterForUser.isInDeck = false;
                         }
-                        for (SpellCardForUser spellCardForUser:user.getDeckByName(name).allSpellCardsForUser){
-                            spellCardForUser.deck=null;
-                            spellCardForUser.isInDeck=false;
+                        for (SpellCardForUser spellCardForUser : user.getDeckByName(name).allSpellCardsForUser) {
+                            spellCardForUser.deck = null;
+                            spellCardForUser.isInDeck = false;
                         }
-                        for (TrapCardForUser trapCardForUser:user.getDeckByName(name).allTrapCardsForUser){
-                            trapCardForUser.deck=null;
-                            trapCardForUser.isInDeck=false;
+                        for (TrapCardForUser trapCardForUser : user.getDeckByName(name).allTrapCardsForUser) {
+                            trapCardForUser.deck = null;
+                            trapCardForUser.isInDeck = false;
                         }
                         System.out.println("deck deleted successfully");
-                    }else {
-                        System.out.println("deck with name "+name+" does not exist");
+                    } else {
+                        System.out.println("deck with name " + name + " does not exist");
                     }
                 }
 
@@ -323,18 +324,18 @@ boolean exist=false;
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                boolean exist=false;
-                String name=matcher.group(1);
-                for (Deck deck:user.allDecks){
-                    if (deck.name.equals(name)){
-                        exist=true;
+                boolean exist = false;
+                String name = matcher.group(1);
+                for (Deck deck : user.allDecks) {
+                    if (deck.name.equals(name)) {
+                        exist = true;
                         break;
                     }
-                    if (exist){
-                         user.setActiveDeck(user.getDeckByName(name));
+                    if (exist) {
+                        user.setActiveDeck(user.getDeckByName(name));
                         System.out.println("deck activated successfully");
-                    }else {
-                        System.out.println("deck with name "+name+" does not exist");
+                    } else {
+                        System.out.println("deck with name " + name + " does not exist");
                     }
                 }
             }
@@ -344,72 +345,82 @@ boolean exist=false;
                 checker = true;
                 String cardName = matcher.group(1);
                 String deckName = matcher.group(2);
-                CardAdder(cardName,deckName,user);
+                CardAdder(cardName, deckName, user);
             }
+            input = scanner.nextLine();
         }
     }
 
 
-    private static void CardAdder(String cardName,String deckName,User user) {
+    private static void CardAdder(String cardName, String deckName, User user) {
         boolean cardExist = false;
         boolean deckExist = false;
+
         for (MonsterForUser monsterForUser : user.allMonsters) {
             if (monsterForUser.getName().equals(cardName)) {
                 cardExist = true;
-                for (Deck deck : user.allDecks) {
-                    if (deck.getName().equals(deckName)) {
-                        deckExist = true;
-                        if (deck.numberOfCards<60){
-                              int check=0;
-                              for (MonsterForUser monsterForUser1:user.getDeckByName(deckName).allMonsterForUser){
-                                  if (monsterForUser1.getName().equals(cardName)){
-                                      check++;
-                                  }
-                              }
-                              if (check<3){
-                                  for (MonsterForUser monsterForUser1:user.getDeckByName(deckName).allMonsterForUser){
-                                      if (monsterForUser1.getName().equals(cardName)){
-                                          user.allMonsters.add(monsterForUser1);
-                                          monsterForUser1.deck=user.getDeckByName(deckName);
-                                      }
-                                  }
+            }
+        }
 
-                        }
-                        else {
-                                  System.out.println("there are already three cards with name "+cardName+" in deck "+deckName);
-                              }
-                        }
-                        else {
-                            System.out.println("main deck is full");
-                        }
-                    }
-                }
-                if (!deckExist) {
-                    System.out.println("deck with name " + deckName + " does not exist");
+        if (!cardExist) {
+            System.out.println("card with name " + cardName + " does not exist");
+            return;
+        }
+        for (Deck deck : user.allDecks) {
+            if (deck.getName().equals(deckName)) {
+                deckExist = true;
+            }
+        }
+
+        if (!deckExist) {
+            System.out.println("deck with name " + deckName + " does not exist");
+            return;
+        }
+
+        if (user.getDeckByName(deckName).numberOfCards < 60) {
+            int check = 0;
+            for (MonsterForUser monsterForUser1 : user.getDeckByName(deckName).allMonsterForUser) {
+                if (monsterForUser1.getName().equals(cardName)) {
+                    check++;
                 }
             }
-
-            if (!cardExist)
-                for (TrapCardForUser trapCardForUser : user.allTraps) {
-                    if (trapCardForUser.getName().equals(cardName)) {
-                        cardExist = true;
-                        /////////////
+            if (check < 3) {
+                for (MonsterForUser monsterForUser1 : user.allMonsters) {
+                    if (monsterForUser1.getName().equals(cardName)&&monsterForUser1.deck==null) {
+                        user.allMonsters.remove(monsterForUser1);
+                        user.getDeckByName(deckName).allMonsterForUser.add(monsterForUser1);
+                        monsterForUser1.deck = user.getDeckByName(deckName);
                     }
-                }
-            if (!cardExist) {
-                for (SpellCardForUser spellCardForUser : user.allSpells) {
-                    if (spellCardForUser.getName().equals(cardName)) {
-                        cardExist = true;
-                        ///////////////
-                    }
-                }
-
-                if (!cardExist) {
-                    System.out.println("card with name " + cardName + " does not exist");
-                } else {
-
                 }
             }
+            else {
+                System.out.println("there are already three cards with name " + cardName + " in deck " + deckName);
+            }
+        }
+        else {
+            System.out.println("main deck is full");
         }
     }
 }
+
+            }
+
+                    if(!cardExist)
+                    for(TrapCardForUser trapCardForUser:user.allTraps){
+                    if(trapCardForUser.getName().equals(cardName)){
+                    cardExist=true;
+                    /////////////
+                    }
+                    }
+                    if(!cardExist){
+                    for(SpellCardForUser spellCardForUser:user.allSpells){
+                    if(spellCardForUser.getName().equals(cardName)){
+                    cardExist=true;
+                    ///////////////
+                    }
+                    }
+
+                    }
+                    }
+                    }
+                    }
