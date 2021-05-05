@@ -9,7 +9,7 @@ public class MonsterCard extends Card {
     public int ATK;
     public int DEF;
     public String description;
-    public String monsterTYpe;
+    public MonsterType monsterTYpe;
     protected String attribute;
     private static ArrayList<MonsterCard> allMonsterCards;
 
@@ -22,7 +22,7 @@ public class MonsterCard extends Card {
 
 //-----------------------------------------------------------------
 
-    public MonsterCard(String name, String description, int price, int level, String type, int ATK, int DEF, String monsterType, String attribute) {
+    public MonsterCard(String name, String description, int price, int level, String type, int ATK, int DEF, MonsterType monsterType, String attribute) {
         super(name, description, price, "MONSTER");
         setATK(ATK);
         setDEF(DEF);
@@ -50,7 +50,7 @@ public class MonsterCard extends Card {
         this.type = type;
     }
 
-    public void setMonsterTYpe(String monsterTYpe) {
+    public void setMonsterTYpe(MonsterType monsterTYpe) {
         this.monsterTYpe = monsterTYpe;
     }
 
@@ -70,7 +70,7 @@ public class MonsterCard extends Card {
         return level;
     }
 
-    public String getMonsterTYpe() {
+    public MonsterType getMonsterTYpe() {
         return monsterTYpe;
     }
 

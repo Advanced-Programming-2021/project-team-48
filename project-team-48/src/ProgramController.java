@@ -161,8 +161,8 @@ public class ProgramController {
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                String cardName = matcher.group(1);
+                CardShow(cardName);
             }
 
             pattern = Pattern.compile("^shop buy (^\\s+)$");
@@ -200,6 +200,48 @@ public class ProgramController {
             }
             input = scanner.nextLine();
         }
+    }
+
+    private static void CardShow(String cardName){
+        for (MonsterCard monsterCard : MonsterCard.getAllMonsterCards()) {
+            if (monsterCard.getName().equals(cardName)) {
+                //???????????????????????????????????????????
+                ShowMonster(cardName);
+                return;
+            }
+        }
+        for (SpellCard spellCard : SpellCard.getAllSpellCard()) {
+            if (spellCard.getName().equals(cardName)) {
+                ShowSpell(cardName);
+                return;
+            }
+        }
+        for (TrapCard trapCard : TrapCard.getAllTrapCard()) {
+            if (trapCard.getName().equals(cardName)) {
+                ShowTrap(cardName);
+                return;
+            }
+        }
+    }
+    private static void ShowMonster(String monsterName){
+        System.out.println("Name: "+monsterName);
+        System.out.println("Level: "+MonsterCard.getMonsterCardByName(monsterName).level);
+        System.out.println("Type: "+MonsterCard.getMonsterCardByName(monsterName).getType());
+        System.out.println("ATK: "+MonsterCard.getMonsterCardByName(monsterName).ATK);
+        System.out.println("DEF: "+MonsterCard.getMonsterCardByName(monsterName).DEF);
+        System.out.println("Description: "+MonsterCard.getMonsterCardByName(monsterName).description);
+    }
+    private static void ShowSpell(String spellName){
+        System.out.println("Name: "+spellName);
+        System.out.println("Spell");
+        System.out.println("Type: "+SpellCard.getSpellCardByName(spellName).property);
+        System.out.println("Description: "+SpellCard.getSpellCardByName(spellName).getDescription());
+    }
+    private static void ShowTrap(String trapName){
+        System.out.println("Name: "+trapName);
+        System.out.println("Trap");
+        System.out.println("Type: "+TrapCard.getTrapCardByName(trapName).property);
+        System.out.println("Description: "+TrapCard.getTrapCardByName(trapName).getDescription());
     }
 
     private static void showShop() {
