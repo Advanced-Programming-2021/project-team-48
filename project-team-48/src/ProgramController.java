@@ -185,33 +185,52 @@ public class ProgramController {
                         long cardPrice = Card.getCardByName(cardName).getPrice();
                         long lastMoney = userMoney - cardPrice;
                         user.setMoney(lastMoney);
-                        addCardToUser(cardName,user);
+                        addCardToUser(cardName, user);
                     } else {
                         System.out.println("not enough money");
                     }
                 }
             }
 
+            pattern = Pattern.compile("^shop show --all$");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                showShop();
+            }
             input = scanner.nextLine();
         }
     }
 
-    private static void addCardToUser(String cardname,User user) {
-        for (MonsterCard monsterCard:MonsterCard.getAllMonsterCards()){
-            if (monsterCard.getName().equals(cardname)){
-            new MonsterForUser(monsterCard,user);
-            return;
-            }
+    private static void showShop() {
+        ArrayList<String> allCard = new ArrayList<>();
+        for (Card card:Card.getAllCards()){
+            allCard.add(card.getName());
         }
-        for (SpellCard spellCard:SpellCard.getAllSpellCard()){
-            if (spellCard.getName().equals(cardname)){
-                new SpellCardForUser(spellCard,user);
+        Collections.sort(allCard);
+        for (String cardName:allCard){
+            System.out.println(cardName+":"+Card.getCardByName(cardName).getPrice());
+        }
+
+    }
+
+    private static void addCardToUser(String cardname, User user) {
+        for (MonsterCard monsterCard : MonsterCard.getAllMonsterCards()) {
+            if (monsterCard.getName().equals(cardname)) {
+                new MonsterForUser(monsterCard, user);
+                //???????????????????????????????????????????????????????????????
                 return;
             }
         }
-        for (TrapCard trapCard:TrapCard.getAllTrapCard()){
-            if (trapCard.getName().equals(cardname)){
-                new TrapCardForUser(trapCard,user);
+        for (SpellCard spellCard : SpellCard.getAllSpellCard()) {
+            if (spellCard.getName().equals(cardname)) {
+                new SpellCardForUser(spellCard, user);
+                return;
+            }
+        }
+        for (TrapCard trapCard : TrapCard.getAllTrapCard()) {
+            if (trapCard.getName().equals(cardname)) {
+                new TrapCardForUser(trapCard, user);
                 return;
             }
         }
