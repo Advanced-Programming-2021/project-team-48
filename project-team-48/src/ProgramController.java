@@ -298,8 +298,7 @@ boolean exist=false;
                         break;
                     }
                     if (exist){
-                        Deck.allDecks.remove(Deck.getDeckByName(name));
-                        user.allDecks.remove(Deck.getDeckByName(name));
+
                         for (MonsterForUser monsterForUser:Deck.allMonsterForUser){
                             monsterForUser.deck=null;
                             monsterForUser.isInDeck=false;
@@ -332,7 +331,7 @@ boolean exist=false;
                         break;
                     }
                     if (exist){
-                         user.setActiveDeck(Deck.getDeckByName(name));
+                         user.setActiveDeck(user.getDeckByName(name));
                         System.out.println("deck activated successfully");
                     }else {
                         System.out.println("deck with name "+name+" does not exist");
@@ -351,43 +350,43 @@ boolean exist=false;
     }
 
 
-    private static void CardAdder(String cardName,String deckName,User user){
+    private static void CardAdder(String cardName,String deckName,User user) {
         boolean cardExist = false;
         boolean deckExist = false;
-        for (MonsterForUser monsterForUser:user.allMonsters){
-            if (monsterForUser.getName().equals(cardName)){
-                cardExist=true;
-                 for (Deck deck: user.allDecks){
-                     if (deck.getName().equals(deckName)){
-                     deckExist=true
-                      }
-                 }
-                 if (!deckExist){
-                     System.out.println("deck with name "+deckName+" does not exist");
-                 }
-        }
-
-        if (!cardExist)
-            for (TrapCardForUser trapCardForUser: user.allTraps){
-                if (trapCardForUser.getName().equals(cardName)){
-                    cardExist=true;
-                    /////////////
+        for (MonsterForUser monsterForUser : user.allMonsters) {
+            if (monsterForUser.getName().equals(cardName)) {
+                cardExist = true;
+                for (Deck deck : user.allDecks) {
+                    if (deck.getName().equals(deckName)) {
+                        deckExist = true;
+                    }
                 }
-            }
-        if (!cardExist){
-            for (SpellCardForUser spellCardForUser: user.allSpells){
-                if (spellCardForUser.getName().equals(cardName)){
-                    cardExist=true;
-                    ///////////////
+                if (!deckExist) {
+                    System.out.println("deck with name " + deckName + " does not exist");
                 }
             }
 
-            if (!cardExist){
-                System.out.println("card with name "+cardName+" does not exist");
-            }else {
+            if (!cardExist)
+                for (TrapCardForUser trapCardForUser : user.allTraps) {
+                    if (trapCardForUser.getName().equals(cardName)) {
+                        cardExist = true;
+                        /////////////
+                    }
+                }
+            if (!cardExist) {
+                for (SpellCardForUser spellCardForUser : user.allSpells) {
+                    if (spellCardForUser.getName().equals(cardName)) {
+                        cardExist = true;
+                        ///////////////
+                    }
+                }
 
+                if (!cardExist) {
+                    System.out.println("card with name " + cardName + " does not exist");
+                } else {
+
+                }
             }
         }
     }
-
 }

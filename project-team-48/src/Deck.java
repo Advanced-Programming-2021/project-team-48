@@ -10,10 +10,6 @@ public class Deck {
     public String name;
     public User user;
     public int numberOfCards;
-    public static ArrayList<Deck> allDecks;
-    static {
-        allDecks = new ArrayList<>();
-    }
 
     public static ArrayList<SpellCardForUser> allSpellCardsForUser;
     static {
@@ -34,7 +30,7 @@ public class Deck {
     public Deck(User user,String name){
         setName(name);
         setUser(user);
-        allDecks.add(this);
+
     }
 
     public void setName(String name) {
@@ -49,14 +45,7 @@ public class Deck {
         return name;
     }
 
-    public static Deck getDeckByName(String name){
-        for (Deck deck:allDecks){
-            if (deck.name.equals(name)){
-                return deck;
-            }
-        }
-    return null;
-    }
+
 
 
 }

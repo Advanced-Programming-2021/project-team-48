@@ -99,4 +99,14 @@ public class User {
     public int getScore() {
         return score;
     }
+
+
+    public Deck getDeckByName(String name){
+        for (Deck deck:allDecks){
+            if (deck.name.equals(name)){
+                return deck;
+            }
+        }
+        return null;
+    }
 }
