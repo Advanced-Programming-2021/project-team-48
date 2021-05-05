@@ -38,6 +38,19 @@ public class Card {
         return name;
     }
 
+    public static Card getCardByName(String name) {
+        for (Card card : allCards) {
+            if (card.getName().equals(name)) {
+                return card;
+            }
+        }
+        return null;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public int getPrice() {
         return price;
     }

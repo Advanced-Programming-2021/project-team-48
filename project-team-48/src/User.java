@@ -103,7 +103,7 @@ public class User {
 
     public Deck getDeckByName(String name){
         for (Deck deck:allDecks){
-            if (deck.name.equals(name)){
+            if (deck.getName().equals(name)){
                 return deck;
             }
         }
