@@ -226,7 +226,7 @@ public class ProgramController {
     private static void ShowMonster(String monsterName){
         System.out.println("Name: "+monsterName);
         System.out.println("Level: "+MonsterCard.getMonsterCardByName(monsterName).level);
-        System.out.println("Type: "+MonsterCard.getMonsterCardByName(monsterName).getType());
+        System.out.println("Type: "+MonsterCard.getMonsterCardByName(monsterName).monsterTYpe);
         System.out.println("ATK: "+MonsterCard.getMonsterCardByName(monsterName).ATK);
         System.out.println("DEF: "+MonsterCard.getMonsterCardByName(monsterName).DEF);
         System.out.println("Description: "+MonsterCard.getMonsterCardByName(monsterName).description);
