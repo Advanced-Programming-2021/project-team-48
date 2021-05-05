@@ -11,7 +11,6 @@ import java.util.ArrayList;
         public String description;
         public MonsterType cardType;
         private Attribute attribute;
-        public static ArrayList<MonsterCard> allMonsterCards = new ArrayList<>();
 
         public boolean hasEffect;
         public Position activeEffectPosition;
@@ -25,7 +24,7 @@ import java.util.ArrayList;
             setLevel(level);
             setType(type);
             setCardType(monsterType);
-            allMonsterCards.add(this);
+
         }
 
 
@@ -49,14 +48,7 @@ import java.util.ArrayList;
             this.cardType = cardType;
         }
 
-        public MonsterCard getCardByName(String name) {
-            for (MonsterCard card : allMonsterCards) {
-                if (super.name.equals(name)) {
-                    return card;
-                }
-            }
-            return null;
-        }
+
 
     }
 

@@ -11,17 +11,17 @@ public class Deck {
     public User user;
     public int numberOfCards;
 
-    public static ArrayList<SpellCardForUser> allSpellCardsForUser;
-    static {
+    public  ArrayList<SpellCardForUser> allSpellCardsForUser;
+    {
         allSpellCardsForUser = new ArrayList<>();
     }
 
-    public static ArrayList<TrapCardForUser> allTrapCardsForUser;
-    static {
+    public  ArrayList<TrapCardForUser> allTrapCardsForUser;
+    {
         allTrapCardsForUser = new ArrayList<>();
     }
-    public static ArrayList<MonsterForUser> allMonsterForUser;
-    static {
+    public ArrayList<MonsterForUser> allMonsterForUser;
+    {
         allMonsterForUser = new ArrayList<>();
     }
 

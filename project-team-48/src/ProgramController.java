@@ -299,15 +299,15 @@ boolean exist=false;
                     }
                     if (exist){
 
-                        for (MonsterForUser monsterForUser:Deck.allMonsterForUser){
+                        for (MonsterForUser monsterForUser:user.getDeckByName(name).allMonsterForUser){
                             monsterForUser.deck=null;
                             monsterForUser.isInDeck=false;
                         }
-                        for (SpellCardForUser spellCardForUser:Deck.allSpellCardsForUser){
+                        for (SpellCardForUser spellCardForUser:user.getDeckByName(name).allSpellCardsForUser){
                             spellCardForUser.deck=null;
                             spellCardForUser.isInDeck=false;
                         }
-                        for (TrapCardForUser trapCardForUser:Deck.allTrapCardsForUser){
+                        for (TrapCardForUser trapCardForUser:user.getDeckByName(name).allTrapCardsForUser){
                             trapCardForUser.deck=null;
                             trapCardForUser.isInDeck=false;
                         }
@@ -359,6 +359,29 @@ boolean exist=false;
                 for (Deck deck : user.allDecks) {
                     if (deck.getName().equals(deckName)) {
                         deckExist = true;
+                        if (deck.numberOfCards<60){
+                              int check=0;
+                              for (MonsterForUser monsterForUser1:user.getDeckByName(deckName).allMonsterForUser){
+                                  if (monsterForUser1.getName().equals(cardName)){
+                                      check++;
+                                  }
+                              }
+                              if (check<3){
+                                  for (MonsterForUser monsterForUser1:user.getDeckByName(deckName).allMonsterForUser){
+                                      if (monsterForUser1.getName().equals(cardName)){
+                                          user.allMonsters.add(monsterForUser1);
+                                          monsterForUser1.deck=user.getDeckByName(deckName);
+                                      }
+                                  }
+
+                        }
+                        else {
+                                  System.out.println("there are already three cards with name "+cardName+" in deck "+deckName);
+                              }
+                        }
+                        else {
+                            System.out.println("main deck is full");
+                        }
                     }
                 }
                 if (!deckExist) {
