@@ -33,4 +33,12 @@ public class Card {
     public void setCardType(String cardType) {
         this.cardType = cardType;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
 }

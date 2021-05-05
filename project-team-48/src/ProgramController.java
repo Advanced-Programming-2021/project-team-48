@@ -272,14 +272,15 @@ boolean exist=false;
                 checker = true;
                 boolean exist=false;
                 String name=matcher.group(1);
-                for (Deck deck:Deck.allDecks){
+                for (Deck deck:user.allDecks){
                     if (deck.getName().equals(name)){
                         System.out.println("deck with name +"+name+" already exists");
                         exist=true;
                         break;
                     }
                     if (!exist){
-                        new Deck(user,name);
+                      Deck deck1=new Deck(user,name);
+                        user.allDecks.add(deck1);
                         System.out.println("deck created successfully!");
                     }
                 }
@@ -291,13 +292,14 @@ boolean exist=false;
                 checker = true;
                 boolean exist=false;
                 String name=matcher.group(1);
-                for (Deck deck:Deck.allDecks){
+                for (Deck deck:user.allDecks){
                     if (deck.name.equals(name)){
                         exist=true;
                         break;
                     }
                     if (exist){
                         Deck.allDecks.remove(Deck.getDeckByName(name));
+                        user.allDecks.remove(Deck.getDeckByName(name));
                         for (MonsterForUser monsterForUser:Deck.allMonsterForUser){
                             monsterForUser.deck=null;
                             monsterForUser.isInDeck=false;
@@ -324,7 +326,7 @@ boolean exist=false;
                 checker = true;
                 boolean exist=false;
                 String name=matcher.group(1);
-                for (Deck deck:Deck.allDecks){
+                for (Deck deck:user.allDecks){
                     if (deck.name.equals(name)){
                         exist=true;
                         break;
@@ -341,12 +343,51 @@ boolean exist=false;
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                boolean exist = false;
                 String cardName = matcher.group(1);
                 String deckName = matcher.group(2);
-                 for (MonsterForUser monsterForUser:user.)
+                CardAdder(cardName,deckName,user);
+            }
+        }
+    }
+
+
+    private static void CardAdder(String cardName,String deckName,User user){
+        boolean cardExist = false;
+        boolean deckExist = false;
+        for (MonsterForUser monsterForUser:user.allMonsters){
+            if (monsterForUser.getName().equals(cardName)){
+                cardExist=true;
+                 for (Deck deck: user.allDecks){
+                     if (deck.getName().equals(deckName)){
+                     deckExist=true
+                      }
+                 }
+                 if (!deckExist){
+                     System.out.println("deck with name "+deckName+" does not exist");
+                 }
+        }
+
+        if (!cardExist)
+            for (TrapCardForUser trapCardForUser: user.allTraps){
+                if (trapCardForUser.getName().equals(cardName)){
+                    cardExist=true;
+                    /////////////
+                }
+            }
+        if (!cardExist){
+            for (SpellCardForUser spellCardForUser: user.allSpells){
+                if (spellCardForUser.getName().equals(cardName)){
+                    cardExist=true;
+                    ///////////////
+                }
+            }
+
+            if (!cardExist){
+                System.out.println("card with name "+cardName+" does not exist");
+            }else {
 
             }
         }
     }
+
 }

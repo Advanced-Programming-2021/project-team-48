@@ -14,20 +14,18 @@ public class User {
     static {
         listOfUsers=new ArrayList<>();
     }
-    public   static ArrayList<MonsterForUser> allMonsters;
-    static {
-        allMonsters=new ArrayList<>();
-    }
-    public static ArrayList<TrapCardForUser> allTraps;
-    static {
+    public ArrayList<MonsterForUser> allMonsters=new ArrayList<>();
+    //??????????????????????????????
+    public ArrayList<TrapCardForUser> allTraps;
+     {
         allTraps=new ArrayList<>();
     }
-    public static ArrayList<SpellCardForUser> allSpells;
-    static {
+    public ArrayList<SpellCardForUser> allSpells;
+    {
         allSpells=new ArrayList<>();
     }
-    public static ArrayList<Deck> allDecks;
-    static {
+    public ArrayList<Deck> allDecks;
+    {
         allDecks=new ArrayList<>();
     }
     private Deck activeDeck;
