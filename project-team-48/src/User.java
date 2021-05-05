@@ -1,3 +1,7 @@
+import Card.MonsterForUser;
+import Card.SpellCardForUser;
+import Card.TrapCardForUser;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 public class User {
@@ -6,7 +10,26 @@ public class User {
     private String password;
     private int score=0;
     private int money;
-    private static ArrayList<User> listOfUsers = new ArrayList<>();
+    private static ArrayList<User> listOfUsers ;
+    static {
+        listOfUsers=new ArrayList<>();
+    }
+    public   static ArrayList<MonsterForUser> allMonsters;
+    static {
+        allMonsters=new ArrayList<>();
+    }
+    public static ArrayList<TrapCardForUser> allTraps;
+    static {
+        allTraps=new ArrayList<>();
+    }
+    public static ArrayList<SpellCardForUser> allSpells;
+    static {
+        allSpells=new ArrayList<>();
+    }
+    public static ArrayList<Deck> allDecks;
+    static {
+        allDecks=new ArrayList<>();
+    }
     private Deck activeDeck;
     //-------------------------------------------------
     User(String username,String nickname,String password){

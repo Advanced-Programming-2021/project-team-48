@@ -266,7 +266,7 @@ boolean exist=false;
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             }
 
-            pattern = Pattern.compile("deck create (.+)");
+            pattern = Pattern.compile("deck create (^\\s+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
@@ -285,7 +285,7 @@ boolean exist=false;
                 }
             }
 
-            pattern = Pattern.compile("deck delete (.+)");
+            pattern = Pattern.compile("deck delete (^\\s+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
@@ -318,7 +318,7 @@ boolean exist=false;
 
             }
 
-            pattern = Pattern.compile("deck set-activate (.+)");
+            pattern = Pattern.compile("deck set-activate (^\\s+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
@@ -330,12 +330,22 @@ boolean exist=false;
                         break;
                     }
                     if (exist){
-           user.setActiveDeck(Deck.getDeckByName(name));
+                         user.setActiveDeck(Deck.getDeckByName(name));
                         System.out.println("deck activated successfully");
                     }else {
                         System.out.println("deck with name "+name+" does not exist");
                     }
                 }
+            }
+            pattern = Pattern.compile("^deck add-card --card (.+) --deck (^\\s+)$");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                boolean exist = false;
+                String cardName = matcher.group(1);
+                String deckName = matcher.group(2);
+                 for (MonsterForUser monsterForUser:user.)
+
             }
         }
     }
