@@ -7,7 +7,10 @@ public class Card {
     protected String description;
     protected int price;
     protected String cardType;
-    protected static ArrayList<Card> allCards = new ArrayList<>();
+    protected static ArrayList<Card> allCards;
+    static {
+        allCards=new ArrayList<>();
+    }
 
 
     public Card(String name, String description, int price, String cardType) {
@@ -45,6 +48,10 @@ public class Card {
             }
         }
         return null;
+    }
+
+    public static ArrayList<Card> getAllCards() {
+        return allCards;
     }
 
     public String getDescription() {

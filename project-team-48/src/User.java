@@ -9,7 +9,7 @@ public class User {
     private String nickname;
     private String password;
     private int score=0;
-    private int money;
+    private long  money=100000;
     private static ArrayList<User> listOfUsers ;
     static {
         listOfUsers=new ArrayList<>();
@@ -49,7 +49,7 @@ public class User {
         this.password = password;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(long money) {
         this.money = money;
     }
 
@@ -80,7 +80,7 @@ public class User {
         return listOfUsers;
     }
 
-    public int getMoney() {
+    public long getMoney() {
         return money;
     }
 

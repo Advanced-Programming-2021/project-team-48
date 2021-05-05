@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class ProgramController {
     public static Scanner scanner;
 
+
     static {
         scanner = new Scanner(System.in);
     }
@@ -132,11 +133,89 @@ public class ProgramController {
                 deck(user);
             }
 
+            pattern = Pattern.compile("menu enter shop");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                shop(user);
+            }
+
 
             input = scanner.nextLine();
         }
     }
 
+    private static void shop(User user) {
+        String input = scanner.nextLine();
+        while (!input.equals("menu exit")) {
+            boolean checker = false;
+
+            Pattern pattern = Pattern.compile("menu show-current");
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                System.out.println("Shop Menu");
+            }
+
+            pattern = Pattern.compile("card show (.+)");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            }
+
+            pattern = Pattern.compile("^shop buy (^\\s+)$");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                boolean exist = false;
+                String cardName = matcher.group(1);
+                for (Card card : Card.getAllCards()) {
+                    if (card.getName().equals(cardName)) {
+                        exist = true;
+                        break;
+                    }
+                }
+                if (!exist) {
+                    System.out.println("there is no card with this name");
+                } else {
+                    if (Card.getCardByName(cardName).getPrice() <= user.getMoney()) {
+                        long userMoney = user.getMoney();
+                        long cardPrice = Card.getCardByName(cardName).getPrice();
+                        long lastMoney = userMoney - cardPrice;
+                        user.setMoney(lastMoney);
+                        addCardToUser(cardName,user);
+                    } else {
+                        System.out.println("not enough money");
+                    }
+                }
+            }
+
+            input = scanner.nextLine();
+        }
+    }
+
+    private static void addCardToUser(String cardname,User user) {
+        for (MonsterCard monsterCard:MonsterCard.getAllMonsterCards()){
+            if (monsterCard.getName().equals(cardname)){
+            new MonsterForUser(monsterCard,user);
+            return;
+            }
+        }
+        for (SpellCard spellCard:SpellCard.getAllSpellCard()){
+            if (spellCard.getName().equals(cardname)){
+                new SpellCardForUser(spellCard,user);
+                return;
+            }
+        }
+        for (TrapCard trapCard:TrapCard.getAllTrapCard()){
+            if (trapCard.getName().equals(cardname)){
+                new TrapCardForUser(trapCard,user);
+                return;
+            }
+        }
+    }
 
     public static void scorebosrd() {
         String input = scanner.nextLine();
@@ -445,55 +524,47 @@ public class ProgramController {
             }
 
 
-
             input = scanner.nextLine();
         }
     }
 
 
-    private static void ShowAllDeckCards(User user){
-        ArrayList<String>allOwendCards=new ArrayList<>();
-        for (MonsterForUser monsterForUser:user.allMonsters){
+    private static void ShowAllDeckCards(User user) {
+        ArrayList<String> allOwendCards = new ArrayList<>();
+        for (MonsterForUser monsterForUser : user.allMonsters) {
             allOwendCards.add(monsterForUser.getName());
         }
-        for (SpellCardForUser spellCardForUser: user.allSpells){
+        for (SpellCardForUser spellCardForUser : user.allSpells) {
             allOwendCards.add(spellCardForUser.getName());
         }
-        for (TrapCardForUser trapCardForUser: user.allTraps){
+        for (TrapCardForUser trapCardForUser : user.allTraps) {
             allOwendCards.add(trapCardForUser.getName());
         }
-        for (Deck deck:user.allDecks){
-            for (MonsterForUser monsterForUser: deck.allMonsterForUserMain){
+        for (Deck deck : user.allDecks) {
+            for (MonsterForUser monsterForUser : deck.allMonsterForUserMain) {
                 allOwendCards.add(monsterForUser.getName());
             }
-            for (SpellCardForUser spellCardForUser: deck.allSpellCardsForUserMain){
+            for (SpellCardForUser spellCardForUser : deck.allSpellCardsForUserMain) {
                 allOwendCards.add(spellCardForUser.getName());
             }
-            for (TrapCardForUser trapCardForUser: deck.allTrapCardsForUserMain){
+            for (TrapCardForUser trapCardForUser : deck.allTrapCardsForUserMain) {
                 allOwendCards.add(trapCardForUser.getName());
             }
-            for (MonsterForUser monsterForUser: deck.allMonsterForUserSide){
+            for (MonsterForUser monsterForUser : deck.allMonsterForUserSide) {
                 allOwendCards.add(monsterForUser.getName());
             }
-            for (SpellCardForUser spellCardForUser: deck.allSpellCardsForUserSide){
+            for (SpellCardForUser spellCardForUser : deck.allSpellCardsForUserSide) {
                 allOwendCards.add(spellCardForUser.getName());
             }
-            for (TrapCardForUser trapCardForUser: deck.allTrapCardsForUserSide){
+            for (TrapCardForUser trapCardForUser : deck.allTrapCardsForUserSide) {
                 allOwendCards.add(trapCardForUser.getName());
             }
         }
         Collections.sort(allOwendCards);
-        for (String cardName:allOwendCards){
-            System.out.println(cardName+":"+Card.getCardByName(cardName).getDescription());
+        for (String cardName : allOwendCards) {
+            System.out.println(cardName + ":" + Card.getCardByName(cardName).getDescription());
         }
     }
-
-
-
-
-
-
-
 
 
     private static void ShowMainDeck(Deck deck) {
@@ -501,24 +572,24 @@ public class ProgramController {
         System.out.print("Side/Main deck: Main");
         System.out.println("Monsters:");
         ArrayList<String> monsterNames = new ArrayList<>();
-        for (MonsterForUser monsterForUser: deck.allMonsterForUserMain){
+        for (MonsterForUser monsterForUser : deck.allMonsterForUserMain) {
             monsterNames.add(monsterForUser.getName());
         }
         Collections.sort(monsterNames);
-        for (String monsterName:monsterNames){
-            System.out.println(monsterName+": "+ Card.getCardByName(monsterName).getDescription());
+        for (String monsterName : monsterNames) {
+            System.out.println(monsterName + ": " + Card.getCardByName(monsterName).getDescription());
         }
-        ArrayList<String>spellAndTrapNames = new ArrayList<>();
-        for (SpellCardForUser spellCardForUser:deck.allSpellCardsForUserMain){
+        ArrayList<String> spellAndTrapNames = new ArrayList<>();
+        for (SpellCardForUser spellCardForUser : deck.allSpellCardsForUserMain) {
             spellAndTrapNames.add(spellCardForUser.getName());
         }
-        for (TrapCardForUser trapCardForUser:deck.allTrapCardsForUserMain){
+        for (TrapCardForUser trapCardForUser : deck.allTrapCardsForUserMain) {
             spellAndTrapNames.add(trapCardForUser.getName());
         }
         System.out.println("Spell and Traps:");
         Collections.sort(spellAndTrapNames);
-        for (String spellAndTrapname:spellAndTrapNames){
-            System.out.println(spellAndTrapname+": "+ Card.getCardByName(spellAndTrapname).getDescription());
+        for (String spellAndTrapname : spellAndTrapNames) {
+            System.out.println(spellAndTrapname + ": " + Card.getCardByName(spellAndTrapname).getDescription());
         }
     }
 
@@ -527,24 +598,24 @@ public class ProgramController {
         System.out.print("Side/Main deck: Side");
         System.out.println("Monsters:");
         ArrayList<String> monsterNames = new ArrayList<>();
-        for (MonsterForUser monsterForUser: deck.allMonsterForUserSide){
+        for (MonsterForUser monsterForUser : deck.allMonsterForUserSide) {
             monsterNames.add(monsterForUser.getName());
         }
         Collections.sort(monsterNames);
-        for (String monsterName:monsterNames){
-            System.out.println(monsterName+": "+ Card.getCardByName(monsterName).getDescription());
+        for (String monsterName : monsterNames) {
+            System.out.println(monsterName + ": " + Card.getCardByName(monsterName).getDescription());
         }
-        ArrayList<String>spellAndTrapNames = new ArrayList<>();
-        for (SpellCardForUser spellCardForUser:deck.allSpellCardsForUserSide){
+        ArrayList<String> spellAndTrapNames = new ArrayList<>();
+        for (SpellCardForUser spellCardForUser : deck.allSpellCardsForUserSide) {
             spellAndTrapNames.add(spellCardForUser.getName());
         }
-        for (TrapCardForUser trapCardForUser:deck.allTrapCardsForUserSide){
+        for (TrapCardForUser trapCardForUser : deck.allTrapCardsForUserSide) {
             spellAndTrapNames.add(trapCardForUser.getName());
         }
         System.out.println("Spell and Traps:");
         Collections.sort(spellAndTrapNames);
-        for (String spellAndTrapname:spellAndTrapNames){
-            System.out.println(spellAndTrapname+": "+ Card.getCardByName(spellAndTrapname).getDescription());
+        for (String spellAndTrapname : spellAndTrapNames) {
+            System.out.println(spellAndTrapname + ": " + Card.getCardByName(spellAndTrapname).getDescription());
         }
     }
 
