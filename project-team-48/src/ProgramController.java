@@ -419,7 +419,7 @@ public class ProgramController {
             return;
         }
 
-        if (user.getDeckByName(deckName).numberOfCards < 60) {
+        if (user.getDeckByName(deckName).numberOfCardsInMain < 60) {
 
             for (MonsterForUser monsterForUser1 : user.getDeckByName(deckName).allMonsterForUser) {
                 if (monsterForUser1.getName().equals(cardName)) {
@@ -433,6 +433,7 @@ public class ProgramController {
                         user.getDeckByName(deckName).allMonsterForUser.add(monsterForUser1);
                         monsterForUser1.deck = user.getDeckByName(deckName);
                         monsterForUser1.isInDeck=true;
+                        user.getDeckByName(deckName).numberOfCardsInMain++;
                         return;
                     }
                 }
@@ -460,7 +461,7 @@ public class ProgramController {
             return;
         }
 
-        if (user.getDeckByName(deckName).numberOfCards < 60) {
+        if (user.getDeckByName(deckName).numberOfCardsInMain < 60) {
 
             for (SpellCardForUser spellCardForUser : user.getDeckByName(deckName).allSpellCardsForUser) {
                 if (spellCardForUser.getName().equals(cardName)) {
@@ -474,6 +475,7 @@ public class ProgramController {
                         user.getDeckByName(deckName).allSpellCardsForUser.add(spellCardForUser);
                         spellCardForUser.deck = user.getDeckByName(deckName);
                         spellCardForUser.isInDeck=true;
+                        user.getDeckByName(deckName).numberOfCardsInMain++;
                         return;
                     }
                 }
@@ -501,7 +503,7 @@ public class ProgramController {
             return;
         }
 
-        if (user.getDeckByName(deckName).numberOfCards < 60) {
+        if (user.getDeckByName(deckName).numberOfCardsInMain < 60) {
 
             for (TrapCardForUser trapCardForUser : user.getDeckByName(deckName).allTrapCardsForUser) {
                 if (trapCardForUser.getName().equals(cardName)) {
@@ -515,6 +517,7 @@ public class ProgramController {
                         user.getDeckByName(deckName).allTrapCardsForUser.add(trapCardForUser);
                         trapCardForUser.deck = user.getDeckByName(deckName);
                         trapCardForUser.isInDeck=true;
+                        user.getDeckByName(deckName).numberOfCardsInMain++;
                         return;
                     }
                 }
@@ -582,7 +585,7 @@ public class ProgramController {
             return;
         }
 
-        if (user.getDeckByName(deckName).numberOfCards < 15) {
+        if (user.getDeckByName(deckName).numberOfCardsInSide < 15) {
 
             for (MonsterForUser monsterForUser1 : user.getDeckByName(deckName).allMonsterForUser) {
                 if (monsterForUser1.getName().equals(cardName)) {
@@ -596,6 +599,7 @@ public class ProgramController {
                         user.getDeckByName(deckName).allMonsterForUser.add(monsterForUser1);
                         monsterForUser1.deck = user.getDeckByName(deckName);
                         monsterForUser1.isInDeck=true;
+                        user.getDeckByName(deckName).numberOfCardsInSide++;
                         return;
                     }
                 }
@@ -623,7 +627,7 @@ public class ProgramController {
             return;
         }
 
-        if (user.getDeckByName(deckName).numberOfCards < 15) {
+        if (user.getDeckByName(deckName).numberOfCardsInSide < 15) {
 
             for (SpellCardForUser spellCardForUser : user.getDeckByName(deckName).allSpellCardsForUser) {
                 if (spellCardForUser.getName().equals(cardName)) {
@@ -637,6 +641,7 @@ public class ProgramController {
                         user.getDeckByName(deckName).allSpellCardsForUser.add(spellCardForUser);
                         spellCardForUser.deck = user.getDeckByName(deckName);
                         spellCardForUser.isInDeck=true;
+                        user.getDeckByName(deckName).numberOfCardsInSide++;
                         return;
                     }
                 }
@@ -664,7 +669,7 @@ public class ProgramController {
             return;
         }
 
-        if (user.getDeckByName(deckName).numberOfCards < 15) {
+        if (user.getDeckByName(deckName).numberOfCardsInSide < 15) {
 
             for (TrapCardForUser trapCardForUser : user.getDeckByName(deckName).allTrapCardsForUser) {
                 if (trapCardForUser.getName().equals(cardName)) {
@@ -678,6 +683,7 @@ public class ProgramController {
                         user.getDeckByName(deckName).allTrapCardsForUser.add(trapCardForUser);
                         trapCardForUser.deck = user.getDeckByName(deckName);
                         trapCardForUser.isInDeck=true;
+                        user.getDeckByName(deckName).numberOfCardsInSide++;
                         return;
                     }
                 }

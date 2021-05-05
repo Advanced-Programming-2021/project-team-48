@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class Deck {
     public String name;
     public User user;
-    public int numberOfCards;
+    public int numberOfCardsInMain;
+    public int numberOfCardsInSide;
 
     public  ArrayList<SpellCardForUser> allSpellCardsForUser;
     {
