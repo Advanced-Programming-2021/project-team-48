@@ -347,6 +347,15 @@ public class ProgramController {
                 String deckName = matcher.group(2);
                 CardAdder(cardName, deckName, user);
             }
+
+            pattern = Pattern.compile("^deck add-card --card (.+) --deck (^\\s+) --side$");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                String cardName = matcher.group(1);
+                String deckName = matcher.group(2);
+                CardAdderSidedeck(cardName, deckName, user);
+            }
             input = scanner.nextLine();
         }
     }
@@ -361,11 +370,44 @@ public class ProgramController {
                 cardExist = true;
             }
         }
+        if (cardExist){
+            MonsterAdder(cardName, deckName, user);
+            return;
+        }
+
+        for (SpellCardForUser spellCardForUser : user.allSpells) {
+            if (spellCardForUser.getName().equals(cardName)) {
+
+                cardExist = true;
+            }
+        }
+        if (cardExist){
+            SpellAdder(cardName,deckName,user);
+        return;
+        }
+
+        for (TrapCardForUser trapCardForUser : user.allTraps) {
+            if (trapCardForUser.getName().equals(cardName)) {
+                cardExist = true;
+            }
+        }
+        if (cardExist){
+            TrapAdder(cardName,deckName,user);
+            return;
+        }
+
 
         if (!cardExist) {
             System.out.println("card with name " + cardName + " does not exist");
             return;
         }
+
+    }
+
+    private static void MonsterAdder(String cardName, String deckName, User user) {
+        boolean deckExist = false;
+        int check = 0;
+
         for (Deck deck : user.allDecks) {
             if (deck.getName().equals(deckName)) {
                 deckExist = true;
@@ -378,7 +420,7 @@ public class ProgramController {
         }
 
         if (user.getDeckByName(deckName).numberOfCards < 60) {
-            int check = 0;
+
             for (MonsterForUser monsterForUser1 : user.getDeckByName(deckName).allMonsterForUser) {
                 if (monsterForUser1.getName().equals(cardName)) {
                     check++;
@@ -386,41 +428,264 @@ public class ProgramController {
             }
             if (check < 3) {
                 for (MonsterForUser monsterForUser1 : user.allMonsters) {
-                    if (monsterForUser1.getName().equals(cardName)&&monsterForUser1.deck==null) {
+                    if (monsterForUser1.getName().equals(cardName) && !monsterForUser1.isInDeck) {
                         user.allMonsters.remove(monsterForUser1);
                         user.getDeckByName(deckName).allMonsterForUser.add(monsterForUser1);
                         monsterForUser1.deck = user.getDeckByName(deckName);
+                        monsterForUser1.isInDeck=true;
+                        return;
                     }
                 }
-            }
-            else {
+            } else {
                 System.out.println("there are already three cards with name " + cardName + " in deck " + deckName);
             }
-        }
-        else {
+        } else {
             System.out.println("main deck is full");
         }
     }
-}
 
+
+    private static void SpellAdder(String cardName, String deckName, User user) {
+        boolean deckExist = false;
+        int check = 0;
+
+        for (Deck deck : user.allDecks) {
+            if (deck.getName().equals(deckName)) {
+                deckExist = true;
             }
+        }
 
-                    if(!cardExist)
-                    for(TrapCardForUser trapCardForUser:user.allTraps){
-                    if(trapCardForUser.getName().equals(cardName)){
-                    cardExist=true;
-                    /////////////
-                    }
-                    }
-                    if(!cardExist){
-                    for(SpellCardForUser spellCardForUser:user.allSpells){
-                    if(spellCardForUser.getName().equals(cardName)){
-                    cardExist=true;
-                    ///////////////
-                    }
-                    }
+        if (!deckExist) {
+            System.out.println("deck with name " + deckName + " does not exist");
+            return;
+        }
 
+        if (user.getDeckByName(deckName).numberOfCards < 60) {
+
+            for (SpellCardForUser spellCardForUser : user.getDeckByName(deckName).allSpellCardsForUser) {
+                if (spellCardForUser.getName().equals(cardName)) {
+                    check++;
+                }
+            }
+            if (check < 3) {
+                for (SpellCardForUser spellCardForUser : user.allSpells) {
+                    if (spellCardForUser.getName().equals(cardName) && !spellCardForUser.isInDeck) {
+                        user.allSpells.remove(spellCardForUser);
+                        user.getDeckByName(deckName).allSpellCardsForUser.add(spellCardForUser);
+                        spellCardForUser.deck = user.getDeckByName(deckName);
+                        spellCardForUser.isInDeck=true;
+                        return;
                     }
+                }
+            } else {
+                System.out.println("there are already three cards with name " + cardName + " in deck " + deckName);
+            }
+        } else {
+            System.out.println("main deck is full");
+        }
+    }
+
+
+    private static void TrapAdder(String cardName, String deckName, User user) {
+        boolean deckExist = false;
+        int check = 0;
+
+        for (Deck deck : user.allDecks) {
+            if (deck.getName().equals(deckName)) {
+                deckExist = true;
+            }
+        }
+
+        if (!deckExist) {
+            System.out.println("deck with name " + deckName + " does not exist");
+            return;
+        }
+
+        if (user.getDeckByName(deckName).numberOfCards < 60) {
+
+            for (TrapCardForUser trapCardForUser : user.getDeckByName(deckName).allTrapCardsForUser) {
+                if (trapCardForUser.getName().equals(cardName)) {
+                    check++;
+                }
+            }
+            if (check < 3) {
+                for (TrapCardForUser trapCardForUser : user.allTraps) {
+                    if (trapCardForUser.getName().equals(cardName) && !trapCardForUser.isInDeck) {
+                        user.allTraps.remove(trapCardForUser);
+                        user.getDeckByName(deckName).allTrapCardsForUser.add(trapCardForUser);
+                        trapCardForUser.deck = user.getDeckByName(deckName);
+                        trapCardForUser.isInDeck=true;
+                        return;
                     }
+                }
+            } else {
+                System.out.println("there are already three cards with name " + cardName + " in deck " + deckName);
+            }
+        } else {
+            System.out.println("main deck is full");
+        }
+    }
+    private static void CardAdderSidedeck(String cardName, String deckName, User user) {
+        boolean cardExist = false;
+        boolean deckExist = false;
+
+        for (MonsterForUser monsterForUser : user.allMonsters) {
+            if (monsterForUser.getName().equals(cardName)) {
+                cardExist = true;
+            }
+        }
+        if (cardExist){
+            MonsterAdderSidedeck(cardName, deckName, user);
+            return;
+        }
+
+        for (SpellCardForUser spellCardForUser : user.allSpells) {
+            if (spellCardForUser.getName().equals(cardName)) {
+                cardExist = true;
+            }
+        }
+        if (cardExist){
+            SpellAdderSidedeck(cardName,deckName,user);
+        return;
+        }
+
+        for (TrapCardForUser trapCardForUser : user.allTraps) {
+            if (trapCardForUser.getName().equals(cardName)) {
+                cardExist = true;
+            }
+        }
+        if (cardExist){
+            TrapAdderSidedeck(cardName,deckName,user);
+            return;
+        }
+
+
+        if (!cardExist) {
+            System.out.println("card with name " + cardName + " does not exist");
+            return;
+        }
+
+    }
+
+    private static void MonsterAdderSidedeck(String cardName, String deckName, User user) {
+        boolean deckExist = false;
+        int check = 0;
+
+        for (Deck deck : user.allDecks) {
+            if (deck.getName().equals(deckName)) {
+                deckExist = true;
+            }
+        }
+
+        if (!deckExist) {
+            System.out.println("deck with name " + deckName + " does not exist");
+            return;
+        }
+
+        if (user.getDeckByName(deckName).numberOfCards < 15) {
+
+            for (MonsterForUser monsterForUser1 : user.getDeckByName(deckName).allMonsterForUser) {
+                if (monsterForUser1.getName().equals(cardName)) {
+                    check++;
+                }
+            }
+            if (check < 3) {
+                for (MonsterForUser monsterForUser1 : user.allMonsters) {
+                    if (monsterForUser1.getName().equals(cardName) && !monsterForUser1.isInDeck) {
+                        user.allMonsters.remove(monsterForUser1);
+                        user.getDeckByName(deckName).allMonsterForUser.add(monsterForUser1);
+                        monsterForUser1.deck = user.getDeckByName(deckName);
+                        monsterForUser1.isInDeck=true;
+                        return;
                     }
+                }
+            } else {
+                System.out.println("there are already three cards with name " + cardName + " in deck " + deckName);
+            }
+        } else {
+            System.out.println("side deck is full");
+        }
+    }
+
+
+    private static void SpellAdderSidedeck(String cardName, String deckName, User user) {
+        boolean deckExist = false;
+        int check = 0;
+
+        for (Deck deck : user.allDecks) {
+            if (deck.getName().equals(deckName)) {
+                deckExist = true;
+            }
+        }
+
+        if (!deckExist) {
+            System.out.println("deck with name " + deckName + " does not exist");
+            return;
+        }
+
+        if (user.getDeckByName(deckName).numberOfCards < 15) {
+
+            for (SpellCardForUser spellCardForUser : user.getDeckByName(deckName).allSpellCardsForUser) {
+                if (spellCardForUser.getName().equals(cardName)) {
+                    check++;
+                }
+            }
+            if (check < 3) {
+                for (SpellCardForUser spellCardForUser : user.allSpells) {
+                    if (spellCardForUser.getName().equals(cardName) && !spellCardForUser.isInDeck) {
+                        user.allSpells.remove(spellCardForUser);
+                        user.getDeckByName(deckName).allSpellCardsForUser.add(spellCardForUser);
+                        spellCardForUser.deck = user.getDeckByName(deckName);
+                        spellCardForUser.isInDeck=true;
+                        return;
                     }
+                }
+            } else {
+                System.out.println("there are already three cards with name " + cardName + " in deck " + deckName);
+            }
+        } else {
+            System.out.println("side deck is full");
+        }
+    }
+
+
+    private static void TrapAdderSidedeck(String cardName, String deckName, User user) {
+        boolean deckExist = false;
+        int check = 0;
+
+        for (Deck deck : user.allDecks) {
+            if (deck.getName().equals(deckName)) {
+                deckExist = true;
+            }
+        }
+
+        if (!deckExist) {
+            System.out.println("deck with name " + deckName + " does not exist");
+            return;
+        }
+
+        if (user.getDeckByName(deckName).numberOfCards < 15) {
+
+            for (TrapCardForUser trapCardForUser : user.getDeckByName(deckName).allTrapCardsForUser) {
+                if (trapCardForUser.getName().equals(cardName)) {
+                    check++;
+                }
+            }
+            if (check < 3) {
+                for (TrapCardForUser trapCardForUser : user.allTraps) {
+                    if (trapCardForUser.getName().equals(cardName) && !trapCardForUser.isInDeck) {
+                        user.allTraps.remove(trapCardForUser);
+                        user.getDeckByName(deckName).allTrapCardsForUser.add(trapCardForUser);
+                        trapCardForUser.deck = user.getDeckByName(deckName);
+                        trapCardForUser.isInDeck=true;
+                        return;
+                    }
+                }
+            } else {
+                System.out.println("there are already three cards with name " + cardName + " in deck " + deckName);
+            }
+        } else {
+            System.out.println("side deck is full");
+        }
+    }
+}
