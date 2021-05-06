@@ -362,7 +362,7 @@ public class ProgramController {
         System.out.println("9.show a side deck");
         System.out.println("10.show all card names");
         String input = scanner.nextLine();
-        while (!input.equals("menu exit")) {
+        while (!input.equals("menu exit") && !input.equals("0")) {
             boolean checker = false;
 
             Pattern pattern = Pattern.compile("menu show-current");
@@ -372,7 +372,12 @@ public class ProgramController {
                 System.out.println("deck Menu");
             }
 
-
+            if (input.equals("1")) {
+                checker = true;
+                System.out.println("enter card name:");
+                String cardName = scanner.nextLine();
+                CardShow(cardName);
+            }
             pattern = Pattern.compile("card show (.+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
@@ -381,95 +386,52 @@ public class ProgramController {
                 CardShow(cardName);
             }
 
+            if (input.equals("2")) {
+                checker = true;
+                String name = scanner.nextLine();
+                creatDeck(name, user);
+            }
             pattern = Pattern.compile("deck create (^\\s+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                boolean exist = false;
                 String name = matcher.group(1);
-                for (Deck deck : user.allDecks) {
-                    if (deck.getName().equals(name)) {
-                        System.out.println("deck with name +" + name + " already exists");
-                        exist = true;
-                        break;
-                    }
-                    if (!exist) {
-                        Deck deck1 = new Deck(user, name);
-                        user.allDecks.add(deck1);
-                        System.out.println("deck created successfully!");
-                    }
-                }
+                creatDeck(name, user);
             }
 
+            if (input.equals("3")) {
+                checker = true;
+                String name = scanner.nextLine();
+                deleteDeck(name, user);
+            }
             pattern = Pattern.compile("deck delete (^\\s+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                boolean exist = false;
                 String name = matcher.group(1);
-                for (Deck deck : user.allDecks) {
-                    if (deck.getName().equals(name)) {
-                        exist = true;
-                        break;
-                    }
-                    if (exist) {
-
-                        for (MonsterForUser monsterForUser : user.getDeckByName(name).allMonsterForUserMain) {
-                            user.allMonsters.add(monsterForUser);
-                            monsterForUser.deck = null;
-                            monsterForUser.isInDeck = false;
-                        }
-                        for (MonsterForUser monsterForUser : user.getDeckByName(name).allMonsterForUserSide) {
-                            user.allMonsters.add(monsterForUser);
-                            monsterForUser.deck = null;
-                            monsterForUser.isInDeck = false;
-                        }
-                        for (SpellCardForUser spellCardForUser : user.getDeckByName(name).allSpellCardsForUserMain) {
-                            user.allSpells.add(spellCardForUser);
-                            spellCardForUser.deck = null;
-                            spellCardForUser.isInDeck = false;
-                        }
-                        for (SpellCardForUser spellCardForUser : user.getDeckByName(name).allSpellCardsForUserSide) {
-                            user.allSpells.add(spellCardForUser);
-                            spellCardForUser.deck = null;
-                            spellCardForUser.isInDeck = false;
-                        }
-                        for (TrapCardForUser trapCardForUser : user.getDeckByName(name).allTrapCardsForUserMain) {
-                            user.allTraps.add(trapCardForUser);
-                            trapCardForUser.deck = null;
-                            trapCardForUser.isInDeck = false;
-                        }
-                        for (TrapCardForUser trapCardForUser : user.getDeckByName(name).allTrapCardsForUserSide) {
-                            user.allTraps.add(trapCardForUser);
-                            trapCardForUser.deck = null;
-                            trapCardForUser.isInDeck = false;
-                        }
-                        System.out.println("deck deleted successfully");
-                    } else {
-                        System.out.println("deck with name " + name + " does not exist");
-                    }
-                }
-
+                deleteDeck(name, user);
             }
 
+            if (input.equals("4")) {
+                checker = true;
+                String name = scanner.nextLine();
+                setActiveDeck(name, user);
+            }
             pattern = Pattern.compile("deck set-activate (^\\s+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                boolean exist = false;
                 String name = matcher.group(1);
-                for (Deck deck : user.allDecks) {
-                    if (deck.getName().equals(name)) {
-                        exist = true;
-                        break;
-                    }
-                    if (exist) {
-                        user.setActiveDeck(user.getDeckByName(name));
-                        System.out.println("deck activated successfully");
-                    } else {
-                        System.out.println("deck with name " + name + " does not exist");
-                    }
-                }
+                setActiveDeck(name, user);
+            }
+
+            if (input.equals("5")) {
+                checker = true;
+                System.out.println("enter card name:");
+                String cardName = scanner.nextLine();
+                System.out.println("enter deck name:");
+                String deckName = scanner.nextLine();
+                CardAdder(cardName, deckName, user);
             }
             pattern = Pattern.compile("^deck add-card --card (.+) --deck (^\\s+)$");
             matcher = pattern.matcher(input);
@@ -480,6 +442,14 @@ public class ProgramController {
                 CardAdder(cardName, deckName, user);
             }
 
+            if (input.equals("6")) {
+                checker = true;
+                System.out.println("enter card name:");
+                String cardName = scanner.nextLine();
+                System.out.println("enter (side)deck naem:");
+                String deckName = scanner.nextLine();
+                CardAdderSidedeck(cardName, deckName, user);
+            }
             pattern = Pattern.compile("^deck add-card --card (.+) --deck (^\\s+) --side$");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
@@ -491,70 +461,41 @@ public class ProgramController {
 
             pattern = Pattern.compile("deck show --all");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+            if (matcher.find() || input.equals("7")) {
                 checker = true;
-                if (user.getActiveDeck() != null) {
-                    System.out.println("Decks:");
-                    System.out.println("Active deck:");
-                    System.out.println(user.getActiveDeck().getName() + ": main deck" + user.getActiveDeck().numberOfCardsInMain + ", side deck" + user.getActiveDeck().numberOfCardsInSide + ", " + user.getActiveDeck().isValid());
-                    System.out.println("Other decks:");
-                    for (Deck deck : user.allDecks) {
-                        if (!deck.getName().equals(user.getActiveDeck().getName())) {
-                            System.out.println(deck.getName() + ": main deck" + deck.numberOfCardsInMain + ", side deck" + deck.numberOfCardsInSide + ", " + deck.isValid());
-                        }
-                    }
-                } else {
-                    System.out.println("Decks:");
-                    System.out.println("Active deck:");
-                    System.out.println("Other decks:");
-                    for (Deck deck : user.allDecks) {
-                        if (!deck.getName().equals(user.getActiveDeck().getName())) {
-                            System.out.println(deck.getName() + ": main deck" + deck.numberOfCardsInMain + ", side deck" + deck.numberOfCardsInSide + ", " + deck.isValid());
-                        }
-                    }
-
-                }
+                showAllDecks(user);
             }
 
+            if (input.equals("8")) {
+                checker = true;
+                System.out.println("enter deck name:");
+                String name = scanner.nextLine();
+                showDeckMainExistChecker(name, user);
+            }
             pattern = Pattern.compile("^deck show --deck-name (^\\s+)$");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                boolean exist = false;
                 String name = matcher.group(1);
-                for (Deck deck : user.allDecks) {
-                    if (deck.getName().equals(name)) {
-                        ShowMainDeck(deck);
-                        exist = true;
-                        break;
-                    }
-                }
-                if (!exist) {
-                    System.out.println("deck with name " + name + " does not exist");
-                }
+                showDeckMainExistChecker(name, user);
             }
 
+            if (input.equals("9")) {
+                checker = true;
+                String name = scanner.nextLine();
+                showDeckSideExistChecker(name, user);
+            }
             pattern = Pattern.compile("^deck show --deck-name (^\\s+) --side$");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                boolean exist = false;
                 String name = matcher.group(1);
-                for (Deck deck : user.allDecks) {
-                    if (deck.getName().equals(name)) {
-                        ShowSideDeck(deck);
-                        exist = true;
-                        break;
-                    }
-                }
-                if (!exist) {
-                    System.out.println("deck with name " + name + " does not exist");
-                }
+                showDeckSideExistChecker(name, user);
             }
 
             pattern = Pattern.compile("^deck show --cards$");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+            if (matcher.find() || input.equals("10")) {
                 checker = true;
                 ShowAllDeckCards(user);
             }
@@ -563,10 +504,152 @@ public class ProgramController {
 
             }
 
+            System.out.println("Deck Menu");
+            System.out.println("0.enter main menu");
+            System.out.println("1.show a card");
+            System.out.println("2.creat a new deck");
+            System.out.println("3.delete a deck");
+            System.out.println("4.set a deck active");
+            System.out.println("5.add a card to a deck");
+            System.out.println("6.add a card to a sidedeck");
+            System.out.println("7.show all decks");
+            System.out.println("8.show a deck");
+            System.out.println("9.show a side deck");
+            System.out.println("10.show all card names");
             input = scanner.nextLine();
         }
     }
+
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    private static void showDeckSideExistChecker(String name, User user) {
+        boolean exist = false;
+        for (Deck deck : user.allDecks) {
+            if (deck.getName().equals(name)) {
+                ShowSideDeck(deck);
+                exist = true;
+                break;
+            }
+        }
+        if (!exist) {
+            System.out.println("deck with name " + name + " does not exist");
+        }
+    }
+
+    private static void showDeckMainExistChecker(String name, User user) {
+        boolean exist = false;
+        for (Deck deck : user.allDecks) {
+            if (deck.getName().equals(name)) {
+                ShowMainDeck(deck);
+                exist = true;
+                break;
+            }
+        }
+        if (!exist) {
+            System.out.println("deck with name " + name + " does not exist");
+        }
+    }
+
+    private static void showAllDecks(User user) {
+        if (user.getActiveDeck() != null) {
+            System.out.println("Decks:");
+            System.out.println("Active deck:");
+            System.out.println(user.getActiveDeck().getName() + ": main deck" + user.getActiveDeck().numberOfCardsInMain + ", side deck" + user.getActiveDeck().numberOfCardsInSide + ", " + user.getActiveDeck().isValid());
+            System.out.println("Other decks:");
+            for (Deck deck : user.allDecks) {
+                if (!deck.getName().equals(user.getActiveDeck().getName())) {
+                    System.out.println(deck.getName() + ": main deck" + deck.numberOfCardsInMain + ", side deck" + deck.numberOfCardsInSide + ", " + deck.isValid());
+                }
+            }
+        } else {
+            System.out.println("Decks:");
+            System.out.println("Active deck:");
+            System.out.println("Other decks:");
+            for (Deck deck : user.allDecks) {
+                if (!deck.getName().equals(user.getActiveDeck().getName())) {
+                    System.out.println(deck.getName() + ": main deck" + deck.numberOfCardsInMain + ", side deck" + deck.numberOfCardsInSide + ", " + deck.isValid());
+                }
+            }
+        }
+    }
+
+    private static void setActiveDeck(String name, User user) {
+        boolean exist = false;
+        for (Deck deck : user.allDecks) {
+            if (deck.getName().equals(name)) {
+                exist = true;
+                break;
+            }
+            if (exist) {
+                user.setActiveDeck(user.getDeckByName(name));
+                System.out.println("deck activated successfully");
+            } else {
+                System.out.println("deck with name " + name + " does not exist");
+            }
+        }
+    }
+
+    private static void deleteDeck(String name, User user) {
+        boolean exist = false;
+        for (Deck deck : user.allDecks) {
+            if (deck.getName().equals(name)) {
+                exist = true;
+                break;
+            }
+            if (exist) {
+
+                for (MonsterForUser monsterForUser : user.getDeckByName(name).allMonsterForUserMain) {
+                    user.allMonsters.add(monsterForUser);
+                    monsterForUser.deck = null;
+                    monsterForUser.isInDeck = false;
+                }
+                for (MonsterForUser monsterForUser : user.getDeckByName(name).allMonsterForUserSide) {
+                    user.allMonsters.add(monsterForUser);
+                    monsterForUser.deck = null;
+                    monsterForUser.isInDeck = false;
+                }
+                for (SpellCardForUser spellCardForUser : user.getDeckByName(name).allSpellCardsForUserMain) {
+                    user.allSpells.add(spellCardForUser);
+                    spellCardForUser.deck = null;
+                    spellCardForUser.isInDeck = false;
+                }
+                for (SpellCardForUser spellCardForUser : user.getDeckByName(name).allSpellCardsForUserSide) {
+                    user.allSpells.add(spellCardForUser);
+                    spellCardForUser.deck = null;
+                    spellCardForUser.isInDeck = false;
+                }
+                for (TrapCardForUser trapCardForUser : user.getDeckByName(name).allTrapCardsForUserMain) {
+                    user.allTraps.add(trapCardForUser);
+                    trapCardForUser.deck = null;
+                    trapCardForUser.isInDeck = false;
+                }
+                for (TrapCardForUser trapCardForUser : user.getDeckByName(name).allTrapCardsForUserSide) {
+                    user.allTraps.add(trapCardForUser);
+                    trapCardForUser.deck = null;
+                    trapCardForUser.isInDeck = false;
+                }
+                System.out.println("deck deleted successfully");
+            } else {
+                System.out.println("deck with name " + name + " does not exist");
+            }
+        }
+    }
+
+    private static void creatDeck(String name, User user) {
+        boolean exist = false;
+        for (Deck deck : user.allDecks) {
+            if (deck.getName().equals(name)) {
+                System.out.println("deck with name +" + name + " already exists");
+                exist = true;
+                break;
+            }
+            if (!exist) {
+                Deck deck1 = new Deck(user, name);
+                user.allDecks.add(deck1);
+                System.out.println("deck created successfully!");
+            }
+        }
+    }
 
     private static void changePassword(String oldPassword, String newPassword, User user) {
         if (user.getPassword().equals(oldPassword)) {
