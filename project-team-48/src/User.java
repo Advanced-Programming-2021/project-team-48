@@ -29,6 +29,7 @@ public class User {
         allDecks=new ArrayList<>();
     }
     private Deck activeDeck;
+    public boolean hasActiveDeck=false;
     //-------------------------------------------------
     User(String username,String nickname,String password){
         setUsername(username);
@@ -99,6 +100,7 @@ public class User {
     public int getScore() {
         return score;
     }
+
 
     public Deck getDeckByName(String name){
         for (Deck deck:allDecks){
