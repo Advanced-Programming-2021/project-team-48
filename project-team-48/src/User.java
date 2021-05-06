@@ -100,7 +100,6 @@ public class User {
         return score;
     }
 
-
     public Deck getDeckByName(String name){
         for (Deck deck:allDecks){
             if (deck.getName().equals(name)){

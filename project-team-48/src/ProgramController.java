@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,8 +27,9 @@ public class ProgramController {
         System.out.println("0.exit");
         System.out.println("1.creat user");
         System.out.println("2.login user");
-        String input = scanner.nextLine();;
-        while (!input.equals("menu exit")&&!input.equals("0")) {
+        String input = scanner.nextLine();
+        ;
+        while (!input.equals("menu exit") && !input.equals("0")) {
 
             boolean checker = false;
             Pattern pattern = Pattern.compile("menu show-current");
@@ -36,17 +38,17 @@ public class ProgramController {
                 checker = true;
                 System.out.println("Login Menu");
             }
-            if (input.equals("1")){
+            if (input.equals("1")) {
                 System.out.println("enter username:");
-                String username= scanner.nextLine();
+                String username = scanner.nextLine();
                 System.out.println("enter nickname:");
-                String nickname= scanner.nextLine();
+                String nickname = scanner.nextLine();
                 System.out.println("enter password");
-                String password= scanner.nextLine();
-                creatUser(username,nickname,password);
+                String password = scanner.nextLine();
+                creatUser(username, nickname, password);
             }
 
-  //ja be jaie hatmn dorost she!!!!!
+            //ja be jaie hatmn dorost she!!!!!
             pattern = Pattern.compile("user create --username ([^\\s]+) --nickname ([^\\s]+) --password ([^\\s]+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
@@ -57,12 +59,12 @@ public class ProgramController {
                 creatUser(username, nickname, password);
             }
 
-            if (input.equals("2")){
+            if (input.equals("2")) {
                 System.out.println("enter username:");
-                String username= scanner.nextLine();
+                String username = scanner.nextLine();
                 System.out.println("enter password:");
-                String password= scanner.nextLine();
-                login(username,password);
+                String password = scanner.nextLine();
+                login(username, password);
             }
             pattern = Pattern.compile("user login --username ([^\\s]+) --password ([^\\s]+)");
             matcher = pattern.matcher(input);
@@ -73,14 +75,14 @@ public class ProgramController {
                 login(username, password);
             }
 
-            if (!checker){
+            if (!checker) {
                 System.out.println("please login first");
             }
             System.out.println("Login Menu");
             System.out.println("0.exit");
             System.out.println("1.creat user");
             System.out.println("2.login user");
-            input= scanner.nextLine();
+            input = scanner.nextLine();
         }
 
     }
@@ -123,7 +125,7 @@ public class ProgramController {
         System.out.println("4.enter shop");
         String input = scanner.nextLine();
 
-        while (!input.equals("menu exit")&&!input.equals("0")) {
+        while (!input.equals("menu exit") && !input.equals("0")) {
             boolean checker = false;
             Pattern pattern = Pattern.compile("menu show-current");
             Matcher matcher = pattern.matcher(input);
@@ -135,7 +137,7 @@ public class ProgramController {
 
             pattern = Pattern.compile("^user logout$");
             matcher = pattern.matcher(input);
-            if (matcher.find()||input.equals("0")) {
+            if (matcher.find() || input.equals("0")) {
                 checker = true;
                 System.out.println("user logged out successfully!");
                 return;
@@ -143,28 +145,28 @@ public class ProgramController {
 
             pattern = Pattern.compile("menu enter scoreboard");
             matcher = pattern.matcher(input);
-            if (matcher.find()||input.equals("1")) {
+            if (matcher.find() || input.equals("1")) {
                 checker = true;
                 scorebosrd();
             }
 
             pattern = Pattern.compile("menu enter profile");
             matcher = pattern.matcher(input);
-            if (matcher.find()||input.equals("2")) {
+            if (matcher.find() || input.equals("2")) {
                 checker = true;
                 profile(user);
             }
 
             pattern = Pattern.compile("menu enter deck");
             matcher = pattern.matcher(input);
-            if (matcher.find()||input.equals("3")) {
+            if (matcher.find() || input.equals("3")) {
                 checker = true;
                 deck(user);
             }
 
             pattern = Pattern.compile("menu enter shop");
             matcher = pattern.matcher(input);
-            if (matcher.find()||input.equals("4")) {
+            if (matcher.find() || input.equals("4")) {
                 checker = true;
                 shop(user);
             }
@@ -175,6 +177,40 @@ public class ProgramController {
             System.out.println("2.enter profile menu");
             System.out.println("3.enter deck menu");
             System.out.println("4.enter shop");
+            input = scanner.nextLine();
+        }
+    }
+
+    public static void scorebosrd() {
+        System.out.println("Socreborad Menu");
+        System.out.println("0.enter main menu");
+        System.out.println("1.scoreboard show");
+        String input = scanner.nextLine();
+        while (!input.equals("menu exit") && !input.equals("0")) {
+            boolean checker = false;
+
+            Pattern pattern = Pattern.compile("menu show-current");
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                System.out.println("Scoreboard Menu");
+            }
+
+            pattern = Pattern.compile("scoreboard show");
+            matcher = pattern.matcher(input);
+            if (matcher.find() || input.equals("1")) {
+                checker = true;
+                Sort();
+                int j = 1;
+                for (int i = 1; i < User.getListOfUsers().size(); ++i) {
+                    System.out.println(j + "- " + User.getListOfUsers().get(i).getNickname() + ": " + User.getListOfUsers().get(i).getScore());
+                    if (User.getListOfUsers().get(i + 1) != User.getListOfUsers().get(i)) j++;
+                }
+            }
+
+            System.out.println("Socreborad Menu");
+            System.out.println("0.enter main menu");
+            System.out.println("1.scoreboard show");
             input = scanner.nextLine();
         }
     }
@@ -236,7 +272,7 @@ public class ProgramController {
         }
     }
 
-    private static void CardShow(String cardName){
+    private static void CardShow(String cardName) {
         for (MonsterCard monsterCard : MonsterCard.getAllMonsterCards()) {
             if (monsterCard.getName().equals(cardName)) {
                 //???????????????????????????????????????????
@@ -257,35 +293,38 @@ public class ProgramController {
             }
         }
     }
-    private static void ShowMonster(String monsterName){
-        System.out.println("Name: "+monsterName);
-        System.out.println("Level: "+MonsterCard.getMonsterCardByName(monsterName).level);
-        System.out.println("Type: "+MonsterCard.getMonsterCardByName(monsterName).monsterTYpe);
-        System.out.println("ATK: "+MonsterCard.getMonsterCardByName(monsterName).ATK);
-        System.out.println("DEF: "+MonsterCard.getMonsterCardByName(monsterName).DEF);
-        System.out.println("Description: "+MonsterCard.getMonsterCardByName(monsterName).description);
+
+    private static void ShowMonster(String monsterName) {
+        System.out.println("Name: " + monsterName);
+        System.out.println("Level: " + MonsterCard.getMonsterCardByName(monsterName).level);
+        System.out.println("Type: " + MonsterCard.getMonsterCardByName(monsterName).monsterTYpe);
+        System.out.println("ATK: " + MonsterCard.getMonsterCardByName(monsterName).ATK);
+        System.out.println("DEF: " + MonsterCard.getMonsterCardByName(monsterName).DEF);
+        System.out.println("Description: " + MonsterCard.getMonsterCardByName(monsterName).description);
     }
-    private static void ShowSpell(String spellName){
-        System.out.println("Name: "+spellName);
+
+    private static void ShowSpell(String spellName) {
+        System.out.println("Name: " + spellName);
         System.out.println("Spell");
-        System.out.println("Type: "+SpellCard.getSpellCardByName(spellName).getProperty());
-        System.out.println("Description: "+SpellCard.getSpellCardByName(spellName).getDescription());
+        System.out.println("Type: " + SpellCard.getSpellCardByName(spellName).getProperty());
+        System.out.println("Description: " + SpellCard.getSpellCardByName(spellName).getDescription());
     }
-    private static void ShowTrap(String trapName){
-        System.out.println("Name: "+trapName);
+
+    private static void ShowTrap(String trapName) {
+        System.out.println("Name: " + trapName);
         System.out.println("Trap");
-        System.out.println("Type: "+TrapCard.getTrapCardByName(trapName).getProperty());
-        System.out.println("Description: "+TrapCard.getTrapCardByName(trapName).getDescription());
+        System.out.println("Type: " + TrapCard.getTrapCardByName(trapName).getProperty());
+        System.out.println("Description: " + TrapCard.getTrapCardByName(trapName).getDescription());
     }
 
     private static void showShop() {
         ArrayList<String> allCard = new ArrayList<>();
-        for (Card card:Card.getAllCards()){
+        for (Card card : Card.getAllCards()) {
             allCard.add(card.getName());
         }
         Collections.sort(allCard);
-        for (String cardName:allCard){
-            System.out.println(cardName+":"+Card.getCardByName(cardName).getPrice());
+        for (String cardName : allCard) {
+            System.out.println(cardName + ":" + Card.getCardByName(cardName).getPrice());
         }
 
     }
@@ -312,48 +351,29 @@ public class ProgramController {
         }
     }
 
-    public static void scorebosrd() {
-        String input = scanner.nextLine();
-        while (!input.equals("menu exit")) {
-            boolean checker = false;
-
-            Pattern pattern = Pattern.compile("menu show-current");
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                checker = true;
-                System.out.println("Scoreboard Menu");
-            }
-
-            pattern = Pattern.compile("scoreboard show");
-            matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                checker = true;
-                Sort();
-                int j = 1;
-                for (int i = 1; i < User.getListOfUsers().size(); ++i) {
-                    System.out.println(j + "- " + User.getListOfUsers().get(i).getNickname() + ": " + User.getListOfUsers().get(i).getScore());
-                    if (User.getListOfUsers().get(i + 1) != User.getListOfUsers().get(i)) j++;
-                }
-            }
-
-
-            input = scanner.nextLine();
-        }
-    }
 
     //ham emtiaza check shan!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     private static void Sort() {
-        for (int i = 1; i < User.getListOfUsers().size(); ++i) {
-            User key = User.getListOfUsers().get(i);
-            int j = i - 1;
-            while (j >= 0 && User.getListOfUsers().get(j).getScore() > key.getScore()) {
-                User.getListOfUsers().set(j + 1, User.getListOfUsers().get(j));
-                j = j - 1;
+            for (int i = 1; i < User.getListOfUsers().size(); ++i) {
+                User key = User.getListOfUsers().get(i);
+                int j = i - 1;
+                while (j >= 0 && User.getListOfUsers().get(j).getScore() > key.getScore()) {
+                    User.getListOfUsers().set(j+1,User.getListOfUsers().get(j));
+                    j = j - 1;
+                }
+                User.getListOfUsers().set(j+1,key);
             }
-            User.getListOfUsers().set(j + 1, key);
-        }
-    }
 
+            for (int i = 1; i < User.getListOfUsers().size(); ++i) {
+                User key = User.getListOfUsers().get(i);
+                int j = i - 1;
+                while (j >= 0 && User.getListOfUsers().get(j).getScore()== key.getScore() && key.getNickname().compareTo(User.getListOfUsers().get(j).getNickname())>=1) {
+                    User.getListOfUsers().set(j+1,User.getListOfUsers().get(j));
+                    j = j - 1;
+                }
+                User.getListOfUsers().set(j+1,key);
+            }
+        }
 
     public static void profile(User user) {
         String input = scanner.nextLine();
