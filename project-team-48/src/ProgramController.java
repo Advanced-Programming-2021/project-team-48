@@ -22,23 +22,31 @@ public class ProgramController {
     }
 
     public static void run() {
-        String input = "";
+        System.out.println("Login Menu");
+        System.out.println("0.exit");
+        System.out.println("1.creat user");
+        System.out.println("2.login user");
+        String input = scanner.nextLine();;
         while (!input.equals("menu exit")&&!input.equals("0")) {
-            System.out.println("Login Menu");
-            System.out.println("0.exit");
-            System.out.println("2.creat user");
-            System.out.println("3.login user");
-            boolean checker = false;
-            input = scanner.nextLine();
 
+            boolean checker = false;
             Pattern pattern = Pattern.compile("menu show-current");
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
                 System.out.println("Login Menu");
             }
+            if (input.equals("1")){
+                System.out.println("enter username:");
+                String username= scanner.nextLine();
+                System.out.println("enter nickname:");
+                String nickname= scanner.nextLine();
+                System.out.println("enter password");
+                String password= scanner.nextLine();
+                creatUser(username,nickname,password);
+            }
 
-//ja be jaie hatmn dorost she!!!!!
+  //ja be jaie hatmn dorost she!!!!!
             pattern = Pattern.compile("user create --username ([^\\s]+) --nickname ([^\\s]+) --password ([^\\s]+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
@@ -49,7 +57,13 @@ public class ProgramController {
                 creatUser(username, nickname, password);
             }
 
-
+            if (input.equals("2")){
+                System.out.println("enter username:");
+                String username= scanner.nextLine();
+                System.out.println("enter password:");
+                String password= scanner.nextLine();
+                login(username,password);
+            }
             pattern = Pattern.compile("user login --username ([^\\s]+) --password ([^\\s]+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
@@ -62,6 +76,11 @@ public class ProgramController {
             if (!checker){
                 System.out.println("please login first");
             }
+            System.out.println("Login Menu");
+            System.out.println("0.exit");
+            System.out.println("1.creat user");
+            System.out.println("2.login user");
+            input= scanner.nextLine();
         }
 
     }
@@ -96,10 +115,16 @@ public class ProgramController {
 
 
     private static void mainMenu(User user) {
+        System.out.println("Main Menu");
+        System.out.println("0.log out");
+        System.out.println("1.enter scoreboard menu");
+        System.out.println("2.enter profile menu");
+        System.out.println("3.enter deck menu");
+        System.out.println("4.enter shop");
         String input = scanner.nextLine();
-        while (!input.equals("menu exit")) {
-            boolean checker = false;
 
+        while (!input.equals("menu exit")&&!input.equals("0")) {
+            boolean checker = false;
             Pattern pattern = Pattern.compile("menu show-current");
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
@@ -108,9 +133,9 @@ public class ProgramController {
             }
 
 
-            pattern = Pattern.compile("user logout");
+            pattern = Pattern.compile("^user logout$");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+            if (matcher.find()||input.equals("0")) {
                 checker = true;
                 System.out.println("user logged out successfully!");
                 return;
@@ -118,34 +143,38 @@ public class ProgramController {
 
             pattern = Pattern.compile("menu enter scoreboard");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+            if (matcher.find()||input.equals("1")) {
                 checker = true;
                 scorebosrd();
-
             }
 
             pattern = Pattern.compile("menu enter profile");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+            if (matcher.find()||input.equals("2")) {
                 checker = true;
                 profile(user);
             }
 
             pattern = Pattern.compile("menu enter deck");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+            if (matcher.find()||input.equals("3")) {
                 checker = true;
                 deck(user);
             }
 
             pattern = Pattern.compile("menu enter shop");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+            if (matcher.find()||input.equals("4")) {
                 checker = true;
                 shop(user);
             }
 
-
+            System.out.println("Main Menu");
+            System.out.println("0.log out");
+            System.out.println("1.enter scoreboard menu");
+            System.out.println("2.enter profile menu");
+            System.out.println("3.enter deck menu");
+            System.out.println("4.enter shop");
             input = scanner.nextLine();
         }
     }
