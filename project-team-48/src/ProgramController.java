@@ -22,9 +22,14 @@ public class ProgramController {
     }
 
     public static void run() {
-        String input = scanner.nextLine();
-        while (!input.equals("menu exit")) {
+        String input = "";
+        while (!input.equals("menu exit")&&!input.equals("0")) {
+            System.out.println("Login Menu");
+            System.out.println("0.exit");
+            System.out.println("2.creat user");
+            System.out.println("3.login user");
             boolean checker = false;
+            input = scanner.nextLine();
 
             Pattern pattern = Pattern.compile("menu show-current");
             Matcher matcher = pattern.matcher(input);
@@ -52,11 +57,11 @@ public class ProgramController {
                 String username = matcher.group(1);
                 String password = matcher.group(2);
                 login(username, password);
-
             }
-//login first---------------------------------------------------------------------
 
-            input = scanner.nextLine();
+            if (!checker){
+                System.out.println("please login first");
+            }
         }
 
     }
