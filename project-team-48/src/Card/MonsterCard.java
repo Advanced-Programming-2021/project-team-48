@@ -10,7 +10,7 @@ public class MonsterCard extends Card {
     public int DEF;
     public String description;
     public MonsterType monsterTYpe;
-    protected String attribute;
+    protected Attribute attribute;
     private static ArrayList<MonsterCard> allMonsterCards;
 
     static {
@@ -22,7 +22,7 @@ public class MonsterCard extends Card {
 
 //-----------------------------------------------------------------
 
-    public MonsterCard(String name, String description, int price, int level, String type, int ATK, int DEF, MonsterType monsterType, String attribute) {
+    public MonsterCard(String name, String description, int price, int level, String type, int ATK, int DEF, MonsterType monsterType, Attribute attribute) {
         super(name, description, price, "MONSTER");
         setATK(ATK);
         setDEF(DEF);
@@ -54,7 +54,7 @@ public class MonsterCard extends Card {
         this.monsterTYpe = monsterTYpe;
     }
 
-    public void setAttribute(String attribute) {
+    public void setAttribute(Attribute attribute) {
         this.attribute = attribute;
     }
 
@@ -74,7 +74,7 @@ public class MonsterCard extends Card {
         return monsterTYpe;
     }
 
-    public String getAttribute() {
+    public Attribute getAttribute() {
         return attribute;
     }
 
