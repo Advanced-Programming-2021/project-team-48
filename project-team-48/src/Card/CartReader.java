@@ -49,8 +49,6 @@ public class CartReader{
         new MonsterCard("The Tricky", "You can Special Summon this card (from your hand) by discarding 1 card.", 4300, 5, "Efect", 2000, 1200, MonsterType.valueOf("Spellcaster".toUpperCase(Locale.ROOT)), Attribute.valueOf("WIND".toUpperCase(Locale.ROOT)));
         new MonsterCard("Spiral Serpent", "When huge whirlpools lay cities asunder, it is the hunger of this sea serpent at work. No one has ever escaped its dreaded Spiral Wave to accurately describe the terror they experienced.", 11700, 8, "Normal", 2900, 2900, MonsterType.valueOf("Sea Serpent".toUpperCase(Locale.ROOT)), Attribute.valueOf("WATER".toUpperCase(Locale.ROOT)));
         new MonsterCard("Command Knight", "All Warrior-Type monsters you control gain 400 ATK. If you control another monster, monsters your opponent controls cannot target this card for an attack.", 2100, 4, "Effect", 1000, 1000, MonsterType.valueOf("Warrior".toUpperCase(Locale.ROOT)), Attribute.valueOf("FIRE".toUpperCase(Locale.ROOT)));
-
-
     }
 
 }

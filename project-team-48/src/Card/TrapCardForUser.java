@@ -9,7 +9,7 @@ public class TrapCardForUser<User, Deck> extends SpellCard{
     public Deck deck;
 
     public TrapCardForUser(TrapCard trapCard,User user) {
-        super(trapCard.name, trapCard.description, trapCard.price, trapCard.property);
+        super(trapCard.name, trapCard.description, trapCard.price, trapCard.getProperty());
         this.user=user;
     }
 }

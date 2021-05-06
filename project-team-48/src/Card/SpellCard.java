@@ -3,7 +3,8 @@ package Card;
 import java.util.ArrayList;
 
 public class SpellCard extends Card {
-    public Property property;
+    private Property property;
+    private Status status;
     private static ArrayList<SpellCard> allSpellCard;
     static {
         allSpellCard=new ArrayList<>();
@@ -15,8 +16,14 @@ public class SpellCard extends Card {
         allSpellCard.add(this);
     }
 
+
+
     public void setProperty(Property property) {
         this.property = property;
+    }
+
+    public Property getProperty() {
+        return property;
     }
 
     public static SpellCard getSpellCardByName(String name){
