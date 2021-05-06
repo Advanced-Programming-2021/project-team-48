@@ -268,13 +268,13 @@ public class ProgramController {
     private static void ShowSpell(String spellName){
         System.out.println("Name: "+spellName);
         System.out.println("Spell");
-        System.out.println("Type: "+SpellCard.getSpellCardByName(spellName).property);
+        System.out.println("Type: "+SpellCard.getSpellCardByName(spellName).getProperty());
         System.out.println("Description: "+SpellCard.getSpellCardByName(spellName).getDescription());
     }
     private static void ShowTrap(String trapName){
         System.out.println("Name: "+trapName);
         System.out.println("Trap");
-        System.out.println("Type: "+TrapCard.getTrapCardByName(trapName).property);
+        System.out.println("Type: "+TrapCard.getTrapCardByName(trapName).getProperty());
         System.out.println("Description: "+TrapCard.getTrapCardByName(trapName).getDescription());
     }
 

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class TrapCard extends Card {
-    public Property property;
+    private Property property;
+    private Status status;
     private static ArrayList<TrapCard> allTrapCard ;
     static {
         allTrapCard=new ArrayList<>();
@@ -18,6 +19,10 @@ public class TrapCard extends Card {
 
     public void setProperty(Property property) {
         this.property = property;
+    }
+
+    public Property getProperty() {
+        return property;
     }
 
     public static TrapCard getTrapCardByName(String name){

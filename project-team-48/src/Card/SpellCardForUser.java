@@ -8,7 +8,7 @@ public class SpellCardForUser<User, Deck> extends SpellCard{
     public boolean isInDeck;
     public Deck deck;
     public SpellCardForUser(SpellCard spellCard,User user) {
-        super(spellCard.name, spellCard.description, spellCard.price, spellCard.property);
+        super(spellCard.name, spellCard.description, spellCard.price, spellCard.getProperty());
         this.user=user;
     }
 }
