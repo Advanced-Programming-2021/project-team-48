@@ -39,6 +39,7 @@ public class ProgramController {
                 System.out.println("Login Menu");
             }
             if (input.equals("1")) {
+                checker = true;
                 System.out.println("enter username:");
                 String username = scanner.nextLine();
                 System.out.println("enter nickname:");
@@ -60,6 +61,7 @@ public class ProgramController {
             }
 
             if (input.equals("2")) {
+                checker = true;
                 System.out.println("enter username:");
                 String username = scanner.nextLine();
                 System.out.println("enter password:");
@@ -208,6 +210,9 @@ public class ProgramController {
                 }
             }
 
+            if (!checker) {
+                System.out.println("invalid command");
+            }
             System.out.println("Socreborad Menu");
             System.out.println("0.enter main menu");
             System.out.println("1.scoreboard show");
@@ -216,8 +221,13 @@ public class ProgramController {
     }
 
     private static void shop(User user) {
+        System.out.println("Shop Mneu");
+        System.out.println("0.enter main menu");
+        System.out.println("1.show a card");
+        System.out.println("2.buy a card");
+        System.out.println("3.show all card names");
         String input = scanner.nextLine();
-        while (!input.equals("menu exit")) {
+        while (!input.equals("menu exit") && !input.equals("0")) {
             boolean checker = false;
 
             Pattern pattern = Pattern.compile("menu show-current");
@@ -227,6 +237,12 @@ public class ProgramController {
                 System.out.println("Shop Menu");
             }
 
+            if (input.equals("1")) {
+                checker = true;
+                System.out.println("enter card name to show:");
+                String cardName = scanner.nextLine();
+                CardShow(cardName);
+            }
             pattern = Pattern.compile("card show (.+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
@@ -235,149 +251,48 @@ public class ProgramController {
                 CardShow(cardName);
             }
 
+            if (input.equals("2")) {
+                checker = true;
+                System.out.println("enter card name to buy:");
+                String cardName = scanner.nextLine();
+                BuyCard(cardName, user);
+            }
+
             pattern = Pattern.compile("^shop buy (^\\s+)$");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                boolean exist = false;
                 String cardName = matcher.group(1);
-                for (Card card : Card.getAllCards()) {
-                    if (card.getName().equals(cardName)) {
-                        exist = true;
-                        break;
-                    }
-                }
-                if (!exist) {
-                    System.out.println("there is no card with this name");
-                } else {
-                    if (Card.getCardByName(cardName).getPrice() <= user.getMoney()) {
-                        long userMoney = user.getMoney();
-                        long cardPrice = Card.getCardByName(cardName).getPrice();
-                        long lastMoney = userMoney - cardPrice;
-                        user.setMoney(lastMoney);
-                        addCardToUser(cardName, user);
-                    } else {
-                        System.out.println("not enough money");
-                    }
-                }
+                BuyCard(cardName, user);
             }
 
             pattern = Pattern.compile("^shop show --all$");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+            if (matcher.find() || input.equals("3")) {
                 checker = true;
                 showShop();
             }
+
+            if (!checker) {
+                System.out.println("invalid command");
+            }
+            System.out.println("Shop Mneu");
+            System.out.println("0.enter main menu");
+            System.out.println("1.show a card");
+            System.out.println("2.buy a card");
+            System.out.println("3.show all card names");
             input = scanner.nextLine();
         }
     }
 
-    private static void CardShow(String cardName) {
-        for (MonsterCard monsterCard : MonsterCard.getAllMonsterCards()) {
-            if (monsterCard.getName().equals(cardName)) {
-                //???????????????????????????????????????????
-                ShowMonster(cardName);
-                return;
-            }
-        }
-        for (SpellCard spellCard : SpellCard.getAllSpellCard()) {
-            if (spellCard.getName().equals(cardName)) {
-                ShowSpell(cardName);
-                return;
-            }
-        }
-        for (TrapCard trapCard : TrapCard.getAllTrapCard()) {
-            if (trapCard.getName().equals(cardName)) {
-                ShowTrap(cardName);
-                return;
-            }
-        }
-    }
-
-    private static void ShowMonster(String monsterName) {
-        System.out.println("Name: " + monsterName);
-        System.out.println("Level: " + MonsterCard.getMonsterCardByName(monsterName).level);
-        System.out.println("Type: " + MonsterCard.getMonsterCardByName(monsterName).monsterTYpe);
-        System.out.println("ATK: " + MonsterCard.getMonsterCardByName(monsterName).ATK);
-        System.out.println("DEF: " + MonsterCard.getMonsterCardByName(monsterName).DEF);
-        System.out.println("Description: " + MonsterCard.getMonsterCardByName(monsterName).description);
-    }
-
-    private static void ShowSpell(String spellName) {
-        System.out.println("Name: " + spellName);
-        System.out.println("Spell");
-        System.out.println("Type: " + SpellCard.getSpellCardByName(spellName).getProperty());
-        System.out.println("Description: " + SpellCard.getSpellCardByName(spellName).getDescription());
-    }
-
-    private static void ShowTrap(String trapName) {
-        System.out.println("Name: " + trapName);
-        System.out.println("Trap");
-        System.out.println("Type: " + TrapCard.getTrapCardByName(trapName).getProperty());
-        System.out.println("Description: " + TrapCard.getTrapCardByName(trapName).getDescription());
-    }
-
-    private static void showShop() {
-        ArrayList<String> allCard = new ArrayList<>();
-        for (Card card : Card.getAllCards()) {
-            allCard.add(card.getName());
-        }
-        Collections.sort(allCard);
-        for (String cardName : allCard) {
-            System.out.println(cardName + ":" + Card.getCardByName(cardName).getPrice());
-        }
-
-    }
-
-    private static void addCardToUser(String cardname, User user) {
-        for (MonsterCard monsterCard : MonsterCard.getAllMonsterCards()) {
-            if (monsterCard.getName().equals(cardname)) {
-                new MonsterForUser(monsterCard, user);
-                //???????????????????????????????????????????????????????????????
-                return;
-            }
-        }
-        for (SpellCard spellCard : SpellCard.getAllSpellCard()) {
-            if (spellCard.getName().equals(cardname)) {
-                new SpellCardForUser(spellCard, user);
-                return;
-            }
-        }
-        for (TrapCard trapCard : TrapCard.getAllTrapCard()) {
-            if (trapCard.getName().equals(cardname)) {
-                new TrapCardForUser(trapCard, user);
-                return;
-            }
-        }
-    }
-
-
-    //ham emtiaza check shan!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    private static void Sort() {
-            for (int i = 1; i < User.getListOfUsers().size(); ++i) {
-                User key = User.getListOfUsers().get(i);
-                int j = i - 1;
-                while (j >= 0 && User.getListOfUsers().get(j).getScore() > key.getScore()) {
-                    User.getListOfUsers().set(j+1,User.getListOfUsers().get(j));
-                    j = j - 1;
-                }
-                User.getListOfUsers().set(j+1,key);
-            }
-
-            for (int i = 1; i < User.getListOfUsers().size(); ++i) {
-                User key = User.getListOfUsers().get(i);
-                int j = i - 1;
-                while (j >= 0 && User.getListOfUsers().get(j).getScore()== key.getScore() && key.getNickname().compareTo(User.getListOfUsers().get(j).getNickname())>=1) {
-                    User.getListOfUsers().set(j+1,User.getListOfUsers().get(j));
-                    j = j - 1;
-                }
-                User.getListOfUsers().set(j+1,key);
-            }
-        }
 
     public static void profile(User user) {
+        System.out.println("Profile Menu");
+        System.out.println("0.enter main menu");
+        System.out.println("1.change nickname");
+        System.out.println("2.change password");
         String input = scanner.nextLine();
-        while (!input.equals("menu exit")) {
+        while (!input.equals("menu exit") && !input.equals("0")) {
             boolean checker = false;
 
             Pattern pattern = Pattern.compile("menu show-current");
@@ -388,58 +303,64 @@ public class ProgramController {
             }
 
 
+            if (input.equals("1")) {
+                checker = true;
+                System.out.println("enter new nickname:");
+                String newNickname = scanner.nextLine();
+                changeNickname(newNickname, user);
+            }
             pattern = Pattern.compile("profile change --nickname (.+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                boolean exist = false;
                 String newNickname = matcher.group(1);
-
-                if (user.getNickname().equals(newNickname)) {
-                    System.out.println("this nickname is same to the nickname you have now!");
-
-                } else {
-                    for (User user1 : User.getListOfUsers()) {
-                        if (user1.getNickname().equals(newNickname)) {
-                            System.out.println("user with nickname " + newNickname + " already exists");
-                            exist = true;
-                            break;
-                        }
-                        if (!exist) {
-                            user.setNickname(newNickname);
-                            System.out.println("nickname changed successfully!");
-                        }
-                    }
-
-                }
-
-
-                pattern = Pattern.compile("profile change --password --current (.+) --new (.+)");
-                matcher = pattern.matcher(input);
-                if (matcher.find()) {
-                    checker = true;
-                    String password = matcher.group(1);
-                    String newPassword = matcher.group(2);
-                    if (user.getPassword().equals(1)) {
-                        if (!password.equals(newPassword)) {
-                            user.setPassword(newPassword);
-                            System.out.println("password changed successfully!");
-                        } else {
-                            System.out.println("please enter a new password");
-                        }
-                    } else {
-                        System.out.println("current password is invalid");
-                    }
-                }
-
-
-                input = scanner.nextLine();
-
+                changeNickname(newNickname, user);
             }
+
+            if (input.equals("2")) {
+                System.out.println("enter old password:");
+                String oldPassword = scanner.nextLine();
+                System.out.println("enter new password:");
+                String newPassword = scanner.nextLine();
+                changePassword(oldPassword, newPassword, user);
+            }
+
+            pattern = Pattern.compile("profile change --password --current (.+) --new (.+)");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                String oldPassword = matcher.group(1);
+                String newPassword = matcher.group(2);
+                changePassword(oldPassword, newPassword, user);
+            }
+
+            if (!checker) {
+                System.out.println("invalid command");
+            }
+
+            System.out.println("Profile Menu");
+            System.out.println("0.enter main menu");
+            System.out.println("1.change nickname");
+            System.out.println("2.change password");
+            input = scanner.nextLine();
+
         }
     }
 
+
     public static void deck(User user) {
+        System.out.println("Deck Menu");
+        System.out.println("0.enter main menu");
+        System.out.println("1.show a card");
+        System.out.println("2.creat a new deck");
+        System.out.println("3.delete a deck");
+        System.out.println("4.set a deck active");
+        System.out.println("5.add a card to a deck");
+        System.out.println("6.add a card to a sidedeck");
+        System.out.println("7.show all decks");
+        System.out.println("8.show a deck");
+        System.out.println("9.show a side deck");
+        System.out.println("10.show all card names");
         String input = scanner.nextLine();
         while (!input.equals("menu exit")) {
             boolean checker = false;
@@ -456,8 +377,8 @@ public class ProgramController {
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                String cardName = matcher.group(1);
+                CardShow(cardName);
             }
 
             pattern = Pattern.compile("deck create (^\\s+)");
@@ -637,9 +558,171 @@ public class ProgramController {
                 checker = true;
                 ShowAllDeckCards(user);
             }
+            if (!checker) {
+                System.out.println("invalid command");
 
+            }
 
             input = scanner.nextLine();
+        }
+    }
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    private static void changePassword(String oldPassword, String newPassword, User user) {
+        if (user.getPassword().equals(oldPassword)) {
+            if (!oldPassword.equals(newPassword)) {
+                user.setPassword(newPassword);
+                System.out.println("password changed successfully!");
+            } else {
+                System.out.println("please enter a new password");
+            }
+        } else {
+            System.out.println("current password is invalid");
+        }
+    }
+
+    private static void changeNickname(String newNickname, User user) {
+        boolean exist = false;
+        if (user.getNickname().equals(newNickname)) {
+            System.out.println("this nickname is same to the nickname you have now!");
+
+        } else {
+            for (User user1 : User.getListOfUsers()) {
+                if (user1.getNickname().equals(newNickname)) {
+                    System.out.println("user with nickname " + newNickname + " already exists");
+                    exist = true;
+                    break;
+                }
+                if (!exist) {
+                    user.setNickname(newNickname);
+                    System.out.println("nickname changed successfully!");
+                }
+            }
+        }
+    }
+
+    private static void BuyCard(String cardName, User user) {
+        boolean exist = false;
+        for (Card card : Card.getAllCards()) {
+            if (card.getName().equals(cardName)) {
+                exist = true;
+                break;
+            }
+        }
+        if (!exist) {
+            System.out.println("there is no card with this name");
+        } else {
+            if (Card.getCardByName(cardName).getPrice() <= user.getMoney()) {
+                long userMoney = user.getMoney();
+                long cardPrice = Card.getCardByName(cardName).getPrice();
+                long lastMoney = userMoney - cardPrice;
+                user.setMoney(lastMoney);
+                addCardToUser(cardName, user);
+            } else {
+                System.out.println("not enough money");
+            }
+        }
+    }
+
+    private static void CardShow(String cardName) {
+        for (MonsterCard monsterCard : MonsterCard.getAllMonsterCards()) {
+            if (monsterCard.getName().equals(cardName)) {
+                //???????????????????????????????????????????
+                ShowMonster(cardName);
+                return;
+            }
+        }
+        for (SpellCard spellCard : SpellCard.getAllSpellCard()) {
+            if (spellCard.getName().equals(cardName)) {
+                ShowSpell(cardName);
+                return;
+            }
+        }
+        for (TrapCard trapCard : TrapCard.getAllTrapCard()) {
+            if (trapCard.getName().equals(cardName)) {
+                ShowTrap(cardName);
+                return;
+            }
+        }
+    }
+
+    private static void ShowMonster(String monsterName) {
+        System.out.println("Name: " + monsterName);
+        System.out.println("Level: " + MonsterCard.getMonsterCardByName(monsterName).level);
+        System.out.println("Type: " + MonsterCard.getMonsterCardByName(monsterName).monsterTYpe);
+        System.out.println("ATK: " + MonsterCard.getMonsterCardByName(monsterName).ATK);
+        System.out.println("DEF: " + MonsterCard.getMonsterCardByName(monsterName).DEF);
+        System.out.println("Description: " + MonsterCard.getMonsterCardByName(monsterName).description);
+    }
+
+    private static void ShowSpell(String spellName) {
+        System.out.println("Name: " + spellName);
+        System.out.println("Spell");
+        System.out.println("Type: " + SpellCard.getSpellCardByName(spellName).getProperty());
+        System.out.println("Description: " + SpellCard.getSpellCardByName(spellName).getDescription());
+    }
+
+    private static void ShowTrap(String trapName) {
+        System.out.println("Name: " + trapName);
+        System.out.println("Trap");
+        System.out.println("Type: " + TrapCard.getTrapCardByName(trapName).getProperty());
+        System.out.println("Description: " + TrapCard.getTrapCardByName(trapName).getDescription());
+    }
+
+    private static void showShop() {
+        ArrayList<String> allCard = new ArrayList<>();
+        for (Card card : Card.getAllCards()) {
+            allCard.add(card.getName());
+        }
+        Collections.sort(allCard);
+        for (String cardName : allCard) {
+            System.out.println(cardName + ":" + Card.getCardByName(cardName).getPrice());
+        }
+
+    }
+
+    private static void addCardToUser(String cardname, User user) {
+        for (MonsterCard monsterCard : MonsterCard.getAllMonsterCards()) {
+            if (monsterCard.getName().equals(cardname)) {
+                new MonsterForUser(monsterCard, user);
+                //???????????????????????????????????????????????????????????????
+                return;
+            }
+        }
+        for (SpellCard spellCard : SpellCard.getAllSpellCard()) {
+            if (spellCard.getName().equals(cardname)) {
+                new SpellCardForUser(spellCard, user);
+                return;
+            }
+        }
+        for (TrapCard trapCard : TrapCard.getAllTrapCard()) {
+            if (trapCard.getName().equals(cardname)) {
+                new TrapCardForUser(trapCard, user);
+                return;
+            }
+        }
+    }
+
+
+    private static void Sort() {
+        for (int i = 1; i < User.getListOfUsers().size(); ++i) {
+            User key = User.getListOfUsers().get(i);
+            int j = i - 1;
+            while (j >= 0 && User.getListOfUsers().get(j).getScore() > key.getScore()) {
+                User.getListOfUsers().set(j + 1, User.getListOfUsers().get(j));
+                j = j - 1;
+            }
+            User.getListOfUsers().set(j + 1, key);
+        }
+
+        for (int i = 1; i < User.getListOfUsers().size(); ++i) {
+            User key = User.getListOfUsers().get(i);
+            int j = i - 1;
+            while (j >= 0 && User.getListOfUsers().get(j).getScore() == key.getScore() && key.getNickname().compareTo(User.getListOfUsers().get(j).getNickname()) >= 1) {
+                User.getListOfUsers().set(j + 1, User.getListOfUsers().get(j));
+                j = j - 1;
+            }
+            User.getListOfUsers().set(j + 1, key);
         }
     }
 
