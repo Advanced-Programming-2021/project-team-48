@@ -11,9 +11,10 @@ public class TrapCard extends Card {
         allTrapCard=new ArrayList<>();
     }
 
-    public TrapCard(String name, String description, int price, Property property) {
+    public TrapCard(String name, String description, int price, Property property, Status status) {
         super(name, description, price, "TRAP");
         setProperty(property);
+        setStatus(status);
         allTrapCard.add(this);
     }
 
@@ -23,6 +24,14 @@ public class TrapCard extends Card {
 
     public Property getProperty() {
         return property;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     public static TrapCard getTrapCardByName(String name){
