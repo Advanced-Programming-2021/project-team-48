@@ -28,15 +28,35 @@ public class Game {
                 bool = play(user2.getUsername(), user1.getUsername());
             }
         }
+        user1.setActiveDeck(user1.getDeckByName(user1.getActiveDeck().getName()));
+        user2.setActiveDeck(user2.getDeckByName(user2.getActiveDeck().getName()));
     }
 
     private boolean play(String username, String opponentUsername) {
         User user = User.getUserByUsername(username);
         User opponent = User.getUserByUsername(opponentUsername);
         System.out.println(opponent.getNickname()+":"+opponent.getLifePoint());
-        for (Object object:)
-    }
+        int i=0;
+        for (Object object:opponent.hand){
+            i++;
+        }
+        System.out.println("    "+i+"   "+i+"   "+i+"   "+i+"   "+i+"   "+i);
+        System.out.println(opponent.getActiveDeck().numberOfCardsInMain);
+        System.out.print("    ");
+        if (opponent.spellAndTrapZone[3].equals(null)){
+            System.out.print("E");
+        }else {
+            tashkhisHalateSpellVaTrap(opponent.spellAndTrapZone[3])
+        }
 
+
+
+
+     //!!!!!!!!!!!!!!!!!!!!!!!
+    return false;}
+private String tashkhisHalateSpellVaTrap(Object object){
+
+}
     public void setUser1(User user1) {
         this.user1 = user1;
     }

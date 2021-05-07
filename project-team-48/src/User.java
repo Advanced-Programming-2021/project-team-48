@@ -16,8 +16,8 @@ public class User {
     public ArrayList<SpellCardForUser> spellGrave = new ArrayList<>();
     public ArrayList<TrapCardForUser> trapGrave = new ArrayList<>();
     public MonsterForUser[] monsterZone = new MonsterForUser[5];
-    private SpellCardForUser fieldZone;
-    private Object[] spellAndTrapZone= new Object[5];
+    public SpellCardForUser fieldZone;
+    public Object[] spellAndTrapZone= new Object[5];
     int NumOfGrave = 0;
     private static ArrayList<User> listOfUsers ;
     static {
