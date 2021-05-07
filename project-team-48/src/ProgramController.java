@@ -190,11 +190,12 @@ public class ProgramController {
                 if (user2.hasActiveDeck) {
                     if (user.getActiveDeck().isValid().equals("valid")) {
                         if (user2.getActiveDeck().isValid().equals("valid")) {
-                            if (round==1){
-
-                            }else if (round==3){
+                            if (round == 1) {
+                                new Game(user, user2);
+                            } else if (round == 3) {
 //@!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            }else {
+                                //hosh masnoie!!!!!!!!!!!!!!!!!!!
+                            } else {
                                 System.out.println("number of rounds is not supported");
                             }
                         } else {
