@@ -6,14 +6,14 @@ public class Card {
     protected String name;
     protected String description;
     protected int price;
-    protected String cardType;
+    protected CardType cardType;
     protected static ArrayList<Card> allCards;
     static {
         allCards=new ArrayList<>();
     }
 
 
-    public Card(String name, String description, int price, String cardType) {
+    public Card(String name, String description, int price, CardType cardType) {
         setName(name);
         setDescription(description);
         setPrice(price);
@@ -33,7 +33,7 @@ public class Card {
         this.price = price;
     }
 
-    public void setCardType(String cardType) {
+    public void setCardType(CardType cardType) {
         this.cardType = cardType;
     }
 
@@ -48,6 +48,10 @@ public class Card {
             }
         }
         return null;
+    }
+
+    public CardType getCardType() {
+        return cardType;
     }
 
     public static ArrayList<Card> getAllCards() {

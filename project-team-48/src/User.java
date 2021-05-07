@@ -1,3 +1,4 @@
+import Card.Card;
 import Card.MonsterForUser;
 import Card.SpellCardForUser;
 import Card.TrapCardForUser;
@@ -17,7 +18,7 @@ public class User {
     public ArrayList<TrapCardForUser> trapGrave = new ArrayList<>();
     public MonsterForUser[] monsterZone = new MonsterForUser[5];
     public SpellCardForUser fieldZone;
-    public Object[] spellAndTrapZone= new Object[5];
+    public Card[] spellAndTrapZone= new Card[5];
     int NumOfGrave = 0;
     private static ArrayList<User> listOfUsers ;
     static {

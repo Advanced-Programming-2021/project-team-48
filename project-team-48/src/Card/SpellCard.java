@@ -10,14 +10,13 @@ public class SpellCard extends Card {
         allSpellCard=new ArrayList<>();
     }
 
+
     public SpellCard(String name, String description, int price, Property property, Status status) {
-        super(name, description, price, "Spell");
+        super(name, description, price, CardType.valueOf("SPELL"));
         setProperty(property);
         setStatus(status);
         allSpellCard.add(this);
     }
-
-
 
     public void setProperty(Property property) {
         this.property = property;

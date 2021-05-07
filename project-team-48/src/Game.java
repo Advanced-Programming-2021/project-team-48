@@ -3,10 +3,9 @@ import Card.MonsterForUser;
 import Card.SpellCardForUser;
 import Card.TrapCardForUser;
 
-import java.util.*;
-
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import Card.CardType;
 public class Game {
     private User user1;
     private User user2;
@@ -46,7 +45,7 @@ public class Game {
         if (opponent.spellAndTrapZone[3].equals(null)){
             System.out.print("E");
         }else {
-            tashkhisHalateSpellVaTrap(opponent.spellAndTrapZone[3])
+            tashkhisHalateSpellVaTrap(opponent.spellAndTrapZone[3]);
         }
 
 
@@ -54,7 +53,14 @@ public class Game {
 
      //!!!!!!!!!!!!!!!!!!!!!!!
     return false;}
-private String tashkhisHalateSpellVaTrap(Object object){
+private String tashkhisHalateSpellVaTrap(Card card){
+
+        if (card.getCardType().equals(CardType.valueOf("SPELL"))){
+
+        }
+        if (card.getCardType().equals(CardType.valueOf("TRAP"))){
+
+        }
 
 }
     public void setUser1(User user1) {

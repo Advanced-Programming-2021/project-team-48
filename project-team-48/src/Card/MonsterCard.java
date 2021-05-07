@@ -23,7 +23,7 @@ public class MonsterCard extends Card {
 //-----------------------------------------------------------------
 
     public MonsterCard(String name, String description, int price, int level, String type, int ATK, int DEF, MonsterType monsterType, Attribute attribute) {
-        super(name, description, price, "MONSTER");
+        super(name, description, price, CardType.valueOf("MONSTER"));
         setATK(ATK);
         setDEF(DEF);
         setLevel(level);

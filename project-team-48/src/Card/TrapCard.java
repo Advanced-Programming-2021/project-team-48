@@ -12,7 +12,7 @@ public class TrapCard extends Card {
     }
 
     public TrapCard(String name, String description, int price, Property property, Status status) {
-        super(name, description, price, "TRAP");
+        super(name, description, price, CardType.valueOf("TRAP"));
         setProperty(property);
         setStatus(status);
         allTrapCard.add(this);
