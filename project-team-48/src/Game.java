@@ -56,6 +56,7 @@ public class Game {
 private String tashkhisHalateSpellVaTrap(Card card){
 
         if (card.getCardType().equals(CardType.valueOf("SPELL"))){
+          SpellCardForUser.getSpellCardByName(card.getName());
 
         }
         if (card.getCardType().equals(CardType.valueOf("TRAP"))){
