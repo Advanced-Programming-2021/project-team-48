@@ -10,6 +10,15 @@ public class User {
     private String password;
     private int score=0;
     private long  money=100000;
+    private int lifePoint=3000;
+    public Object[] hand = new Object[6];
+    public ArrayList<MonsterForUser> monsterGrave = new ArrayList<>();
+    public ArrayList<SpellCardForUser> spellGrave = new ArrayList<>();
+    public ArrayList<TrapCardForUser> trapGrave = new ArrayList<>();
+    public MonsterForUser[] monsterZone = new MonsterForUser[5];
+    private SpellCardForUser fieldZone;
+    private Object[] spellAndTrapZone= new Object[5];
+    int NumOfGrave = 0;
     private static ArrayList<User> listOfUsers ;
     static {
         listOfUsers=new ArrayList<>();
@@ -44,6 +53,14 @@ public class User {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setLifePoint(int lifePoint) {
+        this.lifePoint = lifePoint;
+    }
+
+    public int getLifePoint() {
+        return lifePoint;
     }
 
     public void setPassword(String password) {
