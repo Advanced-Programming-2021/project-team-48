@@ -10,9 +10,10 @@ public class SpellCard extends Card {
         allSpellCard=new ArrayList<>();
     }
 
-    public SpellCard(String name, String description, int price, Property property) {
+    public SpellCard(String name, String description, int price, Property property, Status status) {
         super(name, description, price, "Spell");
         setProperty(property);
+        setStatus(status);
         allSpellCard.add(this);
     }
 
@@ -25,6 +26,15 @@ public class SpellCard extends Card {
     public Property getProperty() {
         return property;
     }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
 
     public static SpellCard getSpellCardByName(String name){
         for (SpellCard spellCard:allSpellCard){
