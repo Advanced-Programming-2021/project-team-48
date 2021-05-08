@@ -80,6 +80,7 @@ public class ProgramController {
             if (!checker) {
                 System.out.println("please login first");
             }
+            System.out.println("____________________________________________");
             System.out.println("Login Menu");
             System.out.println("0.exit");
             System.out.println("1.creat user");
@@ -574,11 +575,22 @@ public class ProgramController {
     }
 
     private static void login(String username, String password) {
-        //check she ke boolean null nishe
-        if (!User.passwordChecker(username, password)) {
+        boolean exist=false;
+        for (User user:User.getListOfUsers()){
+            if (user.getUsername().equals(username)){
+                exist=true;
+                break;
+            }
+        }
+        if (exist) {
+            if (!User.passwordChecker(username, password)) {
+                System.out.println("Username and password didn’t match!");
+            } else {
+                mainMenu(User.getUserByUsername(username));
+            }
+        }
+        else {
             System.out.println("Username and password didn’t match!");
-        } else {
-            mainMenu(User.getUserByUsername(username));
         }
     }
 

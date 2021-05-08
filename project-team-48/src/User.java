@@ -12,13 +12,19 @@ public class User {
     private int score=0;
     private long  money=100000;
     private int lifePoint=3000;
-    public Object[] hand = new Object[6];
+    public MonsterForUser[] handMonster = new MonsterForUser[6];
+    public SpellCardForUser[] handSpell = new SpellCardForUser[6];
+    public TrapCardForUser[] handTrap = new TrapCardForUser[6];
+
     public ArrayList<MonsterForUser> monsterGrave = new ArrayList<>();
     public ArrayList<SpellCardForUser> spellGrave = new ArrayList<>();
     public ArrayList<TrapCardForUser> trapGrave = new ArrayList<>();
+
     public MonsterForUser[] monsterZone = new MonsterForUser[5];
+    public SpellCardForUser[] spellZone = new SpellCardForUser[5];
+    public TrapCardForUser[] trapZone=new TrapCardForUser[5];
     public SpellCardForUser fieldZone;
-    public Card[] spellAndTrapZone= new Card[5];
+
     int NumOfGrave = 0;
     private static ArrayList<User> listOfUsers ;
     static {
@@ -112,7 +118,7 @@ public class User {
     }
 
     public static boolean passwordChecker(String username, String password){
-        return User.getUserByUsername(username).equals(password);
+        return User.getUserByUsername(username).getPassword().equals(password);
     }
 
     public int getScore() {

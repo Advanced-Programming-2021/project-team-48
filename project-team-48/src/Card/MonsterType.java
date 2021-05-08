@@ -12,7 +12,7 @@ public enum MonsterType {
     MACHINE,
     ROCK,
     INSECT,
-    CYBER,
+    CYBERSE,
     FAIRY,
     BEAST_WARRIOR,
     SEA_SERPENT;
