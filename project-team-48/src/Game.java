@@ -4,6 +4,10 @@ import Card.Position;
 
 import Card.CardType;
 
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Game {
     private User user1;
     private User user2;
@@ -32,9 +36,25 @@ public class Game {
     }
 
     private boolean play(String username, String opponentUsername) {
+        Scanner scanner=new Scanner(System.in);
         User user = User.getUserByUsername(username);
         User opponent = User.getUserByUsername(opponentUsername);
         showField(user,opponent);
+        String input="";
+        while (!input.equals("")){
+            input=scanner.nextLine();
+            boolean checker=false;
+
+            Pattern pattern = Pattern.compile("menu show-current");
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                System.out.println("Login Menu");
+            }
+
+
+
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!
         return false;
     }
