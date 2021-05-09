@@ -12,12 +12,12 @@ public class Deck {
     public int numberOfCardsInMain;
     public int numberOfCardsInSide;
 
-    public  ArrayList<SpellCardForUser> allSpellCardsForUserMain;
+    public ArrayList<SpellCardForUser> allSpellCardsForUserMain;
     {
         allSpellCardsForUserMain = new ArrayList<>();
     }
 
-    public  ArrayList<TrapCardForUser> allTrapCardsForUserMain;
+    public ArrayList<TrapCardForUser> allTrapCardsForUserMain;
     {
         allTrapCardsForUserMain = new ArrayList<>();
     }
@@ -25,12 +25,12 @@ public class Deck {
     {
         allMonsterForUserMain = new ArrayList<>();
     }
-    public  ArrayList<SpellCardForUser> allSpellCardsForUserSide;
+    public ArrayList<SpellCardForUser> allSpellCardsForUserSide;
     {
         allSpellCardsForUserSide = new ArrayList<>();
     }
 
-    public  ArrayList<TrapCardForUser> allTrapCardsForUserSide;
+    public ArrayList<TrapCardForUser> allTrapCardsForUserSide;
     {
         allTrapCardsForUserSide = new ArrayList<>();
     }
@@ -39,7 +39,7 @@ public class Deck {
         allMonsterForUserSide = new ArrayList<>();
     }
 
-    public Deck(User user,String name){
+    public Deck(User user, String name) {
         setName(name);
         setUser(user);
 
@@ -58,10 +58,10 @@ public class Deck {
     }
 
 
-public String isValid(){
-        if (numberOfCardsInMain>=40&&numberOfCardsInMain<=60&&numberOfCardsInSide>=0&numberOfCardsInSide<=15){
-            return  "valid";
-        }else return "invalid";
-}
+    public String isValid() {
+        if (numberOfCardsInMain >= 40 && numberOfCardsInMain <= 60 && numberOfCardsInSide >= 0 & numberOfCardsInSide <= 15) {
+            return "valid";
+        } else return "invalid";
+    }
 
 }
