@@ -40,23 +40,12 @@ public class Game {
         User user = User.getUserByUsername(username);
         User opponent = User.getUserByUsername(opponentUsername);
         showField(user,opponent);
-        String input="";
-        while (!input.equals("")){
-            input=scanner.nextLine();
-            boolean checker=false;
-
-            Pattern pattern = Pattern.compile("menu show-current");
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                checker = true;
-                System.out.println("Login Menu");
-            }
-
-
-
-        }
+        drawPhase()
         //!!!!!!!!!!!!!!!!!!!!!!!
         return false;
+    }
+    private void drawPhase(User user , User Opeponent){
+
     }
 
     private void showField(User user, User opponent) {
