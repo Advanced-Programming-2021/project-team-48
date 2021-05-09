@@ -36,16 +36,32 @@ public class Game {
     }
 
     private boolean play(String username, String opponentUsername) {
-        Scanner scanner=new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         User user = User.getUserByUsername(username);
         User opponent = User.getUserByUsername(opponentUsername);
-        showField(user,opponent);
-        drawPhase()
+        if (user)
+        showField(user, opponent);
+
         //!!!!!!!!!!!!!!!!!!!!!!!
         return false;
     }
-    private void drawPhase(User user , User Opeponent){
 
+    private void drawPhase(User user, User Opeponent) {
+        System.out.println("phase: draw phase");
+        String input = "";
+        while (!input.equals("")) {
+            input = scanner.nextLine();
+            boolean checker = false;
+
+            Pattern pattern = Pattern.compile("");
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+
+            }
+
+
+        }
     }
 
     private void showField(User user, User opponent) {
@@ -143,7 +159,7 @@ public class Game {
                 }
             }
         }
-        System.out.println("                         "+user.getActiveDeck().numberOfCardsInMain);
+        System.out.println("                         " + user.getActiveDeck().numberOfCardsInMain);
         i = 0;
         for (Object ignored : opponent.handMonster) {
             i++;
@@ -155,7 +171,7 @@ public class Game {
             i++;
         }
         System.out.println("    " + i + "   " + i + "   " + i + "   " + i + "   " + i + "   " + i);
-        System.out.println(user.getNickname()+":"+user.getLifePoint());
+        System.out.println(user.getNickname() + ":" + user.getLifePoint());
     }
 
 
