@@ -50,6 +50,7 @@ public class Game {
         System.out.println("phase: draw phase");
         String input = "";
         while (!input.equals("")) {
+            Scanner scanner = new Scanner(System.in);
             input = scanner.nextLine();
             boolean checker = false;
 
