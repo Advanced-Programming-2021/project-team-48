@@ -1,7 +1,7 @@
 import Card.Card;
 import Card.SpellCardForUser;
 import Card.Position;
-
+import java.util.Random;
 import Card.CardType;
 
 import java.util.Scanner;
@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class Game {
     private User user1;
     private User user2;
+    private boolean dasteAval =false;
     private int[] harif = {3, 1, 0, 2, 4};
     private int[] khodm = {4, 2, 0, 1, 3};
 
@@ -39,8 +40,14 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         User user = User.getUserByUsername(username);
         User opponent = User.getUserByUsername(opponentUsername);
-        if (user)
         showField(user, opponent);
+        if (user.getActiveDeck().numberOfCardsInMain==0){
+            return false;
+        }
+        if (!dasteAval){
+            dasteAval=true;
+        }else {
+        drawPhase(user,opponent);}
 
         //!!!!!!!!!!!!!!!!!!!!!!!
         return false;
@@ -49,11 +56,17 @@ public class Game {
     private void drawPhase(User user, User Opeponent) {
         System.out.println("phase: draw phase");
         String input = "";
-        while (!input.equals("")) {
+        Random random=new Random();
+        int r = random.nextInt(3);
+        if (r==0){
+
+        }
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        while (!input.equals("next phase")) {
             Scanner scanner = new Scanner(System.in);
             input = scanner.nextLine();
             boolean checker = false;
-
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             Pattern pattern = Pattern.compile("");
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
