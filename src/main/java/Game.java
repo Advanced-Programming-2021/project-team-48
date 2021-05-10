@@ -1,7 +1,7 @@
 import Card.Card;
 import Card.SpellCardForUser;
 import Card.Position;
-
+import Card.*;
 import java.util.Collections;
 import java.util.Random;
 
@@ -55,13 +55,22 @@ public class Game {
         }
         standbyPhase(user, opponent);
         mainPhase1(user, opponent);
+        battlePhase(user,opponent);
         endPhase(user,opponent);
+
         //!!!!!!!!!!!!!!!!!!!!!!!
         return false;
+    }
+private void selectMonster
+    private void battlePhase(User user,User opponent){
+        System.out.println("phase: End Phase");
     }
 
     private void endPhase(User user, User opponent){
         System.out.println("phase: End Phase");
+
+
+
 
 
 
@@ -86,6 +95,7 @@ public class Game {
         if (r == 0) {
             Collections.shuffle(user.getActiveDeck().allMonsterForUserMain);
             user.handMonster.add(user.getActiveDeck().allMonsterForUserMain.get(0));
+            user.getActiveDeck().allMonsterForUserMain.get(0).field= Field.valueOf("HAND");
             user.getActiveDeck().numberOfCardsInMain--;
             System.out.println("new card added to the hand : " + user.getActiveDeck().allMonsterForUserMain.get(0).getName());
             user.getActiveDeck().allMonsterForUserMain.remove(0);
@@ -94,6 +104,7 @@ public class Game {
         if (r == 1) {
             Collections.shuffle(user.getActiveDeck().allSpellCardsForUserSide);
             user.handSpell.add(user.getActiveDeck().allSpellCardsForUserMain.get(0));
+            user.getActiveDeck().allSpellCardsForUserMain.get(0).field= Field.valueOf("HAND");
             user.getActiveDeck().numberOfCardsInMain--;
             System.out.println("new card added to the hand : " + user.getActiveDeck().allSpellCardsForUserMain.get(0).getName());
             user.getActiveDeck().allSpellCardsForUserMain.remove(0);
@@ -101,6 +112,7 @@ public class Game {
         if (r == 2) {
             Collections.shuffle(user.getActiveDeck().allTrapCardsForUserMain);
             user.handTrap.add(user.getActiveDeck().allTrapCardsForUserMain.get(0));
+            user.getActiveDeck().allTrapCardsForUserMain.get(0).field= Field.valueOf("HAND");
             user.getActiveDeck().numberOfCardsInMain--;
             System.out.println("new card added to the hand : " + user.getActiveDeck().allTrapCardsForUserMain.get(0).getName());
             user.getActiveDeck().allTrapCardsForUserSide.remove(0);
