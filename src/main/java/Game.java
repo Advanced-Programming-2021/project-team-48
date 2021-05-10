@@ -4,6 +4,7 @@ import Card.Position;
 
 import java.util.Collections;
 import java.util.Random;
+
 import Card.CardType;
 
 import java.util.Scanner;
@@ -13,15 +14,15 @@ import java.util.regex.Pattern;
 public class Game {
     private User user1;
     private User user2;
-    private boolean dasteAval =false;
+    private boolean dasteAval = false;
     private int[] harif = {3, 1, 0, 2, 4};
     private int[] khodm = {4, 2, 0, 1, 3};
 
     public Game(User user1, User user2) {
         setUser1(user1);
         setUser2(user2);
-        user1.setLifePoint(3000);
-        user2.setLifePoint(3000);
+        user1.setLifePoint(8000);
+        user2.setLifePoint(8000);
         run();
     }
 
@@ -43,43 +44,55 @@ public class Game {
         User user = User.getUserByUsername(username);
         User opponent = User.getUserByUsername(opponentUsername);
         showField(user, opponent);
-        if (user.getActiveDeck().numberOfCardsInMain==0){
+        if (user.getActiveDeck().numberOfCardsInMain == 0) {
             return false;
         }
-        if (!dasteAval){
-            dasteAval=true;
-        }else {
-        drawPhase(user);}
-
+        if (!dasteAval) {
+            dasteAval = true;
+        } else {
+            drawPhase(user);
+        }
+        standbyPhase(user, opponent);
+        mainPhase1(user, opponent);
         //!!!!!!!!!!!!!!!!!!!!!!!
         return false;
+    }
+
+
+    private void mainPhase1(User user, User opponent) {
+        System.out.println("phase: Main Phase 1");
+
+    }
+
+    private void standbyPhase(User user, User opponent) {
+        System.out.println("phase: standby phase");
     }
 
     private void drawPhase(User user) {
         System.out.println("phase: draw phase");
         String input = "";
-        Random random=new Random();
+        Random random = new Random();
         int r = random.nextInt(3);
-        if (r==0){
+        if (r == 0) {
             Collections.shuffle(user.getActiveDeck().allMonsterForUserMain);
             user.handMonster.add(user.getActiveDeck().allMonsterForUserMain.get(0));
             user.getActiveDeck().numberOfCardsInMain--;
-            System.out.println("new card added to the hand : "+user.getActiveDeck().allMonsterForUserMain.get(0).getName());
+            System.out.println("new card added to the hand : " + user.getActiveDeck().allMonsterForUserMain.get(0).getName());
             user.getActiveDeck().allMonsterForUserMain.remove(0);
 
         }
-        if (r==1){
+        if (r == 1) {
             Collections.shuffle(user.getActiveDeck().allSpellCardsForUserSide);
             user.handSpell.add(user.getActiveDeck().allSpellCardsForUserMain.get(0));
             user.getActiveDeck().numberOfCardsInMain--;
-            System.out.println("new card added to the hand : "+user.getActiveDeck().allSpellCardsForUserMain.get(0).getName());
+            System.out.println("new card added to the hand : " + user.getActiveDeck().allSpellCardsForUserMain.get(0).getName());
             user.getActiveDeck().allSpellCardsForUserMain.remove(0);
         }
-        if (r==2){
+        if (r == 2) {
             Collections.shuffle(user.getActiveDeck().allTrapCardsForUserMain);
             user.handTrap.add(user.getActiveDeck().allTrapCardsForUserMain.get(0));
             user.getActiveDeck().numberOfCardsInMain--;
-            System.out.println("new card added to the hand : "+user.getActiveDeck().allTrapCardsForUserMain.get(0).getName());
+            System.out.println("new card added to the hand : " + user.getActiveDeck().allTrapCardsForUserMain.get(0).getName());
             user.getActiveDeck().allTrapCardsForUserSide.remove(0);
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -92,12 +105,12 @@ public class Game {
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-
             }
 
 
         }
     }
+
 
     private void showField(User user, User opponent) {
         System.out.println(opponent.getNickname() + ":" + opponent.getLifePoint());
