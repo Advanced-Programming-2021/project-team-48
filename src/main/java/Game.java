@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import Card.CardType;
+import org.graalvm.compiler.lir.LIRInstruction;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -54,10 +55,19 @@ public class Game {
         }
         standbyPhase(user, opponent);
         mainPhase1(user, opponent);
+        endPhase(user,opponent);
         //!!!!!!!!!!!!!!!!!!!!!!!
         return false;
     }
 
+    private void endPhase(User user, User opponent){
+        System.out.println("phase: End Phase");
+
+
+
+
+        System.out.println( "its "+opponent.getNickname()+"’s turn");
+    }
 
     private void mainPhase1(User user, User opponent) {
         System.out.println("phase: Main Phase 1");
