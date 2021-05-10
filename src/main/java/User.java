@@ -5,49 +5,58 @@ import Card.TrapCardForUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 public class User {
     private String username;
     private String nickname;
     private String password;
-    private int score=0;
-    private long  money=100000;
-    private int lifePoint=8000;
-    public ArrayList<MonsterForUser> handMonster =new ArrayList<MonsterForUser>();
+    private int score = 0;
+    private long money = 100000;
+    private int lifePoint = 8000;
+    public ArrayList<MonsterForUser> handMonster = new ArrayList<MonsterForUser>();
     public ArrayList<SpellCardForUser> handSpell = new ArrayList<SpellCardForUser>();
     public ArrayList<TrapCardForUser> handTrap = new ArrayList<TrapCardForUser>();
 
     public ArrayList<MonsterForUser> monsterGrave = new ArrayList<>();
     public ArrayList<SpellCardForUser> spellGrave = new ArrayList<>();
     public ArrayList<TrapCardForUser> trapGrave = new ArrayList<>();
+    public int NumOfGrave = 0;
 
     public MonsterForUser[] monsterZone = new MonsterForUser[5];
     public SpellCardForUser[] spellZone = new SpellCardForUser[5];
-    public TrapCardForUser[] trapZone=new TrapCardForUser[5];
+    public TrapCardForUser[] trapZone = new TrapCardForUser[5];
     public SpellCardForUser fieldZone;
 
-    int NumOfGrave = 0;
-    private static ArrayList<User> listOfUsers ;
+
+    private static ArrayList<User> listOfUsers;
+
     static {
-        listOfUsers=new ArrayList<>();
+        listOfUsers = new ArrayList<>();
     }
-    public ArrayList<MonsterForUser> allMonsters=new ArrayList<>();
+
+    public ArrayList<MonsterForUser> allMonsters = new ArrayList<>();
     //??????????????????????????????
+
     public ArrayList<TrapCardForUser> allTraps;
-     {
-        allTraps=new ArrayList<>();
+    {
+        allTraps = new ArrayList<>();
     }
+
     public ArrayList<SpellCardForUser> allSpells;
     {
-        allSpells=new ArrayList<>();
+        allSpells = new ArrayList<>();
     }
+
     public ArrayList<Deck> allDecks;
     {
-        allDecks=new ArrayList<>();
+        allDecks = new ArrayList<>();
     }
+
     private Deck activeDeck;
-    public boolean hasActiveDeck=false;
+    public boolean hasActiveDeck = false;
+
     //-------------------------------------------------
-    User(String username,String nickname,String password){
+    User(String username, String nickname, String password) {
         setUsername(username);
         setNickname(nickname);
         setPassword(password);
@@ -82,19 +91,21 @@ public class User {
         this.score = score;
     }
 
-    public void setActiveDeck(Deck activeDeck){
-        this.activeDeck=activeDeck;
+    public void setActiveDeck(Deck activeDeck) {
+        this.activeDeck = activeDeck;
     }
 
     public Deck getActiveDeck() {
         return activeDeck;
     }
 
-    public String getPassword() { return password;}
+    public String getPassword() {
+        return password;
+    }
 
-    public static User getUserByUsername(String username){
-        for (User user:listOfUsers){
-            if (user.username.equals(username)){
+    public static User getUserByUsername(String username) {
+        for (User user : listOfUsers) {
+            if (user.username.equals(username)) {
                 return user;
             }
         }
@@ -117,7 +128,7 @@ public class User {
         return username;
     }
 
-    public static boolean passwordChecker(String username, String password){
+    public static boolean passwordChecker(String username, String password) {
         return User.getUserByUsername(username).getPassword().equals(password);
     }
 
@@ -126,9 +137,9 @@ public class User {
     }
 
 
-    public Deck getDeckByName(String name){
-        for (Deck deck:allDecks){
-            if (deck.getName().equals(name)){
+    public Deck getDeckByName(String name) {
+        for (Deck deck : allDecks) {
+            if (deck.getName().equals(name)) {
                 return deck;
             }
         }

@@ -1,6 +1,8 @@
 import Card.Card;
 import Card.SpellCardForUser;
 import Card.Position;
+
+import java.util.Collections;
 import java.util.Random;
 import Card.CardType;
 
@@ -47,19 +49,38 @@ public class Game {
         if (!dasteAval){
             dasteAval=true;
         }else {
-        drawPhase(user,opponent);}
+        drawPhase(user);}
 
         //!!!!!!!!!!!!!!!!!!!!!!!
         return false;
     }
 
-    private void drawPhase(User user, User Opeponent) {
+    private void drawPhase(User user) {
         System.out.println("phase: draw phase");
         String input = "";
         Random random=new Random();
         int r = random.nextInt(3);
         if (r==0){
+            Collections.shuffle(user.getActiveDeck().allMonsterForUserMain);
+            user.handMonster.add(user.getActiveDeck().allMonsterForUserMain.get(0));
+            user.getActiveDeck().numberOfCardsInMain--;
+            System.out.println("new card added to the hand : "+user.getActiveDeck().allMonsterForUserMain.get(0).getName());
+            user.getActiveDeck().allMonsterForUserMain.remove(0);
 
+        }
+        if (r==1){
+            Collections.shuffle(user.getActiveDeck().allSpellCardsForUserSide);
+            user.handSpell.add(user.getActiveDeck().allSpellCardsForUserMain.get(0));
+            user.getActiveDeck().numberOfCardsInMain--;
+            System.out.println("new card added to the hand : "+user.getActiveDeck().allSpellCardsForUserMain.get(0).getName());
+            user.getActiveDeck().allSpellCardsForUserMain.remove(0);
+        }
+        if (r==2){
+            Collections.shuffle(user.getActiveDeck().allTrapCardsForUserMain);
+            user.handTrap.add(user.getActiveDeck().allTrapCardsForUserMain.get(0));
+            user.getActiveDeck().numberOfCardsInMain--;
+            System.out.println("new card added to the hand : "+user.getActiveDeck().allTrapCardsForUserMain.get(0).getName());
+            user.getActiveDeck().allTrapCardsForUserSide.remove(0);
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         while (!input.equals("next phase")) {
