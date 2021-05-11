@@ -1,13 +1,7 @@
-import Card.Card;
-import Card.SpellCardForUser;
 import Card.Position;
 
 import java.util.Collections;
 import java.util.Random;
-
-import Card.CardType;
-import org.graalvm.compiler.lir.LIRInstruction;
-
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
