@@ -97,13 +97,7 @@ public class CartReader {
         spellCards.add(new SpellCard("Advanced Ritual Art", "This card can be used to Ritual Summon any 1 Ritual Monster. You must also send Normal Monsters from your Deck to the Graveyard whose total Levels equal the Level of that Ritual Monster.", 3000, Property.valueOf("Ritual".toUpperCase(Locale.ROOT)), Status.valueOf("unlimited".toUpperCase(Locale.ROOT))));
 
 
-        try {
-            FileWriter myWriter = new FileWriter("monsterCards.json");
-            myWriter.write(new Gson().toJson(monsterCards));
-            myWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
 }
