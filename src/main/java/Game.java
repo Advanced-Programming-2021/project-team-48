@@ -15,6 +15,7 @@ public class Game {
     private boolean dasteAval = false;
     private int[] harif = {3, 1, 0, 2, 4};
     private int[] khodm = {4, 2, 0, 1, 3};
+    private int[] checkIfEmpty = {2, 3, 1, 4, 0};
 
     public Game(User user1, User user2) {
         setUser1(user1);
@@ -28,19 +29,18 @@ public class Game {
     public void run() {
         boolean bool = true;
         while (bool) {
-            bool = play(user1.getUsername(), user2.getUsername());
+            bool = play(user1, user2);
             if (bool) {
-                bool = play(user2.getUsername(), user1.getUsername());
+                bool = play(user2, user1);
             }
         }
         user1.setActiveDeck(user1.getDeckByName(user1.getActiveDeck().getName()));
         user2.setActiveDeck(user2.getDeckByName(user2.getActiveDeck().getName()));
     }
 
-    private boolean play(String username, String opponentUsername) {
+    private boolean play(User user, User opponent) {
         Scanner scanner = new Scanner(System.in);
-        User user = User.getUserByUsername(username);
-        User opponent = User.getUserByUsername(opponentUsername);
+
         showField(user, opponent);
         if (user.getActiveDeck().numberOfCardsInMain == 0) {
             return false;
@@ -59,9 +59,43 @@ public class Game {
         return false;
     }
 
-    private void selectMonster() {
 
+    private void mainPhase1(User user, User opponent) {
+        System.out.println("phase: Main Phase 1");
+        String input = "";
+        while (true) {
+            input = scanner.nextLine();
+            boolean checker = false;
+            Pattern pattern = Pattern.compile("select --hand ([\\d]+)");
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                String temp = matcher.group(1);
+                int address = Integer.parseInt(temp);
+                boolean isFind = false;
+                for (MonsterForUser monsterForUser : user.handMonster) {
+                    if (monsterForUser.address == address) {
+                        isFind = true;
+                        System.out.println("card selected");
+                        monsterSelectedFromHand(monsterForUser, user);
+                        break;
+                    }
+                }
+                if (!isFind) {
+                    for (SpellCardForUser spellCardForUser : user.handSpell) {
+                        if (spellCardForUser.address == address) {
+                            isFind = true;
+                            System.out.println("card selected");
+                            spellSelectedFromHand(spellCardForUser, user);
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
     }
+
 
     private void battlePhase(User user, User opponent) {
         System.out.println("phase: End Phase");
@@ -74,22 +108,41 @@ public class Game {
         System.out.println("its " + opponent.getNickname() + "’s turn");
     }
 
-    private void mainPhase1(User user, User opponent) {
-        System.out.println("phase: Main Phase 1");
+
+    private void monsterSelectedFromHand(MonsterForUser monsterForUser, User user) {
         String input = "";
-        while (true) {
-            input= scanner.nextLine();
+        while (!input.equals("select -d")) {
+            input = scanner.nextLine();
             boolean checker = false;
-            Pattern pattern = Pattern.compile("select --monster ([\\d]+)");
+            Pattern pattern = Pattern.compile("summon");
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                String temp=matcher.group(1);
-                int address=Integer.parseInt(temp);
-
+                summon(monsterForUser, user);
             }
         }
     }
+
+
+    private void summon(MonsterForUser monsterForUser, User user) {
+        if (monsterForUser.level <= 4) {
+            boolean hasEmpty=false;
+            for (int a : checkIfEmpty) {
+                if (user.monsterZone[a]==null) {
+                    hasEmpty=true;
+                    monsterForUser.field=Field.valueOf("GAME");
+                    monsterForUser.address=a;
+                    monsterForUser.position=Position.valueOf("ATTACK");
+                    user.monsterZone[a]=monsterForUser;
+                    user.handMonster.remove(monsterForUser);
+                }
+            }
+        }
+        else {
+
+        }
+    }
+
 
     private void standbyPhase(User user, User opponent) {
         System.out.println("phase: standby phase");
@@ -146,6 +199,9 @@ public class Game {
 
         }
     }
+
+
+//-------------------------------------------------------------------------------------------------------
 
 
     private void showField(User user, User opponent) {
