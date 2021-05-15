@@ -94,10 +94,10 @@ public class Game {
                         }
                     }
                 }
-                if (isFind){
-                    for (TrapCardForUser trapCardForUser:user.handTrap){
-                        if (trapCardForUser.address==address){
-                            isFind=true;
+                if (isFind) {
+                    for (TrapCardForUser trapCardForUser : user.handTrap) {
+                        if (trapCardForUser.address == address) {
+                            isFind = true;
                             System.out.println("card selected");
                             //trapSelectedFromHand(trapCardForUser,user);
                             break;
@@ -105,11 +105,27 @@ public class Game {
                     }
                 }
             }
-            pattern = Pattern.compile("");
+            pattern = Pattern.compile("select --monster ([\\d]+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
+                int address = Integer.parseInt(matcher.group(1));
+                if (user.monsterZone[address] == null) {
+                    System.out.println("no card found in the given position");
+                } else {
+                    System.out.println("card selected");
+                    selectedMonsterFromZone(user.monsterZone[address], user);
+                }
             }
+
+        }
+    }
+
+
+    private void selectedMonsterFromZone(MonsterForUser monsterForUser, User user) {
+        String input = "";
+        while (!input.equals("select -d")) {
+            input = scanner.nextLine();
 
         }
     }
@@ -125,7 +141,6 @@ public class Game {
 
         System.out.println("its " + opponent.getNickname() + "’s turn");
     }
-
 
 
     private void standbyPhase(User user, User opponent) {
@@ -187,6 +202,9 @@ public class Game {
 
 //-------------------------------------------------------------------------------------------------------
 
+    private void attack(MonsterForUser monsterForUser,MonsterForUser opponentMonsterForUser,User user,User opponent){
+
+    }
 
     private void monsterSelectedFromHand(MonsterForUser monsterForUser, User user) {
         String input = "";
@@ -222,8 +240,8 @@ public class Game {
         if (monsterForUser.level <= 4) {
             set(monsterForUser, user);
         } else {
-            if (tribute(monsterForUser,user)){
-                set(monsterForUser,user);
+            if (tribute(monsterForUser, user)) {
+                set(monsterForUser, user);
             }
         }
     }
@@ -252,8 +270,8 @@ public class Game {
             summon(monsterForUser, user);
 
         } else {
-            if (tribute(monsterForUser, user)){
-                summon(monsterForUser,user);
+            if (tribute(monsterForUser, user)) {
+                summon(monsterForUser, user);
             }
         }
     }
