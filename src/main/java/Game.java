@@ -131,29 +131,12 @@ public class Game {
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             checker = true;
-            HashMap<Integer, Card> grave=new HashMap<>();
-            for (MonsterForUser monsterForUser : user.monsterGrave) {
-                grave.put(monsterForUser.address,Card.getCardByName(monsterForUser.getName()));
-            }
-            for (SpellCardForUser spellCardForUser : user.spellGrave) {
-                grave.put(spellCardForUser.address,Card.getCardByName(spellCardForUser.getName()));
-            }
-            for (TrapCardForUser trapCardForUser : user.trapGrave) {
-                grave.put(trapCardForUser.address,Card.getCardByName(trapCardForUser.getName()));
-            }
-
-            TreeMap<Integer, Card> sorted = new TreeMap<>();
-            sorted.putAll(grave);
-
-            int i=1;
-            for (Card card:sorted.values()){
-                System.out.println(i+". "+card.getName()+":"+card.getDescription());
-                i++;
-            }
-
+            showGrave(user);
         }
+
         return checker;
     }
+
 
     private void battlePhase(User user, User opponent) {
         System.out.println("phase: End Phase");
@@ -511,6 +494,36 @@ public class Game {
             System.out.println("you can’t flip summon this card");
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!age taze gozashte bashe nmishe flip krd!!!!!!!!!!!!!!!
         }
+    }
+    private void showGrave(User user){
+        boolean isAnyCardInGrave=false;
+        HashMap<Integer, Card> grave=new HashMap<>();
+        for (MonsterForUser monsterForUser : user.monsterGrave) {
+            grave.put(monsterForUser.address,Card.getCardByName(monsterForUser.getName()));
+            isAnyCardInGrave=true;
+        }
+        for (SpellCardForUser spellCardForUser : user.spellGrave) {
+            grave.put(spellCardForUser.address,Card.getCardByName(spellCardForUser.getName()));
+            isAnyCardInGrave=true;
+        }
+        for (TrapCardForUser trapCardForUser : user.trapGrave) {
+            grave.put(trapCardForUser.address,Card.getCardByName(trapCardForUser.getName()));
+            isAnyCardInGrave=true;
+        }
+
+        if (isAnyCardInGrave){
+            TreeMap<Integer, Card> sorted = new TreeMap<>();
+            sorted.putAll(grave);
+
+            int i=1;
+            for (Card card:sorted.values()){
+                System.out.println(i+". "+card.getName()+":"+card.getDescription());
+                i++;
+            }}
+        else {
+            System.out.println("graveyard empty");
+        }
+        //byd back bzne ke bargarde!!!!!!!!!!!!!!
     }
 
     public void setUser1(User user1) {
