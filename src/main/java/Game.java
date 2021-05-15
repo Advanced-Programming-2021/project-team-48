@@ -185,7 +185,7 @@ public class Game {
             int checker = 0;
             for (int a : checkIfEmpty) {
                 if (user.handMonster != null) {
-                    checker++
+                    checker++;
                 }
             }
 
@@ -207,15 +207,18 @@ public class Game {
                         user.NumOfGrave++;
                         user.monsterZone[address].address = user.NumOfGrave;
                         user.monsterZone[address] = null;
+
                         user.monsterZone[address1].field = Field.valueOf("GRAVE");
                         user.monsterGrave.add(user.monsterZone[address1]);
                         user.NumOfGrave++;
                         user.monsterZone[address1].address = user.NumOfGrave;
                         user.monsterZone[address1] = null;
-                        summon(monsterForUser, user);
 
+                        summon(monsterForUser, user);
                     }
                 }
+            }else {
+                System.out.println("there are not enough cards for tribute");
             }
         }
     }
