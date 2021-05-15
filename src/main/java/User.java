@@ -12,7 +12,7 @@ public class User {
     private String password;
     private int score = 0;
     private long money = 100000;
-    private int lifePoint = 8000;
+    public int lifePoint = 8000;
     public ArrayList<MonsterForUser> handMonster = new ArrayList<MonsterForUser>();
     public ArrayList<SpellCardForUser> handSpell = new ArrayList<SpellCardForUser>();
     public ArrayList<TrapCardForUser> handTrap = new ArrayList<TrapCardForUser>();
