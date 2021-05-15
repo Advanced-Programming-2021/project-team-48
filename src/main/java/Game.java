@@ -147,7 +147,8 @@ public class Game {
 
             int i=1;
             for (Card card:sorted.values()){
-                System.out.println(i+". ");
+                System.out.println(i+". "+card.getName()+":"+card.getDescription());
+                i++;
             }
 
         }
