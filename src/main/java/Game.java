@@ -124,25 +124,101 @@ public class Game {
     }
 
 
-    private void summon(MonsterForUser monsterForUser, User user) {
+    private void summonControler(MonsterForUser monsterForUser, User user) {
         if (monsterForUser.level <= 4) {
-            boolean hasEmpty=false;
-            for (int a : checkIfEmpty) {
-                if (user.monsterZone[a]==null) {
-                    hasEmpty=true;
-                    monsterForUser.field=Field.valueOf("GAME");
-                    monsterForUser.address=a;
-                    monsterForUser.position=Position.valueOf("ATTACK");
-                    user.monsterZone[a]=monsterForUser;
-                    user.handMonster.remove(monsterForUser);
-                }
-            }
-        }
-        else {
+            summon(monsterForUser, user);
 
+        } else {
+            tribute(monsterForUser, user);
         }
     }
 
+    private void summon(MonsterForUser monsterForUser, User user) {
+        boolean hasEmpty = false;
+        for (int a : checkIfEmpty) {
+            if (user.monsterZone[a] == null) {
+                hasEmpty = true;
+                monsterForUser.field = Field.valueOf("GAME");
+                monsterForUser.address = a;
+                monsterForUser.position = Position.valueOf("ATTACK");
+                user.monsterZone[a] = monsterForUser;
+                user.handMonster.remove(monsterForUser);
+                break;
+            }
+        }
+        if (!hasEmpty) {
+            System.out.println("monster card zone is full");
+        }
+    }
+
+    private void tribute(MonsterForUser monsterForUser, User user) {
+        if (monsterForUser.level == 5 || monsterForUser.level == 6) {
+            boolean hasAnyCard = false;
+            for (int a : checkIfEmpty) {
+                if (user.handMonster != null) {
+                    hasAnyCard = true;
+
+                }
+            }
+
+            if (hasAnyCard) {
+                System.out.println("enter an address to tribute");
+                String temp = scanner.nextLine();
+                int address = Integer.parseInt(temp);
+                if (user.monsterZone[address] == null) {
+                    System.out.println("there no monsters one this address");
+                } else {
+                    user.monsterZone[address].field = Field.valueOf("GRAVE");
+                    user.monsterGrave.add(user.monsterZone[address]);
+                    user.NumOfGrave++;
+                    user.monsterZone[address].address = user.NumOfGrave;
+                    user.monsterZone[address] = null;
+                    summon(monsterForUser, user);
+                }
+            } else {
+                System.out.println("there are not enough cards for tribute");
+            }
+        }
+
+
+        if (monsterForUser.level > 6) {
+            int checker = 0;
+            for (int a : checkIfEmpty) {
+                if (user.handMonster != null) {
+                    checker++
+                }
+            }
+
+            if (checker >= 2) {
+                System.out.println("enter an address to tribute");
+                String temp = scanner.nextLine();
+                int address = Integer.parseInt(temp);
+                if (user.monsterZone[address] == null) {
+                    System.out.println("there no monsters one this address");
+                } else {
+                    System.out.println("enter an address to tribute");
+                    temp = scanner.nextLine();
+                    int address1 = Integer.parseInt(temp);
+                    if (user.monsterZone[address] == null) {
+                        System.out.println("there no monsters one this address");
+                    } else {
+                        user.monsterZone[address].field = Field.valueOf("GRAVE");
+                        user.monsterGrave.add(user.monsterZone[address]);
+                        user.NumOfGrave++;
+                        user.monsterZone[address].address = user.NumOfGrave;
+                        user.monsterZone[address] = null;
+                        user.monsterZone[address1].field = Field.valueOf("GRAVE");
+                        user.monsterGrave.add(user.monsterZone[address1]);
+                        user.NumOfGrave++;
+                        user.monsterZone[address1].address = user.NumOfGrave;
+                        user.monsterZone[address1] = null;
+                        summon(monsterForUser, user);
+
+                    }
+                }
+            }
+        }
+    }
 
     private void standbyPhase(User user, User opponent) {
         System.out.println("phase: standby phase");
