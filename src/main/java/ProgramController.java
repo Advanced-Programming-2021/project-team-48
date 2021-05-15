@@ -2,10 +2,7 @@ import Card.*;
 
 import java.sql.Connection;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,11 +49,62 @@ public class ProgramController {
             //ja be jaie hatmn dorost she!!!!!
             pattern = Pattern.compile("user create --username ([^\\s]+) --nickname ([^\\s]+) --password ([^\\s]+)");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+
+            pattern = Pattern.compile("user create --nickname ([^\\s]+) --username ([^\\s]+) --password ([^\\s]+)");
+            Matcher matcher1 = pattern.matcher(input);
+
+            pattern = Pattern.compile("user create --username ([^\\s]+) --password ([^\\s]+) --nickname ([^\\s]+)");
+            Matcher matcher2 = pattern.matcher(input);
+
+            pattern = Pattern.compile("user create --nickname ([^\\s]+) --password ([^\\s]+) --username ([^\\s]+)");
+            Matcher matcher3 = pattern.matcher(input);
+
+            pattern = Pattern.compile("user create --password ([^\\s]+) --username ([^\\s]+) --nickname ([^\\s]+)");
+            Matcher matcher4 = pattern.matcher(input);
+
+            pattern = Pattern.compile("user create --password ([^\\s]+) --nickname ([^\\s]+) --username ([^\\s]+)");
+            Matcher matcher5 = pattern.matcher(input);
+
+            if (matcher.find() || matcher1.find() || matcher2.find() || matcher3.find() || matcher4.find() || matcher5.find()) {
                 checker = true;
-                String username = matcher.group(1);
-                String nickname = matcher.group(2);
-                String password = matcher.group(3);
+                String username = "";
+                String nickname = "";
+                String password = "";
+                if (matcher.find()) {
+                    username = matcher.group(1);
+                    nickname = matcher.group(2);
+                    password = matcher.group(3);
+                } else {
+                    if (matcher1.find()) {
+                        username = matcher.group(2);
+                        nickname = matcher.group(1);
+                        password = matcher.group(3);
+                    } else {
+                        if (matcher2.find()) {
+                            username = matcher.group(1);
+                            nickname = matcher.group(3);
+                            password = matcher.group(2);
+                        } else {
+                            if (matcher3.find()) {
+                                username = matcher.group(3);
+                                nickname = matcher.group(1);
+                                password = matcher.group(2);
+                            } else {
+                                if (matcher4.find()) {
+                                    username = matcher.group(2);
+                                    nickname = matcher.group(3);
+                                    password = matcher.group(1);
+                                } else {
+                                    if (matcher5.find()) {
+                                        username = matcher.group(3);
+                                        nickname = matcher.group(2);
+                                        password = matcher.group(1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 creatUser(username, nickname, password);
             }
 
@@ -70,12 +118,26 @@ public class ProgramController {
             }
             pattern = Pattern.compile("user login --username ([^\\s]+) --password ([^\\s]+)");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+
+            pattern = Pattern.compile("user login --password ([^\\s]+) --username ([^\\s]+)");
+            matcher1 = pattern.matcher(input);
+
+            if (matcher.find() || matcher1.find()) {
                 checker = true;
-                String username = matcher.group(1);
-                String password = matcher.group(2);
+                String username = "";
+                String password = "";
+                if (matcher.find()) {
+                    username = matcher.group(1);
+                    password = matcher.group(2);
+                }else {
+                    if (matcher1.find()){
+                        username=matcher1.group(2);
+                        password=matcher.group(1);
+                    }
+                }
                 login(username, password);
             }
+
 
             if (!checker) {
                 System.out.println("please login first");
@@ -157,11 +219,23 @@ public class ProgramController {
             }
             pattern = Pattern.compile("duel --new --second-player (^\\s+) --rounds ([\\d])");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+
+            pattern = Pattern.compile("duel --new --rounds ([\\d]) --second-player (^\\s+)");
+            Matcher matcher1 = pattern.matcher(input);
+
+            if (matcher.find()||matcher1.find()) {
                 checker = true;
-                String user2Username = matcher.group(1);
-                String temp = matcher.group(2);
-                int round = Integer.parseInt(temp);
+                String user2Username ="";
+                int round  ;
+                if (matcher.find()){
+                    user2Username=matcher.group(1);
+                    String temp = matcher.group(2);
+                    round=Integer.parseInt(temp);
+                }else {
+                    user2Username=matcher1.group(2);
+                    String temp = matcher1.group(1);
+                    round=Integer.parseInt(temp);
+                }
                 Game(user2Username, user, round);
             }
 
@@ -176,45 +250,6 @@ public class ProgramController {
         }
     }
 
-    private static void Game(String user2Username, User user, int round) {
-        boolean exist = false;
-        for (User user1 : User.getListOfUsers()) {
-            if (user1.getUsername().equals(user2Username) && !user.getUsername().equals(user2Username)) {
-                exist = true;
-                break;
-            }
-        }
-
-        if (exist) {
-            User user2 = User.getUserByUsername(user2Username);
-            if (user.hasActiveDeck) {
-                if (user2.hasActiveDeck) {
-                    if (user.getActiveDeck().isValid().equals("valid")) {
-                        if (user2.getActiveDeck().isValid().equals("valid")) {
-                            if (round == 1) {
-                                new Game(user, user2);
-                            } else if (round == 3) {
-//@!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                //hosh masnoie!!!!!!!!!!!!!!!!!!!
-                            } else {
-                                System.out.println("number of rounds is not supported");
-                            }
-                        } else {
-                            System.out.println(user2.getUsername() + "’s deck is invalid");
-                        }
-                    } else {
-                        System.out.println(user.getUsername() + "’s deck is invalid");
-                    }
-                } else {
-                    System.out.println(user2.getUsername() + " has no active deck");
-                }
-            } else {
-                System.out.println(user.getUsername() + " has no active deck");
-            }
-        } else {
-            System.out.println("there is no player with this username");
-        }
-    }
 
     public static void scorebosrd() {
         System.out.println("Socreborad Menu");
@@ -360,10 +395,21 @@ public class ProgramController {
 
             pattern = Pattern.compile("profile change --password --current ([^\\s]+) --new ([^\\s]+)");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+
+            pattern = Pattern.compile("profile change --password --new ([^\\s]+) --current ([^\\s]+)");
+            Matcher matcher1 = pattern.matcher(input);
+
+            if (matcher.find()||matcher1.find()) {
                 checker = true;
-                String oldPassword = matcher.group(1);
-                String newPassword = matcher.group(2);
+                String oldPassword = "";
+                String newPassword = "";
+                if (matcher.find()){
+                    oldPassword=matcher.group(1);
+                    newPassword=matcher.group(2);
+                }else {
+                    oldPassword=matcher.group(2);
+                    newPassword=matcher.group(1);
+                }
                 changePassword(oldPassword, newPassword, user);
             }
 
@@ -466,12 +512,23 @@ public class ProgramController {
                 String deckName = scanner.nextLine();
                 CardAdder(cardName, deckName, user);
             }
-            pattern = Pattern.compile("^deck add-card --card ([^\\s+]+) --deck (^\\s+)$");
+
+            pattern = Pattern.compile("^deck add-card --card ([^\\s]+) --deck (^\\s+)$");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+
+            pattern = Pattern.compile("^deck add-card --deck (^\\s+) --card ([^\\s]+)$");
+            Matcher matcher1 = pattern.matcher(input);
+            if (matcher.find()||matcher1.find()) {
                 checker = true;
-                String cardName = matcher.group(1);
-                String deckName = matcher.group(2);
+                String cardName = "";
+                String deckName = "";
+                if (matcher.find()){
+                    cardName = matcher.group(1);
+                    deckName = matcher.group(2);
+                }else {
+                    cardName = matcher.group(2);
+                    deckName = matcher.group(1);
+                }
                 CardAdder(cardName, deckName, user);
             }
 
@@ -483,12 +540,24 @@ public class ProgramController {
                 String deckName = scanner.nextLine();
                 CardAdderSidedeck(cardName, deckName, user);
             }
+
             pattern = Pattern.compile("^deck add-card --card ([^\\s+]+) --deck (^\\s+) --side$");
             matcher = pattern.matcher(input);
-            if (matcher.find()) {
+
+            pattern = Pattern.compile("^deck add-card --deck (^\\s+) --side --card ([^\\s+]+)$");
+            matcher1 = pattern.matcher(input);
+
+            if (matcher.find()||matcher1.find()) {
                 checker = true;
-                String cardName = matcher.group(1);
-                String deckName = matcher.group(2);
+                String cardName = "";
+                String deckName = "";
+                if (matcher.find()){
+                    cardName = matcher.group(1);
+                    deckName = matcher.group(2);
+                }else {
+                    cardName = matcher.group(2);
+                    deckName = matcher.group(1);
+                }
                 CardAdderSidedeck(cardName, deckName, user);
             }
 
@@ -575,10 +644,10 @@ public class ProgramController {
     }
 
     private static void login(String username, String password) {
-        boolean exist=false;
-        for (User user:User.getListOfUsers()){
-            if (user.getUsername().equals(username)){
-                exist=true;
+        boolean exist = false;
+        for (User user : User.getListOfUsers()) {
+            if (user.getUsername().equals(username)) {
+                exist = true;
                 break;
             }
         }
@@ -588,8 +657,7 @@ public class ProgramController {
             } else {
                 mainMenu(User.getUserByUsername(username));
             }
-        }
-        else {
+        } else {
             System.out.println("Username and password didn’t match!");
         }
     }
@@ -1311,4 +1379,45 @@ public class ProgramController {
             System.out.println("side deck is full");
         }
     }
+
+    private static void Game(String user2Username, User user, int round) {
+        boolean exist = false;
+        for (User user1 : User.getListOfUsers()) {
+            if (user1.getUsername().equals(user2Username) && !user.getUsername().equals(user2Username)) {
+                exist = true;
+                break;
+            }
+        }
+
+        if (exist) {
+            User user2 = User.getUserByUsername(user2Username);
+            if (user.hasActiveDeck) {
+                if (user2.hasActiveDeck) {
+                    if (user.getActiveDeck().isValid().equals("valid")) {
+                        if (user2.getActiveDeck().isValid().equals("valid")) {
+                            if (round == 1) {
+                                new Game(user, user2);
+                            } else if (round == 3) {
+//@!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                //hosh masnoie!!!!!!!!!!!!!!!!!!!
+                            } else {
+                                System.out.println("number of rounds is not supported");
+                            }
+                        } else {
+                            System.out.println(user2.getUsername() + "’s deck is invalid");
+                        }
+                    } else {
+                        System.out.println(user.getUsername() + "’s deck is invalid");
+                    }
+                } else {
+                    System.out.println(user2.getUsername() + " has no active deck");
+                }
+            } else {
+                System.out.println(user.getUsername() + " has no active deck");
+            }
+        } else {
+            System.out.println("there is no player with this username");
+        }
+    }
+
 }

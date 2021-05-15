@@ -171,6 +171,7 @@ public class Game {
     private void drawPhase(User user) {
         System.out.println("phase: draw phase");
         String input = "";
+        //in ke bishtar 6 kart nadashte bashe!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Random random = new Random();
         int r = random.nextInt(3);
         if (r == 0) {
