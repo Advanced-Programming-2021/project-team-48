@@ -13,6 +13,7 @@ public class Game {
     private User user2;
     private int numInHand = 1;
     private boolean dasteAval = false;
+    private boolean hasSummonInThisRound = false;
     private int[] harif = {3, 1, 0, 2, 4};
     private int[] khodm = {4, 2, 0, 1, 3};
     private int[] checkIfEmpty = {2, 3, 1, 4, 0};
@@ -51,6 +52,7 @@ public class Game {
             drawPhase(user);
         }
         standbyPhase(user, opponent);
+        hasSummonInThisRound = false;
         mainPhase1(user, opponent);
         battlePhase(user, opponent);
         endPhase(user, opponent);
@@ -62,6 +64,7 @@ public class Game {
 
     private void mainPhase1(User user, User opponent) {
         System.out.println("phase: Main Phase 1");
+
         String input = "";
         while (true) {
             input = scanner.nextLine();
@@ -86,13 +89,28 @@ public class Game {
                         if (spellCardForUser.address == address) {
                             isFind = true;
                             System.out.println("card selected");
-                            spellSelectedFromHand(spellCardForUser, user);
+                            // spellSelectedFromHand(spellCardForUser, user);
                             break;
                         }
                     }
-
+                }
+                if (isFind){
+                    for (TrapCardForUser trapCardForUser:user.handTrap){
+                        if (trapCardForUser.address==address){
+                            isFind=true;
+                            System.out.println("card selected");
+                            //trapSelectedFromHand(trapCardForUser,user);
+                            break;
+                        }
+                    }
                 }
             }
+            pattern = Pattern.compile("");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+            }
+
         }
     }
 
@@ -109,119 +127,6 @@ public class Game {
     }
 
 
-    private void monsterSelectedFromHand(MonsterForUser monsterForUser, User user) {
-        String input = "";
-        while (!input.equals("select -d")) {
-            input = scanner.nextLine();
-            boolean checker = false;
-            Pattern pattern = Pattern.compile("summon");
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                checker = true;
-                summon(monsterForUser, user);
-            }
-        }
-    }
-
-
-    private void summonControler(MonsterForUser monsterForUser, User user) {
-        if (monsterForUser.level <= 4) {
-            summon(monsterForUser, user);
-
-        } else {
-            tribute(monsterForUser, user);
-        }
-    }
-
-    private void summon(MonsterForUser monsterForUser, User user) {
-        boolean hasEmpty = false;
-        for (int a : checkIfEmpty) {
-            if (user.monsterZone[a] == null) {
-                hasEmpty = true;
-                monsterForUser.field = Field.valueOf("GAME");
-                monsterForUser.address = a;
-                monsterForUser.position = Position.valueOf("ATTACK");
-                user.monsterZone[a] = monsterForUser;
-                user.handMonster.remove(monsterForUser);
-                break;
-            }
-        }
-        if (!hasEmpty) {
-            System.out.println("monster card zone is full");
-        }
-    }
-
-    private void tribute(MonsterForUser monsterForUser, User user) {
-        if (monsterForUser.level == 5 || monsterForUser.level == 6) {
-            boolean hasAnyCard = false;
-            for (int a : checkIfEmpty) {
-                if (user.handMonster != null) {
-                    hasAnyCard = true;
-
-                }
-            }
-
-            if (hasAnyCard) {
-                System.out.println("enter an address to tribute");
-                String temp = scanner.nextLine();
-                int address = Integer.parseInt(temp);
-                if (user.monsterZone[address] == null) {
-                    System.out.println("there no monsters one this address");
-                } else {
-                    user.monsterZone[address].field = Field.valueOf("GRAVE");
-                    user.monsterGrave.add(user.monsterZone[address]);
-                    user.NumOfGrave++;
-                    user.monsterZone[address].address = user.NumOfGrave;
-                    user.monsterZone[address] = null;
-                    summon(monsterForUser, user);
-                }
-            } else {
-                System.out.println("there are not enough cards for tribute");
-            }
-        }
-
-
-        if (monsterForUser.level > 6) {
-            int checker = 0;
-            for (int a : checkIfEmpty) {
-                if (user.handMonster != null) {
-                    checker++;
-                }
-            }
-
-            if (checker >= 2) {
-                System.out.println("enter an address to tribute");
-                String temp = scanner.nextLine();
-                int address = Integer.parseInt(temp);
-                if (user.monsterZone[address] == null) {
-                    System.out.println("there no monsters one this address");
-                } else {
-                    System.out.println("enter an address to tribute");
-                    temp = scanner.nextLine();
-                    int address1 = Integer.parseInt(temp);
-                    if (user.monsterZone[address] == null) {
-                        System.out.println("there no monsters one this address");
-                    } else {
-                        user.monsterZone[address].field = Field.valueOf("GRAVE");
-                        user.monsterGrave.add(user.monsterZone[address]);
-                        user.NumOfGrave++;
-                        user.monsterZone[address].address = user.NumOfGrave;
-                        user.monsterZone[address] = null;
-
-                        user.monsterZone[address1].field = Field.valueOf("GRAVE");
-                        user.monsterGrave.add(user.monsterZone[address1]);
-                        user.NumOfGrave++;
-                        user.monsterZone[address1].address = user.NumOfGrave;
-                        user.monsterZone[address1] = null;
-
-                        summon(monsterForUser, user);
-                    }
-                }
-            }else {
-                System.out.println("there are not enough cards for tribute");
-            }
-        }
-    }
 
     private void standbyPhase(User user, User opponent) {
         System.out.println("phase: standby phase");
@@ -281,6 +186,172 @@ public class Game {
 
 
 //-------------------------------------------------------------------------------------------------------
+
+
+    private void monsterSelectedFromHand(MonsterForUser monsterForUser, User user) {
+        String input = "";
+        while (!input.equals("select -d")) {
+            input = scanner.nextLine();
+            boolean checker = false;
+            Pattern pattern = Pattern.compile("summon");
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                if (hasSummonInThisRound) {
+                    System.out.println("you already summoned/set on this turn");
+                } else {
+                    checker = true;
+                    summonControler(monsterForUser, user);
+                }
+            }
+
+            pattern = Pattern.compile("set");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                if (hasSummonInThisRound) {
+                    System.out.println("you already summoned/set on this turn");
+                } else {
+                    checker = true;
+                    setController(monsterForUser, user);
+                }
+            }
+        }
+    }
+
+
+    private void setController(MonsterForUser monsterForUser, User user) {
+        if (monsterForUser.level <= 4) {
+            set(monsterForUser, user);
+        } else {
+            if (tribute(monsterForUser,user)){
+                set(monsterForUser,user);
+            }
+        }
+    }
+
+    private void set(MonsterForUser monsterForUser, User user) {
+        boolean hasEmpty = false;
+        for (int a : checkIfEmpty) {
+            if (user.monsterZone[a] == null) {
+                hasEmpty = true;
+                monsterForUser.field = Field.valueOf("GAME");
+                monsterForUser.address = a;
+                monsterForUser.position = Position.valueOf("HIDDEN");
+                user.monsterZone[a] = monsterForUser;
+                user.handMonster.remove(monsterForUser);
+                System.out.println("set successfully");
+                break;
+            }
+        }
+        if (!hasEmpty) {
+            System.out.println("monster card zone is full");
+        }
+    }
+
+    private void summonControler(MonsterForUser monsterForUser, User user) {
+        if (monsterForUser.level <= 4) {
+            summon(monsterForUser, user);
+
+        } else {
+            if (tribute(monsterForUser, user)){
+                summon(monsterForUser,user);
+            }
+        }
+    }
+
+    private void summon(MonsterForUser monsterForUser, User user) {
+        boolean hasEmpty = false;
+        for (int a : checkIfEmpty) {
+            if (user.monsterZone[a] == null) {
+                hasEmpty = true;
+                monsterForUser.field = Field.valueOf("GAME");
+                monsterForUser.address = a;
+                monsterForUser.position = Position.valueOf("ATTACK");
+                user.monsterZone[a] = monsterForUser;
+                user.handMonster.remove(monsterForUser);
+                System.out.println("summoned successfully");
+                break;
+            }
+        }
+        if (!hasEmpty) {
+            System.out.println("monster card zone is full");
+        }
+    }
+
+    private boolean tribute(MonsterForUser monsterForUser, User user) {
+        if (monsterForUser.level == 5 || monsterForUser.level == 6) {
+            boolean hasAnyCard = false;
+            for (int a : checkIfEmpty) {
+                if (user.handMonster != null) {
+                    hasAnyCard = true;
+
+                }
+            }
+
+            if (hasAnyCard) {
+                System.out.println("enter an address to tribute");
+                String temp = scanner.nextLine();
+                int address = Integer.parseInt(temp);
+                if (user.monsterZone[address] == null) {
+                    System.out.println("there no monsters one this address");
+                } else {
+                    user.monsterZone[address].field = Field.valueOf("GRAVE");
+                    user.monsterGrave.add(user.monsterZone[address]);
+                    user.NumOfGrave++;
+                    user.monsterZone[address].address = user.NumOfGrave;
+                    user.monsterZone[address] = null;
+                    return true;
+                }
+            } else {
+                System.out.println("there are not enough cards for tribute");
+                return false;
+            }
+        }
+
+
+        if (monsterForUser.level > 6) {
+            int checker = 0;
+            for (int a : checkIfEmpty) {
+                if (user.handMonster != null) {
+                    checker++;
+                }
+            }
+
+            if (checker >= 2) {
+                System.out.println("enter an address to tribute");
+                String temp = scanner.nextLine();
+                int address = Integer.parseInt(temp);
+                if (user.monsterZone[address] == null) {
+                    System.out.println("there no monsters one this address");
+                } else {
+                    System.out.println("enter an address to tribute");
+                    temp = scanner.nextLine();
+                    int address1 = Integer.parseInt(temp);
+                    if (user.monsterZone[address] == null) {
+                        System.out.println("there no monsters one this address");
+                    } else {
+                        user.monsterZone[address].field = Field.valueOf("GRAVE");
+                        user.monsterGrave.add(user.monsterZone[address]);
+                        user.NumOfGrave++;
+                        user.monsterZone[address].address = user.NumOfGrave;
+                        user.monsterZone[address] = null;
+
+                        user.monsterZone[address1].field = Field.valueOf("GRAVE");
+                        user.monsterGrave.add(user.monsterZone[address1]);
+                        user.NumOfGrave++;
+                        user.monsterZone[address1].address = user.NumOfGrave;
+                        user.monsterZone[address1] = null;
+
+                        return true;
+                    }
+                }
+            } else {
+                System.out.println("there are not enough cards for tribute");
+                return false;
+            }
+        }
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return false;
+    }
 
 
     private void showField(User user, User opponent) {
