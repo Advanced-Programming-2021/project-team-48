@@ -53,6 +53,7 @@ public class Game {
         hasSummonInThisRound = false;
         mainPhase1(user, opponent);
         battlePhase(user, opponent);
+        //mainPhase2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         endPhase(user, opponent);
 
         //!!!!!!!!!!!!!!!!!!!!!!!
@@ -68,9 +69,7 @@ public class Game {
             input = scanner.nextLine();
             boolean checker = false;
             checker = select(user, opponent, input, "phase1");
-            if (!checker) {
-                //!!!
-            }
+
         }
     }
 
@@ -114,12 +113,26 @@ public class Game {
                 }
             }
         }
+
         pattern = Pattern.compile("select --monster ([\\d]+)");
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             checker = true;
             int address = Integer.parseInt(matcher.group(1));
             if (user.monsterZone[address] == null) {
+                System.out.println("no card found in the given position");
+            } else {
+                System.out.println("card selected");
+                selectedMonsterFromZone(user.monsterZone[address], user, opponent, phase);
+            }
+        }
+
+        pattern = Pattern.compile("select --spell ([\\d]+)");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            checker = true;
+            int address = Integer.parseInt(matcher.group(1));
+            if (user.[address] == null) {
                 System.out.println("no card found in the given position");
             } else {
                 System.out.println("card selected");
@@ -146,6 +159,7 @@ public class Game {
             input = scanner.nextLine();
             boolean checker = false;
             checker = select(user, opponent, input, "battle");
+
             if (!checker) {
                 Pattern pattern = Pattern.compile("");
                 Matcher matcher = pattern.matcher(input);
