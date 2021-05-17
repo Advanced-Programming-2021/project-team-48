@@ -2,7 +2,7 @@ import java.nio.file.Path;
 import java.util.TreeMap;
 import Card.Position;
 import Card.*;
-
+import Card.Field;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +41,6 @@ public class Game {
 
     private boolean play(User user, User opponent) {
         Scanner scanner = new Scanner(System.in);
-
         showField(user, opponent);
         if (user.getActiveDeck().numberOfCardsInMain == 0) {
             return false;
@@ -216,7 +215,7 @@ public class Game {
         if (matcher.find()) {
             checker = true;
             int address = Integer.parseInt(matcher.group(1));
-            if (user.spellZone[address] == null && user.trapZone[address] == null) {
+            if (user.spellZone[address] == null || user.trapZone[address] == null) {
                 System.out.println("no card found in the given position");
             } else {
                 System.out.println("card selected");
@@ -233,7 +232,7 @@ public class Game {
                 System.out.println("no card found in the given position");
             } else {
                 System.out.println("card selected");
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                generalSelected(opponent.monsterZone[address]);
             }
         }
 
@@ -242,11 +241,13 @@ public class Game {
         if (matcher.find()) {
             checker = true;
             int address = Integer.parseInt(matcher.group(1));
-            if (opponent.spellZone[address] == null && opponent.trapZone[address] == null) {
+            if (opponent.spellZone[address] == null || opponent.trapZone[address] == null) {
                 System.out.println("no card found in the given position");
             } else {
                 System.out.println("card selected");
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                if(opponent.spellZone[address] == null){
+                    generalSelected(opponent.trapZone[address]);
+                }else generalSelected(opponent.spellZone[address]);
             }
         }
 
@@ -268,11 +269,11 @@ public class Game {
         if (matcher.find()) {
             checker = true;
             int address = Integer.parseInt(matcher.group(1));
-            if (user.fieldZone == null) {
+            if (opponent.fieldZone == null) {
                 System.out.println("no card found in the given position");
             } else {
                 System.out.println("card selected");
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                generalSelected(opponent.fieldZone);
             }
         }
 
@@ -297,7 +298,7 @@ public class Game {
         if(monsterForUser.ATK > opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))){
             int damage = monsterForUser.ATK - opponentMonsterForUser.ATK;
             opponent.decreaseLP(damage);
-            opponentMonsterForUser.setField(Field.GRAVE);
+            opponentMonsterForUser.setField(Field.valueOf("GRAVE"));
             System.out.println("your opponent's monster is destroyed and your opponent receives " + damage + " battle damage");
         }
         else if(monsterForUser.ATK == opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))){
@@ -337,20 +338,17 @@ public class Game {
         }
     }
 
-   private boolean generalSelected(User user,Card card,String input){
+   private boolean generalSelected(Card card){
        boolean checker = false;
-       Pattern pattern = Pattern.compile("card show --selected");
-       Matcher matcher = pattern.matcher(input);
-       if (matcher.find()) {
-           checker=true;
-           ProgramController.CardShow(card.getName());
-       }
-
-       pattern = Pattern.compile("show graveyard");
-       matcher = pattern.matcher(input);
-       if (matcher.find()) {
-           checker = true;
-           showGrave(user);
+       String input="";
+       while (!input.equals("select -d")) {
+           input= scanner.nextLine();
+           Pattern pattern = Pattern.compile("card show --selected");
+           Matcher matcher = pattern.matcher(input);
+           if (matcher.find()) {
+               checker = true;
+               ProgramController.CardShow(card.getName());
+           }
        }
 
        return checker;
@@ -362,6 +360,8 @@ public class Game {
         while (!input.equals("select -d")) {
             input = scanner.nextLine();
             boolean checker = false;
+            checker=generalSelected(monsterForUser);
+
             Pattern pattern = Pattern.compile("set -- position attack");
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
@@ -419,11 +419,27 @@ public class Game {
                 }
             }
 
-            pattern = Pattern.compile("card show --selected");
+            pattern = Pattern.compile("attack ([\\d]+)");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
-                ProgramController.ShowMonster(monsterForUser.getName());
+                checker = true;
+                int address=Integer.parseInt(matcher.group(1));
+                if (phase.equals("battle")) {
+                    boolean checkIfOpponentMonsterZoneEmpty = true;
+                        if (opponent.monsterZone[address] != null) {
+                            checkIfOpponentMonsterZoneEmpty = false;
+                    }
+                    if (!checkIfOpponentMonsterZoneEmpty) {
+                       attack(monsterForUser,opponent.monsterZone[address],user,opponent );
+                    } else {
+                        System.out.println("there is no card to attack here");
+                    }
+                } else {
+                    System.out.println("you can’t do this action in this phase");
+                }
             }
+
+
         }
     }
 

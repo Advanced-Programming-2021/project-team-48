@@ -17,9 +17,7 @@ public class MonsterForUser<User, Deck> extends MonsterCard {
         cardNumber=numberOfCard;
         numberOfCard++;
     }
-    public Position getPosition() {
-        return position;
-    }
+
 
     public void setField(Field field) {
         this.field = field;
@@ -29,7 +27,4 @@ public class MonsterForUser<User, Deck> extends MonsterCard {
         return position;
     }
 
-    public void setField(Field field) {
-        this.field = field;
-    }
 }
