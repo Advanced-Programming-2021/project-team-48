@@ -246,7 +246,7 @@ public class Game {
                 System.out.println("no card found in the given position");
             } else {
                 System.out.println("card selected");
-                generalSelected()
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             }
         }
 
