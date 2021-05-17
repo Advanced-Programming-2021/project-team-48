@@ -1,5 +1,5 @@
 package Card;
 
 public enum Field {
-    GRAVE, HAND, GAME, DECK
+    GRAVE, HAND, GAME, DECK;
 }

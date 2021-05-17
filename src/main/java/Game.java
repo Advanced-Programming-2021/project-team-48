@@ -246,7 +246,7 @@ public class Game {
                 System.out.println("no card found in the given position");
             } else {
                 System.out.println("card selected");
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             }
         }
 
@@ -330,20 +330,27 @@ public class Game {
         else if(monsterForUser.ATK == opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))){
             System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed");
         }
-        else if(monsterForUser.ATK < opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
+        else if(monsterForUser.ATK < opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))){
             int damage = opponentMonsterForUser.DEF - monsterForUser.ATK;
             user.decreaseLP(damage);
             System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed and you received " + damage + " battle damage");
         }
     }
 
-   private boolean generalSelected(Card card,String input){
+   private boolean generalSelected(User user,Card card,String input){
        boolean checker = false;
        Pattern pattern = Pattern.compile("card show --selected");
        Matcher matcher = pattern.matcher(input);
        if (matcher.find()) {
            checker=true;
            ProgramController.CardShow(card.getName());
+       }
+
+       pattern = Pattern.compile("show graveyard");
+       matcher = pattern.matcher(input);
+       if (matcher.find()) {
+           checker = true;
+           showGrave(user);
        }
 
        return checker;
