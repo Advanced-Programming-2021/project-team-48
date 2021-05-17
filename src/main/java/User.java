@@ -13,9 +13,9 @@ public class User {
     private int score = 0;
     private long money = 100000;
     public int lifePoint = 8000;
-    public ArrayList<MonsterForUser> handMonster = new ArrayList<MonsterForUser>();
-    public ArrayList<SpellCardForUser> handSpell = new ArrayList<SpellCardForUser>();
-    public ArrayList<TrapCardForUser> handTrap = new ArrayList<TrapCardForUser>();
+    public ArrayList<MonsterForUser> handMonster = new ArrayList<>();
+    public ArrayList<SpellCardForUser> handSpell = new ArrayList<>();
+    public ArrayList<TrapCardForUser> handTrap = new ArrayList<>();
 
     public ArrayList<MonsterForUser> monsterGrave = new ArrayList<>();
     public ArrayList<SpellCardForUser> spellGrave = new ArrayList<>();
@@ -29,6 +29,8 @@ public class User {
 
 
     private static ArrayList<User> listOfUsers;
+
+
 
     static {
         listOfUsers = new ArrayList<>();
@@ -56,7 +58,7 @@ public class User {
     public boolean hasActiveDeck = false;
 
     //-------------------------------------------------
-    User(String username, String nickname, String password) {
+    public User(String username, String nickname, String password) {
         setUsername(username);
         setNickname(nickname);
         setPassword(password);
@@ -144,5 +146,9 @@ public class User {
             }
         }
         return null;
+    }
+
+    public void decreaseLP(int damage){
+        this.lifePoint -= damage;
     }
 }

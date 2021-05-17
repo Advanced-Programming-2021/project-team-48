@@ -14,6 +14,9 @@ public class CartReader {
     private static ArrayList<SpellCard> spellCards = new ArrayList<>();
     private static ArrayList<TrapCard> trapCards = new ArrayList<>();
 
+
+
+
     public CartReader() {
         run();
     }
@@ -98,6 +101,13 @@ public class CartReader {
 
 
 
+        try {
+            FileWriter myWriter = new FileWriter("monsterCards.txt");
+            myWriter.write(new Gson().toJson(monsterCards));
+            myWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

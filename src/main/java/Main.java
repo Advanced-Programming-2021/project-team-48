@@ -1,21 +1,31 @@
 import Card.CartReader;
-import Card.MonsterCard;
 import com.google.gson.Gson;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        new CartReader();
-        new ProgramController();
-        try {
-            Gson gson=new Gson();
-            gson.toJson(User.getListOfUsers().get(0), new FileWriter("C:\\Users\\amirhossein\\Desktop\\monster.txt"));
 
+        ArrayList<User> users = new ArrayList<>();
+        users.add(new User("project","project","project"));
+        users.add(new User("46","46","46"));
+        users.add(new User("ok","ok","ok"));
+
+        System.out.println(users);
+
+        try {
+            FileWriter myWriter = new FileWriter("monsterCards.json");
+            myWriter.write(new Gson().toJson(users.toArray()));
+            myWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+//        new CartReader();
+        new ProgramController();
     }
+
 }
