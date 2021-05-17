@@ -159,7 +159,7 @@ public class Game {
 //-------------------------------------------------------------------------------------------------------
 
 
-    private boolean select(User user, User opponent, String input, String phase) {
+    public boolean select(User user, User opponent, String input, String phase) {
         boolean checker = false;
         Pattern pattern = Pattern.compile("select --hand ([\\d]+)");
         //what dose it do in other phase than phase1 and phase2???????????????????????????????
