@@ -1,3 +1,4 @@
+import java.nio.file.Path;
 import java.util.TreeMap;
 import Card.Position;
 import Card.*;
@@ -296,17 +297,24 @@ public class Game {
 
     }
 
- /*   private void generalSelect(Card card){
-        boolean checker = false;
-        Pattern pattern = Pattern.compile("select --hand ([\\d]+)");
-        //what dose it do in other phase than phase1 and phase2???????????????????????????????
-        Matcher matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            checker = true;
-        }
-    }
+   private boolean generalSelected(User user,Card card,String input){
+       boolean checker = false;
+       Pattern pattern = Pattern.compile("card show --selected");
+       Matcher matcher = pattern.matcher(input);
+       if (matcher.find()) {
+           checker=true;
+           ProgramController.CardShow(card.getName());
+       }
 
-  */
+       pattern = Pattern.compile("show graveyard");
+       matcher = pattern.matcher(input);
+       if (matcher.find()) {
+           checker = true;
+           showGrave(user);
+       }
+
+       return checker;
+    }
 
 
     private void selectedMonsterFromZone(MonsterForUser monsterForUser, User user, User opponent, String phase) {
