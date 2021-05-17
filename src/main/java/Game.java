@@ -246,7 +246,7 @@ public class Game {
                 System.out.println("no card found in the given position");
             } else {
                 System.out.println("card selected");
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                generalSelected()
             }
         }
 
@@ -297,20 +297,13 @@ public class Game {
 
     }
 
-   private boolean generalSelected(User user,Card card,String input){
+   private boolean generalSelected(Card card,String input){
        boolean checker = false;
        Pattern pattern = Pattern.compile("card show --selected");
        Matcher matcher = pattern.matcher(input);
        if (matcher.find()) {
            checker=true;
            ProgramController.CardShow(card.getName());
-       }
-
-       pattern = Pattern.compile("show graveyard");
-       matcher = pattern.matcher(input);
-       if (matcher.find()) {
-           checker = true;
-           showGrave(user);
        }
 
        return checker;
