@@ -370,6 +370,12 @@ public class Game {
                     System.out.println("you can’t do this action in this phase");
                 }
             }
+
+            pattern = Pattern.compile("card show --selected");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                ProgramController.ShowMonster(monsterForUser.getName());
+            }
         }
     }
 
