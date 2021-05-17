@@ -182,7 +182,7 @@ public class Game {
                     if (spellCardForUser.address == address) {
                         isFind = true;
                         System.out.println("card selected");
-                        spellSelectedFromHand(spellCardForUser, user, phase);
+                        spellControlerInGame.spellSelectedFromHand(spellCardForUser, user,opponent, phase);
                         break;
                     }
                 }
@@ -296,20 +296,6 @@ public class Game {
     }
 
 
-    private void spellSelectedFromHand(SpellCardForUser spellCardForUser, User user, User opponent, String phase) {
-        String input = "";
-        while (!input.equals("select -d")) {
-            input = scanner.nextLine();
-            boolean checker = false;
-            checker = generalSelected(spellCardForUser);
-
-            Pattern pattern = Pattern.compile("set -- position attack");
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                checker = true;
-            }
-        }
-    }
 
     private void selectedMonsterFromZone(MonsterForUser monsterForUser, User user, User opponent, String phase) {
         String input = "";
@@ -794,7 +780,8 @@ public class Game {
         }
     }
 
-    private boolean generalSelected(Card card) {
+    public static boolean generalSelected(Card card) {
+        Scanner scanner=new Scanner(System.in);
         boolean checker = false;
         String input = "";
         while (!input.equals("select -d")) {
