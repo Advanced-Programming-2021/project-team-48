@@ -101,13 +101,13 @@ public class CartReader {
 
 
 
-        try {
-            FileWriter myWriter = new FileWriter("monsterCards.txt");
-            myWriter.write(new Gson().toJson(monsterCards));
-            myWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            FileWriter myWriter = new FileWriter("monsterCards.txt");
+//            myWriter.write(new Gson().toJson(monsterCards));
+//            myWriter.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }
