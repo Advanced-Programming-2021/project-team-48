@@ -193,7 +193,7 @@ public class Game {
                     if (trapCardForUser.address == address) {
                         isFind = true;
                         System.out.println("card selected");
-                        //trapSelectedFromHand(trapCardForUser,user,phase);
+                        trapControllerInGame.trapSelectedFromHand(trapCardForUser,user,opponent,phase);
                         break;
                     }
                 }

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class trapControllerInGame {
     private static int[] checkIfEmpty = {2, 3, 1, 4, 0};
 
-    public static void spellSelectedFromHand(TrapCardForUser trapCardForUser, User user, User opponent, String phase) {
+    public static void trapSelectedFromHand(TrapCardForUser trapCardForUser, User user, User opponent, String phase) {
         Scanner scanner = new Scanner(System.in);
         String input = "";
         while (!input.equals("select -d")) {
