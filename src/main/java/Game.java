@@ -1,8 +1,10 @@
 import java.nio.file.Path;
 import java.util.TreeMap;
+
 import Card.Position;
 import Card.*;
 import Card.Field;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -180,7 +182,7 @@ public class Game {
                     if (spellCardForUser.address == address) {
                         isFind = true;
                         System.out.println("card selected");
-                        // spellSelectedFromHand(spellCardForUser, user,phase);
+                        spellSelectedFromHand(spellCardForUser, user, phase);
                         break;
                     }
                 }
@@ -245,9 +247,9 @@ public class Game {
                 System.out.println("no card found in the given position");
             } else {
                 System.out.println("card selected");
-                if(opponent.spellZone[address] == null){
+                if (opponent.spellZone[address] == null) {
                     generalSelected(opponent.trapZone[address]);
-                }else generalSelected(opponent.spellZone[address]);
+                } else generalSelected(opponent.spellZone[address]);
             }
         }
 
@@ -284,9 +286,8 @@ public class Game {
             showGrave(user);
         }
 
-        pattern = Pattern.compile("select -d");
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
+
+        if (input.equals("select -d")||input.equals("activate effect")) {
             checker = true;
             System.out.println("no card is selected yet");
         }
@@ -294,73 +295,28 @@ public class Game {
         return checker;
     }
 
-    private void attack(MonsterForUser monsterForUser, MonsterForUser opponentMonsterForUser, User user, User opponent) {
-        if(monsterForUser.ATK > opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))){
-            int damage = monsterForUser.ATK - opponentMonsterForUser.ATK;
-            opponent.decreaseLP(damage);
-            opponentMonsterForUser.setField(Field.valueOf("GRAVE"));
-            System.out.println("your opponent's monster is destroyed and your opponent receives " + damage + " battle damage");
-        }
-        else if(monsterForUser.ATK == opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))){
-            opponentMonsterForUser.setField(Field.GRAVE);
-            monsterForUser.setField(Field.GRAVE);
-            System.out.println("both you and your opponent monster cards are destroyed and no one receives damage");
-        }
-        else if(monsterForUser.ATK < opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))){
-            int damage = opponentMonsterForUser.ATK - monsterForUser.ATK;
-            user.decreaseLP(damage);
-            monsterForUser.setField(Field.GRAVE);
-            System.out.println("you monster card is destroyed and you receives " + damage + " battle damage");
-        }
-        else if(monsterForUser.ATK > opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))){
-            opponentMonsterForUser.setField(Field.GRAVE);
-            System.out.println("the defense position monster is destroyed");
-        }
-        else if(monsterForUser.ATK == opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))){
-            System.out.println("no card is destroyed");
-        }
-        else if(monsterForUser.ATK < opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))){
-            int damage = opponentMonsterForUser.DEF - monsterForUser.ATK;
-            user.decreaseLP(damage);
-            System.out.println("no card is destroyed and you received " + damage + " battle damage");
-        }
-        else if(monsterForUser.ATK > opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))){
-            opponentMonsterForUser.setField(Field.GRAVE);
-            System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " and the defense position monster is destroyed");
-        }
-        else if(monsterForUser.ATK == opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))){
-            System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed");
-        }
-        else if(monsterForUser.ATK < opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))){
-            int damage = opponentMonsterForUser.DEF - monsterForUser.ATK;
-            user.decreaseLP(damage);
-            System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed and you received " + damage + " battle damage");
+
+    private void spellSelectedFromHand(SpellCardForUser spellCardForUser, User user, User opponent, String phase) {
+        String input = "";
+        while (!input.equals("select -d")) {
+            input = scanner.nextLine();
+            boolean checker = false;
+            checker = generalSelected(spellCardForUser);
+
+            Pattern pattern = Pattern.compile("set -- position attack");
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+            }
         }
     }
-
-   private boolean generalSelected(Card card){
-       boolean checker = false;
-       String input="";
-       while (!input.equals("select -d")) {
-           input= scanner.nextLine();
-           Pattern pattern = Pattern.compile("card show --selected");
-           Matcher matcher = pattern.matcher(input);
-           if (matcher.find()) {
-               checker = true;
-               ProgramController.CardShow(card.getName());
-           }
-       }
-
-       return checker;
-    }
-
 
     private void selectedMonsterFromZone(MonsterForUser monsterForUser, User user, User opponent, String phase) {
         String input = "";
         while (!input.equals("select -d")) {
             input = scanner.nextLine();
             boolean checker = false;
-            checker=generalSelected(monsterForUser);
+            checker = generalSelected(monsterForUser);
 
             Pattern pattern = Pattern.compile("set -- position attack");
             Matcher matcher = pattern.matcher(input);
@@ -423,14 +379,14 @@ public class Game {
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                int address=Integer.parseInt(matcher.group(1));
+                int address = Integer.parseInt(matcher.group(1));
                 if (phase.equals("battle")) {
                     boolean checkIfOpponentMonsterZoneEmpty = true;
-                        if (opponent.monsterZone[address] != null) {
-                            checkIfOpponentMonsterZoneEmpty = false;
+                    if (opponent.monsterZone[address] != null) {
+                        checkIfOpponentMonsterZoneEmpty = false;
                     }
                     if (!checkIfOpponentMonsterZoneEmpty) {
-                       attack(monsterForUser,opponent.monsterZone[address],user,opponent );
+                        attack(monsterForUser, opponent.monsterZone[address], user, opponent);
                     } else {
                         System.out.println("there is no card to attack here");
                     }
@@ -449,6 +405,7 @@ public class Game {
         while (!input.equals("select -d")) {
             input = scanner.nextLine();
             boolean checker = false;
+            checker = generalSelected(monsterForUser);
             Pattern pattern = Pattern.compile("summon");
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
@@ -478,11 +435,7 @@ public class Game {
                 } else System.out.println("action not allowed in this phase");
             }
 
-            pattern = Pattern.compile("card show --selected");
-            matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                ProgramController.ShowMonster(monsterForUser.getName());
-            }
+
         }
     }
 
@@ -803,4 +756,59 @@ public class Game {
         System.out.println("    " + i + "   " + i + "   " + i + "   " + i + "   " + i + "   " + i);
         System.out.println(user.getNickname() + ":" + user.getLifePoint());
     }
+
+
+    private void attack(MonsterForUser monsterForUser, MonsterForUser opponentMonsterForUser, User user, User opponent) {
+        if (monsterForUser.ATK > opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))) {
+            int damage = monsterForUser.ATK - opponentMonsterForUser.ATK;
+            opponent.decreaseLP(damage);
+            opponentMonsterForUser.setField(Field.valueOf("GRAVE"));
+            System.out.println("your opponent's monster is destroyed and your opponent receives " + damage + " battle damage");
+        } else if (monsterForUser.ATK == opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))) {
+            opponentMonsterForUser.setField(Field.GRAVE);
+            monsterForUser.setField(Field.GRAVE);
+            System.out.println("both you and your opponent monster cards are destroyed and no one receives damage");
+        } else if (monsterForUser.ATK < opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))) {
+            int damage = opponentMonsterForUser.ATK - monsterForUser.ATK;
+            user.decreaseLP(damage);
+            monsterForUser.setField(Field.GRAVE);
+            System.out.println("you monster card is destroyed and you receives " + damage + " battle damage");
+        } else if (monsterForUser.ATK > opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {
+            opponentMonsterForUser.setField(Field.GRAVE);
+            System.out.println("the defense position monster is destroyed");
+        } else if (monsterForUser.ATK == opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {
+            System.out.println("no card is destroyed");
+        } else if (monsterForUser.ATK < opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {
+            int damage = opponentMonsterForUser.DEF - monsterForUser.ATK;
+            user.decreaseLP(damage);
+            System.out.println("no card is destroyed and you received " + damage + " battle damage");
+        } else if (monsterForUser.ATK > opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
+            opponentMonsterForUser.setField(Field.GRAVE);
+            System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " and the defense position monster is destroyed");
+        } else if (monsterForUser.ATK == opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
+            System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed");
+        } else if (monsterForUser.ATK < opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
+            int damage = opponentMonsterForUser.DEF - monsterForUser.ATK;
+            user.decreaseLP(damage);
+            System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed and you received " + damage + " battle damage");
+        }
+    }
+
+    private boolean generalSelected(Card card) {
+        boolean checker = false;
+        String input = "";
+        while (!input.equals("select -d")) {
+            input = scanner.nextLine();
+            Pattern pattern = Pattern.compile("card show --selected");
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                ProgramController.CardShow(card.getName());
+            }
+        }
+
+        return checker;
+    }
+
+
 }
