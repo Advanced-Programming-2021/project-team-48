@@ -1,7 +1,5 @@
 import Card.*;
 
-import java.sql.Connection;
-import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -852,7 +850,7 @@ public class ProgramController {
         }
     }
 
-    private static void CardShow(String cardName) {
+    public static void CardShow(String cardName) {
         for (MonsterCard monsterCard : MonsterCard.getAllMonsterCards()) {
             if (monsterCard.getName().equals(cardName)) {
                 //???????????????????????????????????????????
@@ -874,7 +872,7 @@ public class ProgramController {
         }
     }
 
-    private static void ShowMonster(String monsterName) {
+    public static void ShowMonster(String monsterName) {
         System.out.println("Name: " + monsterName);
         System.out.println("Level: " + MonsterCard.getMonsterCardByName(monsterName).level);
         System.out.println("Type: " + MonsterCard.getMonsterCardByName(monsterName).monsterTYpe);
