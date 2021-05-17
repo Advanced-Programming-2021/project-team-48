@@ -470,34 +470,68 @@ public class Game {
 
     public static void attack(MonsterForUser monsterForUser, MonsterForUser opponentMonsterForUser, User user, User opponent) {
         if (monsterForUser.ATK > opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))) {
+
             int damage = monsterForUser.ATK - opponentMonsterForUser.ATK;
             opponent.decreaseLP(damage);
             opponentMonsterForUser.setField(Field.valueOf("GRAVE"));
+            opponentMonsterForUser.address= opponent.NumOfGrave;
+            opponent.NumOfGrave++;
+            opponent.monsterGrave.add(opponentMonsterForUser);
             System.out.println("your opponent's monster is destroyed and your opponent receives " + damage + " battle damage");
+
         } else if (monsterForUser.ATK == opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))) {
+
             opponentMonsterForUser.setField(Field.GRAVE);
+            opponentMonsterForUser.address= opponent.NumOfGrave;
+            opponent.NumOfGrave++;
+            opponent.monsterGrave.add(opponentMonsterForUser);
+
             monsterForUser.setField(Field.GRAVE);
+            monsterForUser.address= user.NumOfGrave;
+            user.NumOfGrave++;
+            user.monsterGrave.add(opponentMonsterForUser);
             System.out.println("both you and your opponent monster cards are destroyed and no one receives damage");
-        } else if (monsterForUser.ATK < opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))) {
+
+        }
+        else if (monsterForUser.ATK < opponentMonsterForUser.ATK || opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))) {
+
             int damage = opponentMonsterForUser.ATK - monsterForUser.ATK;
             user.decreaseLP(damage);
             monsterForUser.setField(Field.GRAVE);
+            monsterForUser.address= user.NumOfGrave;
+            user.NumOfGrave++;
+            user.monsterGrave.add(opponentMonsterForUser);
             System.out.println("you monster card is destroyed and you receives " + damage + " battle damage");
+
         } else if (monsterForUser.ATK > opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {
             opponentMonsterForUser.setField(Field.GRAVE);
+            opponentMonsterForUser.address= opponent.NumOfGrave;
+            opponent.NumOfGrave++;
+            opponent.monsterGrave.add(opponentMonsterForUser);
+
             System.out.println("the defense position monster is destroyed");
-        } else if (monsterForUser.ATK == opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {
+        }
+
+        else if (monsterForUser.ATK == opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {
             System.out.println("no card is destroyed");
-        } else if (monsterForUser.ATK < opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {
+        }
+
+        else if (monsterForUser.ATK < opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {
             int damage = opponentMonsterForUser.DEF - monsterForUser.ATK;
             user.decreaseLP(damage);
             System.out.println("no card is destroyed and you received " + damage + " battle damage");
-        } else if (monsterForUser.ATK > opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
+        }
+        else if (monsterForUser.ATK > opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
             opponentMonsterForUser.setField(Field.GRAVE);
+            opponentMonsterForUser.address= opponent.NumOfGrave;
+            opponent.NumOfGrave++;
+            opponent.monsterGrave.add(opponentMonsterForUser);
             System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " and the defense position monster is destroyed");
-        } else if (monsterForUser.ATK == opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
+        }
+        else if (monsterForUser.ATK == opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
             System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed");
-        } else if (monsterForUser.ATK < opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
+        }
+        else if (monsterForUser.ATK < opponentMonsterForUser.DEF || opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
             int damage = opponentMonsterForUser.DEF - monsterForUser.ATK;
             user.decreaseLP(damage);
             System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed and you received " + damage + " battle damage");
