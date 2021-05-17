@@ -33,4 +33,12 @@ public class spellControlerInGame {
         }
     }
 
+    public static void FieldActiver(SpellCardForUser spellCardForUser,User user,User opponent,String phase){
+
+    }
+
+    public static void SpellActiver(SpellCardForUser spellCardForUser,User user,User opponent,String phase){
+
+    }
+
 }
