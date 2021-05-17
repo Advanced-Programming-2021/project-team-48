@@ -1,3 +1,4 @@
+import java.util.TreeMap;
 import Card.Position;
 import Card.*;
 
@@ -47,7 +48,7 @@ public class Game {
         if (!dasteAval) {
             dasteAval = true;
         } else {
-            drawPhase(user);
+            drawPhase(user, opponent);
         }
         standbyPhase(user, opponent);
         hasSummonInThisRound = false;
@@ -72,6 +73,88 @@ public class Game {
 
         }
     }
+
+
+    private void battlePhase(User user, User opponent) {
+        System.out.println("phase: End Phase");
+        String input = "";
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        while (!input.equals("next phase")) {
+            input = scanner.nextLine();
+            boolean checker = false;
+            checker = select(user, opponent, input, "battle");
+
+            if (!checker) {
+                Pattern pattern = Pattern.compile("");
+                Matcher matcher = pattern.matcher(input);
+                if (matcher.find()) {
+                    checker = true;
+                }
+            }
+        }
+    }
+
+    private void endPhase(User user, User opponent) {
+        System.out.println("phase: End Phase");
+
+
+        System.out.println("its " + opponent.getNickname() + "’s turn");
+    }
+
+
+    private void standbyPhase(User user, User opponent) {
+        System.out.println("phase: standby phase");
+    }
+
+    private void drawPhase(User user, User opponent) {
+        System.out.println("phase: draw phase");
+        String input = "";
+        //in ke bishtar 6 kart nadashte bashe!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        Random random = new Random();
+        int r = random.nextInt(3);
+        if (r == 0) {
+            Collections.shuffle(user.getActiveDeck().allMonsterForUserMain);
+            user.handMonster.add(user.getActiveDeck().allMonsterForUserMain.get(0));
+            user.getActiveDeck().allMonsterForUserMain.get(0).field = Field.valueOf("HAND");
+            user.getActiveDeck().allMonsterForUserMain.get(0).address = numInHand;
+            numInHand++;
+            user.getActiveDeck().numberOfCardsInMain--;
+            System.out.println("new card added to the hand : " + user.getActiveDeck().allMonsterForUserMain.get(0).getName());
+            user.getActiveDeck().allMonsterForUserMain.remove(0);
+
+        }
+        if (r == 1) {
+            Collections.shuffle(user.getActiveDeck().allSpellCardsForUserSide);
+            user.handSpell.add(user.getActiveDeck().allSpellCardsForUserMain.get(0));
+            user.getActiveDeck().allSpellCardsForUserMain.get(0).field = Field.valueOf("HAND");
+            user.getActiveDeck().allSpellCardsForUserMain.get(0).address = numInHand;
+            numInHand++;
+            user.getActiveDeck().numberOfCardsInMain--;
+            System.out.println("new card added to the hand : " + user.getActiveDeck().allSpellCardsForUserMain.get(0).getName());
+            user.getActiveDeck().allSpellCardsForUserMain.remove(0);
+        }
+        if (r == 2) {
+            Collections.shuffle(user.getActiveDeck().allTrapCardsForUserMain);
+            user.handTrap.add(user.getActiveDeck().allTrapCardsForUserMain.get(0));
+            user.getActiveDeck().allTrapCardsForUserMain.get(0).field = Field.valueOf("HAND");
+            user.getActiveDeck().allTrapCardsForUserMain.get(0).address = numInHand;
+            numInHand++;
+            user.getActiveDeck().numberOfCardsInMain--;
+            System.out.println("new card added to the hand : " + user.getActiveDeck().allTrapCardsForUserMain.get(0).getName());
+            user.getActiveDeck().allTrapCardsForUserSide.remove(0);
+        }
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        while (!input.equals("next phase")) {
+            input = scanner.nextLine();
+            boolean checker = false;
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            checker = select(user, opponent, input, "draw");
+
+        }
+    }
+
+
+//-------------------------------------------------------------------------------------------------------
 
 
     private boolean select(User user, User opponent, String input, String phase) {
@@ -136,7 +219,59 @@ public class Game {
                 System.out.println("no card found in the given position");
             } else {
                 System.out.println("card selected");
-                selectedMonsterFromZone(user.monsterZone[address], user, opponent, phase);
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            }
+        }
+
+        pattern = Pattern.compile("select --monster --opponent ([\\d]+)");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            checker = true;
+            int address = Integer.parseInt(matcher.group(1));
+            if (opponent.monsterZone[address] == null) {
+                System.out.println("no card found in the given position");
+            } else {
+                System.out.println("card selected");
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            }
+        }
+
+        pattern = Pattern.compile("select --spell --opponent ([\\d]+)");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            checker = true;
+            int address = Integer.parseInt(matcher.group(1));
+            if (opponent.spellZone[address] == null && opponent.trapZone[address] == null) {
+                System.out.println("no card found in the given position");
+            } else {
+                System.out.println("card selected");
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            }
+        }
+
+        pattern = Pattern.compile("select --field ");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            checker = true;
+            int address = Integer.parseInt(matcher.group(1));
+            if (user.fieldZone == null) {
+                System.out.println("no card found in the given position");
+            } else {
+                System.out.println("card selected");
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            }
+        }
+
+        pattern = Pattern.compile("select --field --opponent ");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            checker = true;
+            int address = Integer.parseInt(matcher.group(1));
+            if (user.fieldZone == null) {
+                System.out.println("no card found in the given position");
+            } else {
+                System.out.println("card selected");
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             }
         }
 
@@ -147,99 +282,32 @@ public class Game {
             showGrave(user);
         }
 
+        pattern = Pattern.compile("select -d");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            checker = true;
+            System.out.println("no card is selected yet");
+        }
+
         return checker;
     }
-
-    private void battlePhase(User user, User opponent) {
-        System.out.println("phase: End Phase");
-        String input = "";
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        while (!input.equals("next phase")) {
-            input = scanner.nextLine();
-            boolean checker = false;
-            checker = select(user, opponent, input, "battle");
-
-            if (!checker) {
-                Pattern pattern = Pattern.compile("");
-                Matcher matcher = pattern.matcher(input);
-                if (matcher.find()) {
-                    checker = true;
-                }
-            }
-        }
-    }
-
-    private void endPhase(User user, User opponent) {
-        System.out.println("phase: End Phase");
-
-
-        System.out.println("its " + opponent.getNickname() + "’s turn");
-    }
-
-
-    private void standbyPhase(User user, User opponent) {
-        System.out.println("phase: standby phase");
-    }
-
-    private void drawPhase(User user) {
-        System.out.println("phase: draw phase");
-        String input = "";
-        //in ke bishtar 6 kart nadashte bashe!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Random random = new Random();
-        int r = random.nextInt(3);
-        if (r == 0) {
-            Collections.shuffle(user.getActiveDeck().allMonsterForUserMain);
-            user.handMonster.add(user.getActiveDeck().allMonsterForUserMain.get(0));
-            user.getActiveDeck().allMonsterForUserMain.get(0).field = Field.valueOf("HAND");
-            user.getActiveDeck().allMonsterForUserMain.get(0).address = numInHand;
-            numInHand++;
-            user.getActiveDeck().numberOfCardsInMain--;
-            System.out.println("new card added to the hand : " + user.getActiveDeck().allMonsterForUserMain.get(0).getName());
-            user.getActiveDeck().allMonsterForUserMain.remove(0);
-
-        }
-        if (r == 1) {
-            Collections.shuffle(user.getActiveDeck().allSpellCardsForUserSide);
-            user.handSpell.add(user.getActiveDeck().allSpellCardsForUserMain.get(0));
-            user.getActiveDeck().allSpellCardsForUserMain.get(0).field = Field.valueOf("HAND");
-            user.getActiveDeck().allSpellCardsForUserMain.get(0).address = numInHand;
-            numInHand++;
-            user.getActiveDeck().numberOfCardsInMain--;
-            System.out.println("new card added to the hand : " + user.getActiveDeck().allSpellCardsForUserMain.get(0).getName());
-            user.getActiveDeck().allSpellCardsForUserMain.remove(0);
-        }
-        if (r == 2) {
-            Collections.shuffle(user.getActiveDeck().allTrapCardsForUserMain);
-            user.handTrap.add(user.getActiveDeck().allTrapCardsForUserMain.get(0));
-            user.getActiveDeck().allTrapCardsForUserMain.get(0).field = Field.valueOf("HAND");
-            user.getActiveDeck().allTrapCardsForUserMain.get(0).address = numInHand;
-            numInHand++;
-            user.getActiveDeck().numberOfCardsInMain--;
-            System.out.println("new card added to the hand : " + user.getActiveDeck().allTrapCardsForUserMain.get(0).getName());
-            user.getActiveDeck().allTrapCardsForUserSide.remove(0);
-        }
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        while (!input.equals("next phase")) {
-            Scanner scanner = new Scanner(System.in);
-            input = scanner.nextLine();
-            boolean checker = false;
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            Pattern pattern = Pattern.compile("");
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                checker = true;
-            }
-
-
-        }
-    }
-
-
-//-------------------------------------------------------------------------------------------------------
 
     private void attack(MonsterForUser monsterForUser, MonsterForUser opponentMonsterForUser, User user, User opponent) {
 
     }
+
+ /*   private void generalSelect(Card card){
+        boolean checker = false;
+        Pattern pattern = Pattern.compile("select --hand ([\\d]+)");
+        //what dose it do in other phase than phase1 and phase2???????????????????????????????
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            checker = true;
+        }
+    }
+
+  */
+
 
     private void selectedMonsterFromZone(MonsterForUser monsterForUser, User user, User opponent, String phase) {
         String input = "";
@@ -338,6 +406,12 @@ public class Game {
                         setController(monsterForUser, user);
                     }
                 } else System.out.println("action not allowed in this phase");
+            }
+
+            pattern = Pattern.compile("card show --selected");
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                ProgramController.ShowMonster(monsterForUser.getName());
             }
         }
     }

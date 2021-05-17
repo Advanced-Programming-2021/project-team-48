@@ -1,10 +1,8 @@
-import Card.Card;
 import Card.MonsterForUser;
 import Card.SpellCardForUser;
 import Card.TrapCardForUser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class User {
     private String username;

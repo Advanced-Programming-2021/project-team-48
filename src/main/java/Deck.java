@@ -1,9 +1,7 @@
-import Card.MonsterCard;
 import Card.MonsterForUser;
 import Card.SpellCardForUser;
 import Card.TrapCardForUser;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Deck {
