@@ -72,7 +72,6 @@ public class Game {
             input = scanner.nextLine();
             boolean checker = false;
             checker = select(user, opponent, input, "phase1");
-
         }
     }
 
@@ -106,7 +105,9 @@ public class Game {
 
     private void standbyPhase(User user, User opponent) {
         System.out.println("phase: standby phase");
+
     }
+
 
     private void drawPhase(User user, User opponent) {
         System.out.println("phase: draw phase");
@@ -328,6 +329,25 @@ public class Game {
         //byd back bzne ke bargarde!!!!!!!!!!!!!!
     }
 
+
+    public static boolean generalSelected(Card card) {
+        Scanner scanner=new Scanner(System.in);
+        boolean checker = false;
+        String input = "";
+        while (!input.equals("select -d")) {
+            input = scanner.nextLine();
+            Pattern pattern = Pattern.compile("card show --selected");
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                checker = true;
+                ProgramController.CardShow(card.getName());
+            }
+        }
+
+        return checker;
+    }
+
+
     public void setUser1(User user1) {
         this.user1 = user1;
     }
@@ -483,23 +503,5 @@ public class Game {
             System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed and you received " + damage + " battle damage");
         }
     }
-
-    public static boolean generalSelected(Card card) {
-        Scanner scanner=new Scanner(System.in);
-        boolean checker = false;
-        String input = "";
-        while (!input.equals("select -d")) {
-            input = scanner.nextLine();
-            Pattern pattern = Pattern.compile("card show --selected");
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                checker = true;
-                ProgramController.CardShow(card.getName());
-            }
-        }
-
-        return checker;
-    }
-
 
 }
