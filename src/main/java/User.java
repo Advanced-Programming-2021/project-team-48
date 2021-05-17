@@ -143,4 +143,8 @@ public class User {
         }
         return null;
     }
+
+    public void decreaseLP(int damage){
+        this.lifePoint -= damage;
+    }
 }
