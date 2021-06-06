@@ -42,6 +42,7 @@ public class Game {
     }
 
     private boolean play(User user, User opponent) {
+        hasSummonInThisRound = false;
         Scanner scanner = new Scanner(System.in);
         showField(user, opponent);
         if (user.getActiveDeck().numberOfCardsInMain == 0) {
@@ -53,7 +54,6 @@ public class Game {
             drawPhase(user, opponent);
         }
         standbyPhase(user, opponent);
-        hasSummonInThisRound = false;
         mainPhase1(user, opponent);
         battlePhase(user, opponent);
         //mainPhase2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

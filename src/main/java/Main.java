@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-//        new CartReader();
+        new CartReader();
         new ProgramController();
     }
 
