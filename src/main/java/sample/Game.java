@@ -108,7 +108,7 @@ public class Game {
             boolean checker = false;
             checker = select(user, opponent, input, "phase1");
             if (!checker) {
-                System.out.println("invalid input9");
+                System.out.println("invalid input");
             }
         }
     }
@@ -126,7 +126,7 @@ public class Game {
             checker = select(user, opponent, input, "battle");
 
             if (!checker) {
-                System.out.println("invalid inputk");
+                System.out.println("invalid input");
             }
         }
     }
@@ -173,7 +173,6 @@ public class Game {
 
     public boolean select(User user, User opponent, String input, String phase) {
         boolean checker = false;
-        System.out.println("select part");
         Pattern pattern = Pattern.compile("select --hand ([\\d]+)");
         //what dose it do in other phase than phase1 and phase2???????????????????????????????
         Matcher matcher = pattern.matcher(input);
