@@ -16,7 +16,7 @@ public class Game {
     Scanner scanner = new Scanner(System.in);
     private User user1;
     private User user2;
-    private boolean dasteAval = false;
+    public static boolean dasteAval = false;
     public static boolean hasSummonInThisRound = false;
     public String phase = "";
     private int[] harif = {3, 1, 0, 2, 4};
@@ -97,6 +97,7 @@ public class Game {
 
 
     private void mainPhase1(User user, User opponent) {
+        showField(user,opponent);
         phase = "phase1";
         System.out.println("phase: Main Phase 1");
         String input = "";
@@ -115,11 +116,11 @@ public class Game {
 
     private void battlePhase(User user, User opponent) {
         phase = "battle";
-        System.out.println("phase: Battle Phase");
+        showField(user,opponent);
         String input = "";
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         while (!input.equals("next phase")) {
-            System.out.println("Battle Phase");
+            System.out.println("phase: Battle Phase");
             input = scanner.nextLine();
             boolean checker = false;
             checker = select(user, opponent, input, "battle");
@@ -131,10 +132,9 @@ public class Game {
     }
 
     private void endPhase(User user, User opponent) {
+        showField(user,opponent);
         System.out.println("phase: End Phase");
         phase = "End";
-
-
         System.out.println("its " + opponent.getNickname() + "’s turn");
     }
 
@@ -154,6 +154,7 @@ public class Game {
         String input = "";
         if (faz != "aval") {
             while (!input.equals("next phase")) {
+                System.out.println("phase: draw phase");
                 input = scanner.nextLine();
                 boolean checker = false;
                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

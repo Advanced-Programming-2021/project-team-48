@@ -16,10 +16,12 @@ public class MonsterControlerInGame {
     public static void selectedMonsterFromZone(MonsterForUser monsterForUser, User user, User opponent, String phase) {
         Scanner scanner = new Scanner(System.in);
         String input = "";
-        while (!input.equals("select -d")) {
+        while (true) {
             System.out.println("select part monster zone");
             input = scanner.nextLine();
             boolean checker = false;
+
+            if (input.equals("select -d"))return;
 
             Pattern pattern = Pattern.compile("card show --selected");
             Matcher matcher = pattern.matcher(input);
@@ -65,8 +67,9 @@ public class MonsterControlerInGame {
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                if (phase.equals("battle")) {
-                    System.out.println("khobi?");
+                if (Game.dasteAval){
+                    System.out.println("it is not allowed because its is daste aval :)");
+                }else if (phase.equals("battle")) {
                     boolean checkIfOpponentMonsterZoneEmpty = true;
                     for (int a=0;a<5;a++) {
                         if (opponent.monsterZone[a] != null) {
@@ -92,7 +95,9 @@ public class MonsterControlerInGame {
                 checker = true;
                 int address = Integer.parseInt(matcher.group(1));
                 address--;
-                if (phase.equals("battle")) {
+                if (Game.dasteAval){
+                    System.out.println("it is not allowed because its is daste aval :)");
+                }else if (phase.equals("battle")) {
                     boolean checkIfOpponentMonsterZoneEmpty = true;
                     if (opponent.monsterZone[address] != null) {
                         checkIfOpponentMonsterZoneEmpty = false;
@@ -108,6 +113,9 @@ public class MonsterControlerInGame {
             }
 
 
+            if (!checker){
+                System.out.println("invalid input");
+            }
         }
     }
 
@@ -115,10 +123,12 @@ public class MonsterControlerInGame {
     public static void monsterSelectedFromHand(MonsterForUser monsterForUser, User user, String phase) {
         Scanner scanner = new Scanner(System.in);
         String input = "";
-        while (!input.equals("select -d")) {
+        while (true) {
             System.out.println("selected monster from hand part");
             input = scanner.nextLine();
             boolean checker = false;
+
+            if (input.equals("select -d")) return;
 
             Pattern pattern = Pattern.compile("card show --selected");
             Matcher matcher = pattern.matcher(input);
@@ -136,9 +146,7 @@ public class MonsterControlerInGame {
                     if (Game.hasSummonInThisRound) {
                         System.out.println("you already summoned/set on this turn");
                     } else {
-
                         summonControler(monsterForUser, user);
-
                     }
                 } else {
                     System.out.println("action not allowed in this phase");
@@ -158,10 +166,10 @@ public class MonsterControlerInGame {
                 } else System.out.println("action not allowed in this phase");
             }
 
-
             if (!checker) {
                 System.out.println("invalid input");
             }
+
         }
     }
 

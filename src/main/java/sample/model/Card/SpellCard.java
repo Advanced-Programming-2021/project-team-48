@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class SpellCard extends Card {
     private Property property;
     private Status status;
-
     private static ArrayList<SpellCard> allSpellCard;
     static {
         allSpellCard=new ArrayList<>();

@@ -11,7 +11,6 @@ public class MonsterCard extends Card {
     public int level;
     public int ATK;
     public int DEF;
-    public String description;
     public MonsterType monsterTYpe;
     protected Attribute attribute;
     private static ArrayList<MonsterCard> allMonsterCards;
