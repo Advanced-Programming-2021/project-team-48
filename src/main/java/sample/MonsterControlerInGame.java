@@ -78,9 +78,15 @@ public class MonsterControlerInGame {
                         }
                     }
                     if (checkIfOpponentMonsterZoneEmpty) {
+                        if (monsterForUser.position.equals(Position.valueOf("ATTACK"))){
                         opponent.lifePoint -= monsterForUser.ATK;
                         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                        System.out.println("you opponent receives " + monsterForUser.ATK + " battale damage");
+                        System.out.println("you opponent receives " + monsterForUser.ATK + " battale damage");}
+                        else if(monsterForUser.position.equals(Position.valueOf("DEFEND"))){
+                            opponent.lifePoint -= monsterForUser.DEF;
+                            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            System.out.println("you opponent receives " + monsterForUser.DEF + " battale damage");
+                        }// age hidden bashe chi mishe?flip summon?
                     } else {
                         System.out.println("you can’t attack the opponent directly");
                     }
