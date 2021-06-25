@@ -102,10 +102,11 @@ public class Game {
         System.out.println("phase: Main Phase 1");
         String input = "";
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        while (!input.equals("next phase")) {
+        while (true) {
             System.out.println("main phase 1");
             input = scanner.nextLine();
             boolean checker = false;
+            if (input.equals("next phase"))return;
             checker = select(user, opponent, input, "phase1");
             if (!checker) {
                 System.out.println("invalid input");
@@ -119,10 +120,11 @@ public class Game {
         showField(user,opponent);
         String input = "";
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        while (!input.equals("next phase")) {
+        while (true) {
             System.out.println("phase: Battle Phase");
             input = scanner.nextLine();
             boolean checker = false;
+            if (input.equals("next phase"))return;
             checker = select(user, opponent, input, "battle");
 
             if (!checker) {
@@ -132,7 +134,6 @@ public class Game {
     }
 
     private void endPhase(User user, User opponent) {
-        showField(user,opponent);
         System.out.println("phase: End Phase");
         phase = "End";
         System.out.println("its " + opponent.getNickname() + "’s turn");

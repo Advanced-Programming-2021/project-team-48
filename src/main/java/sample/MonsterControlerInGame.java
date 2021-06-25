@@ -68,7 +68,7 @@ public class MonsterControlerInGame {
             if (matcher.find()) {
                 checker = true;
                 if (Game.dasteAval){
-                    System.out.println("it is not allowed because its is daste aval :)");
+                    System.out.println("it is not allowed because it is daste aval :)");
                 }else if (phase.equals("battle")) {
                     boolean checkIfOpponentMonsterZoneEmpty = true;
                     for (int a=0;a<5;a++) {
@@ -102,7 +102,7 @@ public class MonsterControlerInGame {
                 int address = Integer.parseInt(matcher.group(1));
                 address--;
                 if (Game.dasteAval){
-                    System.out.println("it is not allowed because its is daste aval :)");
+                    System.out.println("it is not allowed because it is daste aval :)");
                 }else if (phase.equals("battle")) {
                     boolean checkIfOpponentMonsterZoneEmpty = true;
                     if (opponent.monsterZone[address] != null) {
