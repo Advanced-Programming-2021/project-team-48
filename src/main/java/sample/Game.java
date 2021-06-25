@@ -16,7 +16,7 @@ public class Game {
     Scanner scanner = new Scanner(System.in);
     private User user1;
     private User user2;
-    public static boolean dasteAval = false;
+    public static boolean dasteAval = true;
     public static boolean hasSummonInThisRound = false;
     public String phase = "";
     private int[] harif = {3, 1, 0, 2, 4};
@@ -81,8 +81,6 @@ public class Game {
             return false;
         }
         if (!dasteAval) {
-            dasteAval = true;
-        } else {
             drawPhase(user, opponent, "dakhleBazi");
         }
         standbyPhase(user, opponent);
@@ -90,7 +88,7 @@ public class Game {
         battlePhase(user, opponent);
         //mainPhase2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         endPhase(user, opponent);
-
+        dasteAval = true;
         //!!!!!!!!!!!!!!!!!!!!!!!
         return true;
     }
