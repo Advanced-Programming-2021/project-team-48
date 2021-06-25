@@ -1,0 +1,10 @@
+.startBackground{
+    -fx-background-image: url("Assets/Textures/sugoroku_bg03.dds.png");
+}
+.signupBackground{
+    -fx-background-image: url("Assets/Textures/sugoroku_bg01.dds.png");
+}
+.mainMenuBackground{
+    -fx-background-image: url("Assets/background/mainMenu.jpg");
+
+}
