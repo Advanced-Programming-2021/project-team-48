@@ -1,11 +1,7 @@
 package sample.controller.Game;
 
-import sample.Game;
-import sample.MonsterControlerInGame;
 import sample.controller.UserLogined;
-import sample.model.Card.MonsterForUser;
 import sample.model.User;
-import sample.view.graphic.GameGraphic;
 
 public class GameController {
     public boolean hasSummonInThisRound = false;

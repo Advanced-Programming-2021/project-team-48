@@ -186,7 +186,7 @@ public class Game {
                 if (monsterForUser.address == address) {
                     isFind = true;
                     System.out.println("card selected");
-                    MonsterControlerInGame.monsterSelectedFromHand(monsterForUser, user, phase);
+                    MonsterControllerInGame.monsterSelectedFromHand(monsterForUser, user, phase);
                     break;
                 }
             }
@@ -222,7 +222,7 @@ public class Game {
                 System.out.println("no card found in the given position");
             } else {
                 System.out.println("card selected");
-                MonsterControlerInGame.selectedMonsterFromZone(user.monsterZone[address], user, opponent, phase);
+                MonsterControllerInGame.selectedMonsterFromZone(user.monsterZone[address], user, opponent, phase);
             }
         }
 
