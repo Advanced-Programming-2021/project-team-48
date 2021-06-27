@@ -28,7 +28,7 @@ public class MonsterAdderToDeck {
                 return "three";
             } else {
                 if (!monsterForUser.isInDeck) {
-                    UserLogined.user.allMonsters.remove(monsterForUser);
+                   // UserLogined.user.allMonsters.remove(monsterForUser);
                     deck.allMonsterForUserMain.add(monsterForUser);
                     deck.numberOfCardsInMain++;
                     monsterForUser.deck = deck;
@@ -62,4 +62,6 @@ public class MonsterAdderToDeck {
         monsterForUser.deck=null;
         return "done";
     }
+
+
 }

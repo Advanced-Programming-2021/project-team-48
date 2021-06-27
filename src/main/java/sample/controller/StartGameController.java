@@ -24,8 +24,8 @@ public class StartGameController {
                         if (user2.getActiveDeck().isValid().equals("valid")) {
                             if (round == 1) {
                                 UserLogined.opponent=user2;
-                                new Game(user, user2);
-                                return "done";
+                                //new Game(user, user2);
+                                return "done1";
                             } else if (round == 3) {
 //@!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                                 //hosh masnoie!!!!!!!!!!!!!!!!!!!
