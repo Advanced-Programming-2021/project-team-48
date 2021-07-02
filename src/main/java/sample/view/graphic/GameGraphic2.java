@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -12,47 +11,51 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import sample.controller.Game.GameController;
 import sample.controller.UserLogined;
 import sample.model.Card.MonsterForUser;
 
 import java.util.ArrayList;
 
-public class GameGraphic extends Application {
+public class GameGraphic2 extends Application {
     private static Stage stage;
     @FXML
-    private Text error;
+    private Text error2;
     @FXML
-    public Text phase;
+    public Text phase2;
     @FXML
-    private AnchorPane anchorPane;
+    private AnchorPane anchorPane2;
+    @FXML
+    public Text nickName2;
+    @FXML
+    public Text lifePoint2;
+    @FXML
+    public Text opponentNickName2;
+    @FXML
+    public Text opponentLifePoint2;
+
 
     @Override
     public void start(Stage stage) throws Exception {
-        this.stage = stage;
-        anchorPane = FXMLLoader.load(getClass().getResource("User1.fxml"));
-        Scene scene = new Scene(anchorPane);
-        anchorPane.getChildren().addAll(creatUserHand());
-        stage.setScene(scene);
-        stage.show();
-
-        Parent parent1 = FXMLLoader.load(getClass().getResource("User2.fxml"));
-        Scene scene1 = new Scene(parent1);
+        anchorPane2 = FXMLLoader.load(getClass().getResource("User2.fxml"));
+        Scene scene1 = new Scene(anchorPane2);
         Stage stage1 = new Stage();
         stage1.setScene(scene1);
         stage1.show();
     }
 
     public void initialize() {
-        GameController gameController = new GameController();
-        gameController.run();
+     nickName2.setText(UserLogined.opponent.getNickname());
+     opponentNickName2.setText(UserLogined.user.getNickname());
+
+        //GameController gameController = new GameController();
+        //gameController.run();
     }
 
     public ArrayList<ShopCard> creatUserHand() {
         ArrayList<ShopCard> allCards = new ArrayList<>();
         int x = 684;
-        for (MonsterForUser monsterForUser : UserLogined.user.handMonster) {
-            ShopCard card = new ShopCard(x, 600, 150, 200, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+        for (MonsterForUser monsterForUser : UserLogined.opponent.handMonster) {
+            ShopCard card = new ShopCard(x, 600, 200, 150, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
             x -= 103;
             card.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -73,7 +76,7 @@ public class GameGraphic extends Application {
                     set.setTranslateY(350);
                 }
             });
-        allCards.add(card);
+            allCards.add(card);
         }
         return allCards;
     }

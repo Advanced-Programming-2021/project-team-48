@@ -6,7 +6,7 @@ import sample.model.Card.TrapCardForUser;
 
 import java.util.ArrayList;
 
-public class Deck {
+public class Deck implements Cloneable {
     private String name;
     public User user;
     public int numberOfCardsInMain;
@@ -64,4 +64,17 @@ public class Deck {
         } else return "invalid";
     }
 
+    public void copyDeck(Deck deck){
+        this.numberOfCardsInSide=deck.numberOfCardsInSide;
+        this.numberOfCardsInMain=deck.numberOfCardsInMain;
+
+        this.allMonsterForUserMain.addAll(deck.allMonsterForUserMain);
+        this.allMonsterForUserSide.addAll(deck.allMonsterForUserSide);
+
+        this.allSpellCardsForUserMain.addAll(deck.allSpellCardsForUserMain);
+        this.allSpellCardsForUserSide.addAll(deck.allSpellCardsForUserSide);
+
+        this.allTrapCardsForUserMain.addAll(deck.allTrapCardsForUserMain);
+        this.allTrapCardsForUserSide.addAll(deck.allTrapCardsForUserSide);
+    }
 }

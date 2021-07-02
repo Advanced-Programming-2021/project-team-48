@@ -6,5 +6,8 @@
 }
 .mainMenuBackground{
     -fx-background-image: url("Assets/background/mainMenu.jpg");
-
+}
+.gameField{
+    -fx-background-image: url("Assets/Field/fie_normal.jpg");
+    -fx-background-size: cover;
 }

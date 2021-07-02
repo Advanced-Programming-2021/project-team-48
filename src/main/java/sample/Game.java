@@ -77,7 +77,7 @@ public class Game {
     private boolean play(User user, User opponent) {
         hasSummonInThisRound = false;
         showField(user, opponent);
-        if (user.getActiveDeck().numberOfCardsInMain == 0) {
+        if (user.getActiveDeck().numberOfCardsInMain == 0||user.getLifePoint()==0||opponent.getLifePoint()==0) {
             return false;
         }
         if (!dasteAval) {
@@ -89,6 +89,9 @@ public class Game {
         //mainPhase2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         endPhase(user, opponent);
         dasteAval = true;
+        if (user.getActiveDeck().numberOfCardsInMain == 0||user.getLifePoint()==0||opponent.getLifePoint()==0) {
+            return false;
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!
         return true;
     }

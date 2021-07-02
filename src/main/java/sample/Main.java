@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         new CartReader();
         //new ProgramController();
+        //tribute ham avaz she!
         Start.main(args);
     }
 

@@ -9,64 +9,24 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1500.0" style="-fx-background-color: #83AF9B;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.view.graphic.GameGraphic">
+<AnchorPane fx:id="anchorPane1" prefHeight="750.0" prefWidth="1500.0" style="-fx-background-color: #83AF9B;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.view.graphic.GameGraphic1">
    <children>
-      <ImageView fitHeight="750.0" fitWidth="739.0" layoutX="787.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Assets/Field/fie_normal.jpg" />
-         </image>
-      </ImageView>
-      <Line endX="138.00006103515625" layoutX="664.0" layoutY="221.0" startX="-649.0" strokeWidth="2.0" />
-      <Text fx:id="nickName" layoutX="29.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="644.6498222351074">
+      <Line endX="153.60003662109375" layoutX="664.0" layoutY="221.0" startX="-649.0" strokeWidth="2.0" />
+      <Text fx:id="nickName1" layoutX="29.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="644.6498222351074">
          <font>
             <Font size="19.0" />
          </font>
       </Text>
       <Label layoutX="29.0" layoutY="272.0" text="your Life Point :" />
-      <Text fx:id="lifePoint" fill="RED" layoutX="120.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="170.13670349121094" />
-      <ImageView fitHeight="150.0" fitWidth="170.0" layoutX="375.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Assets/Cards/Monsters/AxeRaider.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="478.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Assets/Cards/Monsters/AlexandriteDragon.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="581.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Assets/Cards/Monsters/BabyDragon.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="272.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Assets/Cards/Monsters/BattleOx.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="684.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Assets/Cards/Monsters/BattleWarrior.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="169.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Assets/Cards/Monsters/BeastKingBarbaros.jpg" />
-         </image>
-      </ImageView>
-      <Text fx:id="opponentNickName" layoutX="18.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="644.6498222351074">
+      <Text fx:id="lifePoint1" fill="RED" layoutX="120.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8000" wrappingWidth="170.13670349121094" />
+      <Text fx:id="opponentNickName1" layoutX="18.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="644.6498222351074">
          <font>
             <Font size="19.0" />
          </font>
       </Text>
-      <Label layoutX="18.0" layoutY="54.0" text="your Life Point :" />
-      <Text fx:id="opponentLifePoint" fill="RED" layoutX="104.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8000" wrappingWidth="31.999975585937534" />
+      <Label layoutX="18.0" layoutY="54.0" text="Opponent Life Point :" />
+      <Text fx:id="opponentLifePoint1" fill="RED" layoutX="134.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8000" wrappingWidth="31.999975585937534" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="29.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Assets/Cards/Monsters/Unknown.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="37.0" layoutY="472.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
          <image>
             <Image url="@Assets/Cards/Monsters/Unknown.jpg" />
          </image>
@@ -77,20 +37,14 @@
             <Image url="@Assets/Cards/Monsters/Unknown.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="52.0" fitWidth="105.0" layoutX="52.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
-         <image>
-            <Image url="@Assets/Cards/Monsters/Unknown.jpg" />
-         </image>
-      </ImageView>
       <Label layoutX="12.0" layoutY="154.0" text="Opponent Grave :" />
-      <Button layoutX="10.0" layoutY="685.0" mnemonicParsing="false" onAction="#Back" prefHeight="52.0" prefWidth="52.0" stylesheets="@you-gay-oh.css" />
-      <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="10.0" layoutY="684.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Assets/Icons/GUI_T_DuelButtonActIcon1_12.dds.png" />
-         </image>
-      </ImageView>
-      <Text fx:id="error" fill="#ff0606" layoutX="89.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="232.5366973876953" />
-      <Button layoutX="182.0" layoutY="453.0" mnemonicParsing="false" text="Next Phase" />
-      <Text fx:id="phase" layoutX="175.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="104.52755737304693" />
+      <Button layoutX="10.0" layoutY="685.0" mnemonicParsing="false" onAction="#back" prefHeight="52.0" prefWidth="52.0" stylesheets="@you-gay-oh.css" text="Exit" />
+      <Text fx:id="error1" fill="#ff0606" layoutX="141.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="232.5366973876953" />
+      <Button fx:id="nextPhase" layoutX="182.0" layoutY="453.0" mnemonicParsing="false" onAction="#nextPhase" text="Next Phase" />
+      <Text fx:id="phase1" layoutX="175.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="104.52755737304693" />
+      <AnchorPane fx:id="hand" layoutX="167.0" layoutY="584.0" prefHeight="166.0" prefWidth="652.0" style="-fx-background-color: white;" />
+      <AnchorPane fx:id="show" layoutX="346.0" layoutY="222.0" prefHeight="362.0" prefWidth="474.0" style="-fx-background-color: blue;" />
+      <AnchorPane fx:id="field" layoutX="819.0" prefHeight="750.0" prefWidth="680.0" style="-fx-background-color: #0e9aa7;" styleClass="gameField" stylesheets="@you-gay-oh.css" />
+      <AnchorPane fx:id="opponentHand" layoutX="167.0" layoutY="54.0" prefHeight="166.0" prefWidth="652.0" style="-fx-background-color: white;" />
    </children>
 </AnchorPane>

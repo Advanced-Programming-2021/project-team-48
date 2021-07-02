@@ -3,6 +3,8 @@ package sample.controller;
 import sample.model.Card.MonsterForUser;
 import sample.model.Deck;
 
+import java.util.Iterator;
+
 public class MonsterAdderToDeck {
     public static String AddMonsterToMain(Deck deck, MonsterForUser monsterForUser) {
         if (deck.numberOfCardsInMain >= 60) {
@@ -28,8 +30,8 @@ public class MonsterAdderToDeck {
                 return "three";
             } else {
                 if (!monsterForUser.isInDeck) {
-                   // UserLogined.user.allMonsters.remove(monsterForUser);
                     deck.allMonsterForUserMain.add(monsterForUser);
+                    //deck.user.allMonsters.remove(monsterForUser);
                     deck.numberOfCardsInMain++;
                     monsterForUser.deck = deck;
                     monsterForUser.isInDeck = true;

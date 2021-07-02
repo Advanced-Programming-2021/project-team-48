@@ -6,15 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import sample.controller.BuyCard;
-import sample.controller.MonsterAdderToDeck;
-import sample.controller.StartGameController;
-import sample.controller.UserLogined;
+import sample.controller.*;
+import sample.controller.Game.GameController;
 import sample.model.Card.CartReader;
 import sample.model.Card.MonsterForUser;
 import sample.model.Deck;
@@ -42,11 +38,12 @@ public class DuelMenu extends Application {
     }
 
     public void initialize() {
+
         //<temp>
         new CartReader();
 
         //<user2>
-        User naweed = new User("naweed", "ahmadvand", "321");
+        User naweed = new User("", "ahmadvand", "321");
         UserLogined.user = naweed;
         BuyCard.BuyCard("Battle Ox", naweed);
         BuyCard.BuyCard("Battle Ox", naweed);
@@ -150,21 +147,39 @@ public class DuelMenu extends Application {
 
         Deck deck = new Deck(arian, "arians deck");
 
-        //for(int i=0;i<arian.allMonsters.size();i++){
-        //MonsterAdderToDeck.AddMonsterToMain(deck, arian.monsterZone[i]);
-        //System.out.println(arian.allMonsters.get(i).getName());
-        //}
-
         for (MonsterForUser monsterForUser : arian.allMonsters) {
             MonsterAdderToDeck.AddMonsterToMain(deck, monsterForUser);
         }
+
+       /* arian.handMonster.add(arian.allMonsters.get(0));
+        arian.handMonster.add(arian.allMonsters.get(3));
+        arian.handMonster.add(arian.allMonsters.get(6));
+        arian.handMonster.add(arian.allMonsters.get(9));
+        arian.handMonster.add(arian.allMonsters.get(12));
+        arian.handMonster.add(arian.allMonsters.get(15));
+
+        naweed.handMonster.add(naweed.allMonsters.get(0));
+        naweed.handMonster.add(naweed.allMonsters.get(1));
+        naweed.handMonster.add(naweed.allMonsters.get(2));
+        naweed.handMonster.add(naweed.allMonsters.get(3));
+        naweed.handMonster.add(naweed.allMonsters.get(4));
+
+
+        */
+
 
         UserLogined.user.hasActiveDeck = true;
         UserLogined.user.setActiveDeck(deck);
 
 
+
+
+
+
         //</user1>
         //</temp>
+
+
         one.setSelected(true);
 
     }
@@ -186,7 +201,17 @@ public class DuelMenu extends Application {
         String nextStep = StartGameController.Game(opponent.getText(), UserLogined.user, rounds);
         error.setText(nextStep);
         if (nextStep.equals("done1")) {
-            new GameGraphic().start(stage);
+            GameGraphic1.deckTempUser.copyDeck(UserLogined.user.getActiveDeck());
+            GameGraphic1.deckTempOpponent.copyDeck(UserLogined.opponent.getActiveDeck());
+            GameGraphic1 gameGraphic1=new GameGraphic1();
+            gameGraphic1.start(stage);
+            //GameGraphic2 gameGraphic2=new GameGraphic2();
+            //gameGraphic2.start(stage);
+           // new GameGraphic1().start(stage);
+            // GameController gameController = new GameController(UserLogined.user,UserLogined.opponent);
+            //GameGraphic1.gameController=gameController;
+            //GameController.gameGraphic1=gameGraphic1;
+
         }
     }
 
