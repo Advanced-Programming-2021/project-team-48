@@ -17,32 +17,32 @@
       </Text>
       <Label layoutX="10.0" layoutY="255.0" text="your Life Point :" />
       <Text fx:id="lifePoint1" fill="RED" layoutX="99.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8000" wrappingWidth="31.99997558593759" />
-      <Text fx:id="opponentNickName1" layoutX="3.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="155.04980087280273">
+      <Text fx:id="opponentNickName1" layoutX="7.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="155.04980087280273">
          <font>
             <Font size="19.0" />
          </font>
       </Text>
-      <Label layoutY="44.0" text="Opponent Life Point :" />
-      <Text fx:id="opponentLifePoint1" fill="RED" layoutX="136.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8000" wrappingWidth="31.999975585937534" />
+      <Label layoutX="4.0" layoutY="30.0" text="Opponent Life Point :" />
+      <Text fx:id="opponentLifePoint1" fill="RED" layoutX="140.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8000" wrappingWidth="31.999975585937534" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="4.0" layoutY="359.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Assets/Cards/Monsters/Unknown.jpg" />
          </image>
       </ImageView>
       <Label layoutX="139.0" layoutY="454.0" text="Grave :" />
-      <ImageView fitHeight="52.0" fitWidth="45.0" layoutX="276.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="52.0" fitWidth="45.0" layoutX="280.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Assets/Cards/Monsters/Unknown.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="383.0" layoutY="31.0" text="Opponent Grave :" />
-      <Text fx:id="error1" fill="#ff0606" layoutX="11.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="282.9367370605469" />
+      <Label layoutX="387.0" layoutY="17.0" text="Opponent Grave :" />
+      <Text fx:id="error1" fill="#ff0606" layoutX="11.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="262.9367370605469" />
       <Button fx:id="nextPhase" layoutX="120.0" layoutY="421.0" mnemonicParsing="false" onAction="#nextPhase" text="Next Phase" />
       <Text fx:id="phase1" layoutX="120.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="104.52755737304693" />
       <AnchorPane fx:id="hand" layoutX="-2.0" layoutY="584.0" prefHeight="166.0" prefWidth="652.0" style="-fx-background-color: #09868b;" />
-      <AnchorPane fx:id="show" layoutX="305.0" layoutY="222.0" prefHeight="362.0" prefWidth="345.0" style="-fx-background-color: #acb7ae;" />
+      <AnchorPane fx:id="show" layoutX="297.0" layoutY="207.0" prefHeight="376.0" prefWidth="357.0" style="-fx-background-color: #acb7ae;" />
       <AnchorPane fx:id="field" layoutX="651.0" layoutY="-7.0" prefHeight="757.0" prefWidth="848.0" style="-fx-background-color: #0e9aa7;" styleClass="gameField" stylesheets="@you-gay-oh.css" />
-      <AnchorPane fx:id="opponentHand" layoutX="-2.0" layoutY="69.0" prefHeight="150.0" prefWidth="652.0" style="-fx-background-color: #c2dde6;" />
-      <Button layoutX="7.0" layoutY="536.0" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="43.0" stylesheets="@you-gay-oh.css" text="Exit" />
+      <AnchorPane fx:id="opponentHand" layoutX="-2.0" layoutY="52.0" prefHeight="150.0" prefWidth="652.0" style="-fx-background-color: #c2dde6;" />
+      <Button layoutX="10.0" layoutY="523.0" mnemonicParsing="false" onAction="#back" prefHeight="52.0" prefWidth="50.0" styleClass="exitButton" stylesheets="@you-gay-oh.css" />
    </children>
 </AnchorPane>

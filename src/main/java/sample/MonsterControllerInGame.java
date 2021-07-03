@@ -36,7 +36,7 @@ public class MonsterControllerInGame {
             if (matcher.find()) {
                 checker = true;
                 if (phase.equals("phase1") || phase.equals("phase2")) {
-                    positionAttack(monsterForUser);
+                    System.out.println(positionAttack(monsterForUser));
                 } else {
                     System.out.println("you can’t do this action in this phase");
                 }
@@ -47,7 +47,7 @@ public class MonsterControllerInGame {
             if (matcher.find()) {
                 checker = true;
                 if (phase.equals("phase1") || phase.equals("phase2")) {
-                    positionDefend(monsterForUser);
+                    System.out.println(positionDefend(monsterForUser));
                 } else {
                     System.out.println("you can’t do this action in this phase");
                 }
@@ -58,7 +58,7 @@ public class MonsterControllerInGame {
             if (matcher.find()) {
                 checker = true;
                 if (phase.equals("phase1") || phase.equals("phase2")) {
-                    flipSummon(monsterForUser);
+                    System.out.println(flipSummon(monsterForUser));
                 } else {
                     System.out.println("you can’t do this action in this phase");
                 }
@@ -204,13 +204,11 @@ public class MonsterControllerInGame {
                 user.handMonster.remove(monsterForUser);
                 Game.hasSummonInThisRound = true;
                 GameGraphic1.hasSummon=true;
-                GameGraphic1.error="summoned successfully";
                 return "summoned successfully";
 
             }
         }
         if (!hasEmpty) {
-            GameGraphic1.error="monster card zone is full";
             return "monster card zone is full";
         }
         return "damn it";
@@ -309,33 +307,39 @@ public class MonsterControllerInGame {
     }
 
 
-    private static void positionAttack(MonsterForUser monsterForUser) {
+    public static String positionAttack(MonsterForUser monsterForUser) {
         if (monsterForUser.position.equals(Position.valueOf("ATTACK"))) {
-            System.out.println("this card is already in the wanted position");
+           return "this card is already in the wanted position";
         } else {
             if (monsterForUser.position.equals(Position.valueOf("DEFEND"))) {
                 monsterForUser.position = Position.valueOf("ATTACK");
-                System.out.println("monster card position changed successfully");
+                monsterForUser.canChange=false;
+                return ("monster card position changed successfully");
             }
         }
+        return "error";
     }
 
-    private static void positionDefend(MonsterForUser monsterForUser) {
+    public static String positionDefend(MonsterForUser monsterForUser) {
         if (monsterForUser.position.equals(Position.valueOf("DEFEND"))) {
-            System.out.println("this card is already in the wanted position");
+            return ("this card is already in the wanted position");
         } else {
             if (monsterForUser.position.equals(Position.valueOf("ATTACK"))) {
                 monsterForUser.position = Position.valueOf("DEFEND");
-                System.out.println("monster card position changed successfully");
+                monsterForUser.canChange=false;
+                return ("monster card position changed successfully");
             }
         }
+        return "error";
     }
 
-    private static void flipSummon(MonsterForUser monsterForUser) {
+    public static String flipSummon(MonsterForUser monsterForUser) {
         if (monsterForUser.position.equals(Position.valueOf("HIDDEN"))) {
             monsterForUser.position = Position.valueOf("ATTACK");
+            monsterForUser.canChange=false;
+            return "flip summoned successfully";
         } else {
-            System.out.println("you can’t flip summon this card");
+            return ("you can’t flip summon this card");
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!age taze gozashte bashe nmishe flip krd!!!!!!!!!!!!!!!
         }
     }
@@ -361,12 +365,10 @@ public class MonsterControllerInGame {
                 user.monsterZone[a] = monsterForUser;
                 user.handMonster.remove(monsterForUser);
                 Game.hasSummonInThisRound = true;
-                GameGraphic1.error="set successfully";
                 return "set successfully";
             }
         }
         if (!hasEmpty) {
-            GameGraphic1.error="monster card zone is full";
             return "monster card zone is full";
         }
         return "damn it set";

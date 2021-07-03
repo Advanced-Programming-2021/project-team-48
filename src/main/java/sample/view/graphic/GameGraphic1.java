@@ -45,6 +45,8 @@ public class GameGraphic1 extends Application {
     private static TrapCardForUser showCardTrapHand;
     private static TrapCardForUser showCardTrapOpponentHand;
 
+    public static User winner;
+    public static User loser;
     @FXML
     public Text nickName1;
     @FXML
@@ -72,7 +74,7 @@ public class GameGraphic1 extends Application {
     private AnchorPane field;
 
     public static String phase = "start";
-    public static String error="";
+    public static String error = "";
     public User user = UserLogined.user;
     public User opoonent = UserLogined.opponent;
     public static boolean dasteAval = true;
@@ -100,8 +102,17 @@ public class GameGraphic1 extends Application {
 
 
     public ShopCard showMonsterCard(User user, MonsterForUser monsterForUser) {
-        if (showCardMonsterHand != null || showCardMonsterOpponentHand != null || showMonsterFromZone != null||showMonsterFromZoneOpponent!=null) {
-            ShopCard card = new ShopCard(0, 0, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+        if (showCardMonsterHand != null || showCardMonsterOpponentHand != null || showMonsterFromZone != null || showMonsterFromZoneOpponent != null) {
+            ShopCard card;
+            if (showMonsterFromZoneOpponent != null) {
+                if (showMonsterFromZoneOpponent.position.equals(Position.valueOf("HIDDEN"))) {
+                    card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+                } else {
+                    card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+                }
+            } else
+                card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+
             card.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -123,9 +134,9 @@ public class GameGraphic1 extends Application {
                         showMonsterFromZone = null;
                         field.getChildren().clear();
 
-                    }else if (showMonsterFromZoneOpponent!=null){
-                        opoonent.monsterZone[showMonsterFromZoneOpponent.address]=showMonsterFromZoneOpponent;
-                        showMonsterFromZoneOpponent=null;
+                    } else if (showMonsterFromZoneOpponent != null) {
+                        opoonent.monsterZone[showMonsterFromZoneOpponent.address] = showMonsterFromZoneOpponent;
+                        showMonsterFromZoneOpponent = null;
                         field.getChildren().clear();
                     }
 
@@ -155,7 +166,7 @@ public class GameGraphic1 extends Application {
                             nextStep = MonsterControllerInGame.summon(showCardMonsterHand, user);
                         } else {
                             TributePart.user = user;
-                            TributePart.setOrSum="sum";
+                            TributePart.setOrSum = "sum";
                             try {
                                 new TributePart().start(stage);
                             } catch (Exception e) {
@@ -197,7 +208,7 @@ public class GameGraphic1 extends Application {
                             nextStep = MonsterControllerInGame.set(showCardMonsterHand, user);
                         } else {
                             TributePart.user = user;
-                            TributePart.setOrSum="set";
+                            TributePart.setOrSum = "set";
                             try {
                                 new TributePart().start(stage);
                             } catch (Exception e) {
@@ -223,7 +234,6 @@ public class GameGraphic1 extends Application {
                   */
                 }
             });
-
             show.getChildren().add(set);
 
         } else if (showCardMonsterOpponentHand != null) {
@@ -234,54 +244,112 @@ public class GameGraphic1 extends Application {
         } else if (showMonsterFromZone != null) {
             show.getChildren().clear();
             show.getChildren().add(showMonsterCard(user, showMonsterFromZone));
-
-            Button attackDirect = new Button();
-            attackDirect.setText("Attack direct");
-            attackDirect.setTranslateX(250);
-            attackDirect.setTranslateY(30);
-            attackDirect.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    //if (phase.equal("battle"){
-                    try {
-                        directAttack(user, opoonent, showMonsterFromZone);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                //}else error1.setText("phase eshtebah");
-            });
-            show.getChildren().add(attackDirect);
-
-            Button attack = new Button();
-            attack.setText("Attack");
-            attack.setTranslateX(250);
-            attack.setTranslateY(60);
-            attack.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    //if (phase.equal("battle"){
-                    if (showMonsterFromZone.canAttack) {
-                        AttackCard.user = user;
-                        AttackCard.opponent = opoonent;
-                        AttackCard.showMonsterFromZone = showMonsterFromZone;
+            if (showMonsterFromZone.position.equals(Position.valueOf("ATTACK"))) {
+                Button attackDirect = new Button();
+                attackDirect.setText("Attack direct");
+                attackDirect.setTranslateX(250);
+                attackDirect.setTranslateY(30);
+                attackDirect.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        //if (phase.equal("battle"){
                         try {
-                            clearSelectedCard();
-                            new AttackCard().start(stage);
+                            directAttack(user, opoonent, showMonsterFromZone);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    } else {
-                        error1.setText("amo nmitoni ba in attack bzni");
                     }
                     //}else error1.setText("phase eshtebah");
+                });
+                show.getChildren().add(attackDirect);
+
+                Button attack = new Button();
+                attack.setText("Attack");
+                attack.setTranslateX(250);
+                attack.setTranslateY(60);
+                attack.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        //if (phase.equal("battle"){
+                        if (showMonsterFromZone.canAttack) {
+                            AttackCard.user = user;
+                            AttackCard.opponent = opoonent;
+                            AttackCard.showMonsterFromZone = showMonsterFromZone;
+                            try {
+                                clearSelectedCard();
+                                new AttackCard().start(stage);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            error1.setText("amo nmitoni ba in attack bzni");
+                        }
+                        //}else error1.setText("phase eshtebah");
+                    }
+                });
+                show.getChildren().add(attack);
+
+
+                Button change = new Button();
+                if (showMonsterFromZone.position.equals(Position.valueOf("ATTACK"))) {
+                    change.setText("Change To Defense Position");
+                    change.setTranslateX(250);
+                    change.setTranslateY(90);
+                    change.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            if (showMonsterFromZone.canChange) {
+                                String natije = MonsterControllerInGame.positionDefend(showMonsterFromZone);
+                                error1.setText(natije);
+                                show.getChildren().clear();
+                                creatBoard();
+                            }else error1.setText("chand bar?ye bar avaz kardi");
+                        }
+                    });
                 }
-            });
-            show.getChildren().add(attack);
-        }else if (showMonsterFromZoneOpponent!=null){
+
+                show.getChildren().add(change);
+            } else if (showMonsterFromZone.position.equals(Position.valueOf("DEFEND"))) {
+                Button change = new Button();
+                change.setText("Change To Attack Position");
+                change.setTranslateX(250);
+                change.setTranslateY(90);
+                change.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        if (showMonsterFromZone.canChange) {
+
+                            String natije = MonsterControllerInGame.positionAttack(showMonsterFromZone);
+                            error1.setText(natije);
+                            show.getChildren().clear();
+                            creatBoard();
+                        }else error1.setText("chand bar?ye bar avaz kardi");
+                    }
+                });
+                show.getChildren().add(change);
+            } else if (showMonsterFromZone.position.equals(Position.valueOf("HIDDEN"))) {
+                Button change = new Button();
+                change.setText("Flip Summon");
+                change.setTranslateX(250);
+                change.setTranslateY(90);
+                change.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        if (showMonsterFromZone.canChange) {
+                            String natije = MonsterControllerInGame.flipSummon(showMonsterFromZone);
+                            error1.setText(natije);
+                            show.getChildren().clear();
+                            creatBoard();
+                        }else error1.setText("chand bar?ye bar avaz kardi");
+                    }
+                });
+                show.getChildren().add(change);
+            }
+        } else if (showMonsterFromZoneOpponent != null) {
             show.getChildren().clear();
             show.getChildren().add(showMonsterCard(opoonent, showMonsterFromZoneOpponent));
         }
+
 
         field.getChildren().addAll(creatUserField(user, field, "user"));
         field.getChildren().addAll(creatUserField(opoonent, field, "opponent"));
@@ -309,28 +377,31 @@ public class GameGraphic1 extends Application {
         }
         for (int f = 0; f < user1.monsterZone.length; f++) {
             if (user1.monsterZone[f] != null) {
-                ShopCard card = new ShopCard(x, y, 120, 90, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + user1.monsterZone[f].getName().replace(" ", "").replace("-", "") + ".jpg")))));
-                if (user1.monsterZone[f].position.equals(Position.valueOf("DEFEND"))){
+                ShopCard card;
+                if (!user1.monsterZone[f].position.equals(Position.valueOf("HIDDEN"))) {
+                    card = new ShopCard(x, y, 120, 90, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + user1.monsterZone[f].getName().replace(" ", "").replace("-", "") + ".jpg")))));
+                } else
+                    card = new ShopCard(x, y, 120, 90, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+                if (user1.monsterZone[f].position.equals(Position.valueOf("DEFEND"))) {
                     card.setRotate(90);
                 }
-                if (user1.monsterZone[f].position.equals(Position.valueOf("HIDDEN"))){
+                if (user1.monsterZone[f].position.equals(Position.valueOf("HIDDEN"))) {
                     card.setRotate(90);
                 }
                 x += 120;
                 int finalF = f;
-                if (who.equals("user")){
-                card.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        clearSelectedCard();
-                        showMonsterFromZone = user1.monsterZone[finalF];
-                        user1.monsterZone[finalF] = null;
-                        field.getChildren().clear();
-                        creatBoard();
-                    }
-                });
-                }
-                else if (who.equals("opponent")){
+                if (who.equals("user")) {
+                    card.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            clearSelectedCard();
+                            showMonsterFromZone = user1.monsterZone[finalF];
+                            user1.monsterZone[finalF] = null;
+                            field.getChildren().clear();
+                            creatBoard();
+                        }
+                    });
+                } else if (who.equals("opponent")) {
                     card.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
@@ -388,6 +459,7 @@ public class GameGraphic1 extends Application {
             for (int i = 0; i < user.monsterZone.length; i++) {
                 if (user.monsterZone[i] != null) {
                     user.monsterZone[i].canAttack = true;
+                    user.monsterZone[i].canChange = true;
                 }
             }
             User user = UserLogined.user;
@@ -397,7 +469,7 @@ public class GameGraphic1 extends Application {
             clearSelectedCard();
             hasSummon = false;
             phase = "start";
-            error="";
+            error = "";
             phase1.setText(phase);
             new GameGraphic1().start(stage);
         }
@@ -488,9 +560,9 @@ public class GameGraphic1 extends Application {
         }
 
 
-        if (showMonsterFromZoneOpponent!=null){
-            opoonent.monsterZone[showMonsterFromZoneOpponent.address]=showMonsterFromZoneOpponent;
-            showMonsterFromZoneOpponent=null;
+        if (showMonsterFromZoneOpponent != null) {
+            opoonent.monsterZone[showMonsterFromZoneOpponent.address] = showMonsterFromZoneOpponent;
+            showMonsterFromZoneOpponent = null;
         }
 
 
@@ -528,7 +600,7 @@ public class GameGraphic1 extends Application {
             height = 150;
         } else if (who.equals("opponent")) {
             x = 493;
-            y = 13;
+            y = 9;
 
             weight = 45;
             height = 62;
@@ -553,15 +625,27 @@ public class GameGraphic1 extends Application {
     }
 
     public void endGame() throws Exception {
-        error="";
+        if (user.lifePoint!=0){
+            winner=user;
+            loser=opoonent;
+        }else {
+            loser=user;
+            winner=opoonent;
+        }
+        winner.setMoney(winner.getMoney()+ user.getLifePoint()+1000);
+        loser.setMoney(winner.getMoney()+ 100);
+        winner.setScore(winner.getScore()+1000);
+        error = "";
         for (int i = 0; i < user.monsterZone.length; i++) {
             if (user.monsterZone[i] != null) {
                 user.monsterZone[i].canAttack = false;
+                user.monsterZone[i].canChange = false;
             }
         }
         for (int i = 0; i < opoonent.monsterZone.length; i++) {
             if (opoonent.monsterZone[i] != null) {
                 opoonent.monsterZone[i].canAttack = false;
+                opoonent.monsterZone[i].canChange = false;
             }
         }
         phase = "start";

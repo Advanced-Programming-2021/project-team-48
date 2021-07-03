@@ -552,6 +552,7 @@ public class Game {
             user.decreaseLP(damage);
             System.out.println("no card is destroyed and you received " + damage + " battle damage");
         } else if (monsterForUser.ATK > opponentMonsterForUser.DEF && opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
+            opponentMonsterForUser.position=Position.valueOf("DEFEND");
             opponentMonsterForUser.setField(Field.GRAVE);
            opponent.monsterZone[opponentMonsterForUser.address]=null;
             opponentMonsterForUser.address = opponent.NumOfGrave;
@@ -559,8 +560,10 @@ public class Game {
             opponent.monsterGrave.add(opponentMonsterForUser);
             GameGraphic1.error=("opponent's monster card was " + opponentMonsterForUser.getName() + " and the defense position monster is destroyed");
         } else if (monsterForUser.ATK == opponentMonsterForUser.DEF && opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
+            opponentMonsterForUser.position=Position.valueOf("DEFEND");
             GameGraphic1.error=("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed");
         } else if (monsterForUser.ATK < opponentMonsterForUser.DEF && opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
+            opponentMonsterForUser.position=Position.valueOf("DEFEND");
             int damage = opponentMonsterForUser.DEF - monsterForUser.ATK;
             user.decreaseLP(damage);
             GameGraphic1.error=("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed and you received " + damage + " battle damage");

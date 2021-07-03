@@ -11,3 +11,7 @@
     -fx-background-image: url("Assets/Field/fie_normal.jpg");
     -fx-background-size: cover;
 }
+.exitButton{
+    -fx-background-image: url("Assets/Icons/GUI_T_DuelButtonActIcon1_12.dds.png");
+    -fx-background-size: cover;
+}

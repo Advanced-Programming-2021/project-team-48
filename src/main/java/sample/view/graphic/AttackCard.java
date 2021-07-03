@@ -111,7 +111,7 @@ public class AttackCard extends Application {
                 if (user.monsterZone[j].position.equals(Position.valueOf("DEFEND"))){
                     card.setRotate(90);
                 }
-                x -= 125;
+                x -= 145;
                 int finalJ = j;
                 card.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override

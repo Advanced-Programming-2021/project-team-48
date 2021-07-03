@@ -11,6 +11,7 @@ public class MonsterForUser<User, Deck> extends MonsterCard {
     public boolean isInDeck;
     public Deck deck;
     public boolean canAttack=false;
+    public boolean canChange=true;
 
     public MonsterForUser(MonsterCard monsterCard, User user) {
         super(monsterCard.name, monsterCard.description, monsterCard.price, monsterCard.level, monsterCard.type, monsterCard.ATK, monsterCard.DEF, monsterCard.monsterTYpe, monsterCard.attribute);
