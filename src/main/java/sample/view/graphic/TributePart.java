@@ -39,6 +39,8 @@ public class TributePart extends Application {
     private MonsterForUser tribute2;
     private MonsterForUser showCard;
 
+    public static String setOrSum = "";
+
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
@@ -69,8 +71,12 @@ public class TributePart extends Application {
 
                         if (GameGraphic1.showCardMonsterHand.level == 6 || GameGraphic1.showCardMonsterHand.level == 5) {
                             MonsterControllerInGame.tributeGraphic(user, showCard);
-                            MonsterControllerInGame.summon(GameGraphic1.showCardMonsterHand, user);
-                            GameGraphic1.showCardMonsterHand = null;
+                            if (setOrSum.equals("sum")) {
+                                MonsterControllerInGame.summon(GameGraphic1.showCardMonsterHand, user);
+                            } else if (setOrSum.equals("set")){
+                                MonsterControllerInGame.set(GameGraphic1.showCardMonsterHand,user);
+                            }
+                                GameGraphic1.showCardMonsterHand = null;
 
                             try {
                                 new GameGraphic1().start(stage);
@@ -81,7 +87,11 @@ public class TributePart extends Application {
                             if (tribute1 != null) {
                                 MonsterControllerInGame.tributeGraphic(user, showCard);
                                 MonsterControllerInGame.tributeGraphic(user, tribute1);
-                                MonsterControllerInGame.summon(GameGraphic1.showCardMonsterHand, user);
+                                if (setOrSum.equals("sum")) {
+                                    MonsterControllerInGame.summon(GameGraphic1.showCardMonsterHand, user);
+                                } else if (setOrSum.equals("set")){
+                                    MonsterControllerInGame.set(GameGraphic1.showCardMonsterHand,user);
+                                }
                                 GameGraphic1.showCardMonsterHand = null;
                                 try {
                                     new GameGraphic1().start(stage);

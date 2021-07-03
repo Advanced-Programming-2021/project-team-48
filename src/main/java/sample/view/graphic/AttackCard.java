@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import sample.Game;
 import sample.controller.UserLogined;
 import sample.model.Card.MonsterForUser;
+import sample.model.Card.Position;
 import sample.model.User;
 
 import java.util.ArrayList;
@@ -100,11 +101,17 @@ public class AttackCard extends Application {
 
     public ArrayList<ShopCard> creatOpponent(User user) {
         ArrayList<ShopCard> allCards = new ArrayList<>();
-        int x = 547;
+        int x = 750;
         for (int j = 0; j < user.monsterZone.length; j++) {
             if (user.monsterZone[j] != null) {
                 ShopCard card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + user.monsterZone[j].getName().replace(" ", "").replace("-", "") + ".jpg")))));
-                x -= 110;
+                if (user.monsterZone[j].position.equals(Position.valueOf("HIDDEN"))){
+                    card.setRotate(90);
+                }
+                if (user.monsterZone[j].position.equals(Position.valueOf("DEFEND"))){
+                    card.setRotate(90);
+                }
+                x -= 125;
                 int finalJ = j;
                 card.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override

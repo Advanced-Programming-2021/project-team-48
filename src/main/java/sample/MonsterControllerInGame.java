@@ -204,10 +204,13 @@ public class MonsterControllerInGame {
                 user.handMonster.remove(monsterForUser);
                 Game.hasSummonInThisRound = true;
                 GameGraphic1.hasSummon=true;
+                GameGraphic1.error="summoned successfully";
                 return "summoned successfully";
+
             }
         }
         if (!hasEmpty) {
+            GameGraphic1.error="monster card zone is full";
             return "monster card zone is full";
         }
         return "damn it";
@@ -339,19 +342,18 @@ public class MonsterControllerInGame {
 
     private static void setController(MonsterForUser monsterForUser, User user) {
         if (monsterForUser.level <= 4) {
-            set(monsterForUser, user);
+            System.out.println(set(monsterForUser, user));
         } else {
             if (tributeConsol(monsterForUser, user)) {
-                set(monsterForUser, user);
+                System.out.println(set(monsterForUser, user));
             }
         }
     }
 
-    private static void set(MonsterForUser monsterForUser, User user) {
+    public static String set(MonsterForUser monsterForUser, User user) {
         boolean hasEmpty = false;
         for (int a = 0; a < 5; a++) {
             if (user.monsterZone[a] == null) {
-                System.out.println("SET PART");
                 hasEmpty = true;
                 monsterForUser.field = Field.valueOf("GAME");
                 monsterForUser.address = a;
@@ -359,13 +361,15 @@ public class MonsterControllerInGame {
                 user.monsterZone[a] = monsterForUser;
                 user.handMonster.remove(monsterForUser);
                 Game.hasSummonInThisRound = true;
-                System.out.println("set successfully");
-                break;
+                GameGraphic1.error="set successfully";
+                return "set successfully";
             }
         }
         if (!hasEmpty) {
-            System.out.println("monster card zone is full");
+            GameGraphic1.error="monster card zone is full";
+            return "monster card zone is full";
         }
+        return "damn it set";
     }
 
 }

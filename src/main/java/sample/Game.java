@@ -500,6 +500,7 @@ public class Game {
 
 
     public static void attack(MonsterForUser monsterForUser, MonsterForUser opponentMonsterForUser, User user, User opponent) {
+
         if (monsterForUser.ATK > opponentMonsterForUser.ATK && opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))) {
 
             int damage = monsterForUser.ATK - opponentMonsterForUser.ATK;
