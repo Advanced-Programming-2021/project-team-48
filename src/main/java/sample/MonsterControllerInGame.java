@@ -4,6 +4,7 @@ import sample.model.Card.Field;
 import sample.model.Card.MonsterForUser;
 import sample.model.Card.Position;
 import sample.model.User;
+import sample.view.graphic.GameGraphic1;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -195,7 +196,6 @@ public class MonsterControllerInGame {
         boolean hasEmpty = false;
         for (int a = 0; a < 5; a++) {
             if (user.monsterZone[a] == null) {
-                System.out.println("SUMMON PART");
                 hasEmpty = true;
                 monsterForUser.field = Field.valueOf("GAME");
                 monsterForUser.address = a;
@@ -203,6 +203,7 @@ public class MonsterControllerInGame {
                 user.monsterZone[a] = monsterForUser;
                 user.handMonster.remove(monsterForUser);
                 Game.hasSummonInThisRound = true;
+                GameGraphic1.hasSummon=true;
                 return "summoned successfully";
             }
         }

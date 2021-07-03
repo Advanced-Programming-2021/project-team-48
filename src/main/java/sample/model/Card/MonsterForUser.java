@@ -10,6 +10,7 @@ public class MonsterForUser<User, Deck> extends MonsterCard {
     public Field field;
     public boolean isInDeck;
     public Deck deck;
+    public boolean canAttack=false;
 
     public MonsterForUser(MonsterCard monsterCard, User user) {
         super(monsterCard.name, monsterCard.description, monsterCard.price, monsterCard.level, monsterCard.type, monsterCard.ATK, monsterCard.DEF, monsterCard.monsterTYpe, monsterCard.attribute);

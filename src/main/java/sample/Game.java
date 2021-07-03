@@ -7,6 +7,7 @@ import sample.model.Card.Position;
 import sample.model.Card.*;
 import sample.model.Card.Field;
 import sample.model.User;
+import sample.view.graphic.GameGraphic1;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -508,7 +509,7 @@ public class Game {
             opponentMonsterForUser.address = opponent.NumOfGrave;
             opponent.NumOfGrave++;
             opponent.monsterGrave.add(opponentMonsterForUser);
-            System.out.println("your opponent's monster is destroyed and your opponent receives " + damage + " battle damage");
+            GameGraphic1.error= "your opponent's monster is destroyed and your opponent receives " + damage + " battle damage";
 
         } else if (monsterForUser.ATK == opponentMonsterForUser.ATK && opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))) {
 
@@ -523,7 +524,7 @@ public class Game {
             monsterForUser.address = user.NumOfGrave;
             user.NumOfGrave++;
             user.monsterGrave.add(opponentMonsterForUser);
-            System.out.println("both you and your opponent monster cards are destroyed and no one receives damage");
+            GameGraphic1.error="both you and your opponent monster cards are destroyed and no one receives damage";
 
         } else if (monsterForUser.ATK < opponentMonsterForUser.ATK && opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))) {
 
@@ -534,7 +535,7 @@ public class Game {
             monsterForUser.address = user.NumOfGrave;
             user.NumOfGrave++;
             user.monsterGrave.add(opponentMonsterForUser);
-            System.out.println("you monster card is destroyed and you receives " + damage + " battle damage");
+            GameGraphic1.error="you monster card is destroyed and you receives " + damage + " battle damage";
 
         } else if (monsterForUser.ATK > opponentMonsterForUser.DEF && opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {
             opponentMonsterForUser.setField(Field.GRAVE);
@@ -542,7 +543,7 @@ public class Game {
             opponentMonsterForUser.address = opponent.NumOfGrave;
             opponent.monsterGrave.add(opponentMonsterForUser);
             opponent.NumOfGrave++;
-            System.out.println("the defense position monster is destroyed");
+            GameGraphic1.error="the defense position monster is destroyed";
         } else if (monsterForUser.ATK == opponentMonsterForUser.DEF && opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {
             System.out.println("no card is destroyed");
         } else if (monsterForUser.ATK < opponentMonsterForUser.DEF && opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {
@@ -555,13 +556,13 @@ public class Game {
             opponentMonsterForUser.address = opponent.NumOfGrave;
             opponent.NumOfGrave++;
             opponent.monsterGrave.add(opponentMonsterForUser);
-            System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " and the defense position monster is destroyed");
+            GameGraphic1.error=("opponent's monster card was " + opponentMonsterForUser.getName() + " and the defense position monster is destroyed");
         } else if (monsterForUser.ATK == opponentMonsterForUser.DEF && opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
-            System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed");
+            GameGraphic1.error=("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed");
         } else if (monsterForUser.ATK < opponentMonsterForUser.DEF && opponentMonsterForUser.getPosition().equals(Position.valueOf("HIDDEN"))) {
             int damage = opponentMonsterForUser.DEF - monsterForUser.ATK;
             user.decreaseLP(damage);
-            System.out.println("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed and you received " + damage + " battle damage");
+            GameGraphic1.error=("opponent's monster card was " + opponentMonsterForUser.getName() + " no card is destroyed and you received " + damage + " battle damage");
         }
     }
 

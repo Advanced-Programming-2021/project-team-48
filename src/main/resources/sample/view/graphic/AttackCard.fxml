@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="750.0" prefWidth="1500.0" style="-fx-background-color: #091f36;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.view.graphic.AttackCard">
+   <children>
+      <AnchorPane fx:id="attackPart" layoutX="265.0" layoutY="30.0" prefHeight="498.0" prefWidth="886.0" style="-fx-background-color: #0f2862;" />
+      <Button layoutX="115.0" layoutY="566.0" mnemonicParsing="false" onAction="#back" text="Cancel Attack" />
+      <AnchorPane fx:id="opponentCards" layoutX="265.0" layoutY="529.0" prefHeight="200.0" prefWidth="886.0" style="-fx-background-color: #51d0de;" />
+   </children>
+</AnchorPane>
