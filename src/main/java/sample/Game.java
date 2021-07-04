@@ -524,7 +524,7 @@ public class Game {
             user.monsterZone[monsterForUser.address]=null;
             monsterForUser.address = user.NumOfGrave;
             user.NumOfGrave++;
-            user.monsterGrave.add(opponentMonsterForUser);
+            user.monsterGrave.add(monsterForUser);
             GameGraphic1.error="both you and your opponent monster cards are destroyed and no one receives damage";
 
         } else if (monsterForUser.ATK < opponentMonsterForUser.ATK && opponentMonsterForUser.getPosition().equals(Position.valueOf("ATTACK"))) {
@@ -535,7 +535,7 @@ public class Game {
             monsterForUser.setField(Field.GRAVE);
             monsterForUser.address = user.NumOfGrave;
             user.NumOfGrave++;
-            user.monsterGrave.add(opponentMonsterForUser);
+            user.monsterGrave.add(monsterForUser);
             GameGraphic1.error="you monster card is destroyed and you receives " + damage + " battle damage";
 
         } else if (monsterForUser.ATK > opponentMonsterForUser.DEF && opponentMonsterForUser.getPosition().equals(Position.valueOf("DEFEND"))) {

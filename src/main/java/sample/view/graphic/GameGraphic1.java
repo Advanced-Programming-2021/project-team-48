@@ -12,12 +12,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import sample.Game;
 import sample.MonsterControllerInGame;
 import sample.controller.DeleteDeck;
 import sample.controller.Game.DrawCard;
-import sample.controller.Game.GameController;
-import sample.controller.LoginController;
 import sample.controller.UserLogined;
 import sample.model.Card.MonsterForUser;
 import sample.model.Card.Position;
@@ -101,258 +98,30 @@ public class GameGraphic1 extends Application {
     }
 
 
-    public ShopCard showMonsterCard(User user, MonsterForUser monsterForUser) {
-        if (showCardMonsterHand != null || showCardMonsterOpponentHand != null || showMonsterFromZone != null || showMonsterFromZoneOpponent != null) {
-            ShopCard card;
-            if (showMonsterFromZoneOpponent != null) {
-                if (showMonsterFromZoneOpponent.position.equals(Position.valueOf("HIDDEN"))) {
-                    card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
-                } else {
-                    card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
-                }
-            } else
-                card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
-
-            card.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    if (showCardMonsterHand != null) {
-
-                        user.handMonster.add(monsterForUser);
-                        showCardMonsterHand = null;
-                        hand.getChildren().clear();
-
-                    } else if (showCardMonsterOpponentHand != null) {
-
-                        opoonent.handMonster.add(monsterForUser);
-                        showCardMonsterOpponentHand = null;
-                        opponentHand.getChildren().clear();
-
-                    } else if (showMonsterFromZone != null) {
-
-                        user.monsterZone[showMonsterFromZone.address] = showMonsterFromZone;
-                        showMonsterFromZone = null;
-                        field.getChildren().clear();
-
-                    } else if (showMonsterFromZoneOpponent != null) {
-                        opoonent.monsterZone[showMonsterFromZoneOpponent.address] = showMonsterFromZoneOpponent;
-                        showMonsterFromZoneOpponent = null;
-                        field.getChildren().clear();
-                    }
-
-                    show.getChildren().clear();
-                    creatBoard();
-                }
-            });
-            return card;
-        }
-        return null;
-    }
 
     public void creatBoard() {
         if (showCardMonsterHand != null) {
+            show.getChildren().clear();
             show.getChildren().add(showMonsterCard(user, showCardMonsterHand));
-            Button summon = new Button();
-            summon.setText("Summon");
-            summon.setTranslateX(250);
-            summon.setTranslateY(30);
-            summon.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    //if (phase.equals("phase1") || phase.equals("phase2")) {
-                    if (!hasSummon) {
-                        String nextStep = "";
-                        if (showCardMonsterHand.level <= 4) {
-                            nextStep = MonsterControllerInGame.summon(showCardMonsterHand, user);
-                        } else {
-                            TributePart.user = user;
-                            TributePart.setOrSum = "sum";
-                            try {
-                                new TributePart().start(stage);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        if (nextStep.equals("summoned successfully")) {
-                            hasSummon = true;
-                            showCardMonsterHand = null;
-                            show.getChildren().clear();
-                            field.getChildren().clear();
-                            creatBoard();
-                        }
-                    } else {
-                        error1.setText("ye bar gozashti dige");
-                    }
-                 /*else{
-                 ja else ava shod. tanzim she !
-                        error1.setText("phase ro eshtebah omadi dadsh");
-                    }
-
-                  */
-                }
-            });
-            show.getChildren().add(summon);
-
-            Button set = new Button();
-            set.setText("Set");
-            set.setTranslateX(250);
-            set.setTranslateY(60);
-            set.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    //if (phase.equals("phase1") || phase.equals("phase2")) {
-                    if (!hasSummon) {
-                        String nextStep = "";
-                        if (showCardMonsterHand.level <= 4) {
-                            nextStep = MonsterControllerInGame.set(showCardMonsterHand, user);
-                        } else {
-                            TributePart.user = user;
-                            TributePart.setOrSum = "set";
-                            try {
-                                new TributePart().start(stage);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        if (nextStep.equals("set successfully")) {
-                            hasSummon = true;
-                            showCardMonsterHand = null;
-                            show.getChildren().clear();
-                            field.getChildren().clear();
-                            creatBoard();
-                        }
-                    } else {
-                        error1.setText("ye bar gozashti dige");
-                    }
-                 /*else{
-                 ja else ava shod. tanzim she !
-                        error1.setText("phase ro eshtebah omadi dadsh");
-                    }
-
-                  */
-                }
-            });
-            show.getChildren().add(set);
+            show.getChildren().addAll(creatHandMonsterButton());
 
         } else if (showCardMonsterOpponentHand != null) {
-
             show.getChildren().clear();
             show.getChildren().add(showMonsterCard(opoonent, showCardMonsterOpponentHand));
 
         } else if (showMonsterFromZone != null) {
             show.getChildren().clear();
             show.getChildren().add(showMonsterCard(user, showMonsterFromZone));
-            if (showMonsterFromZone.position.equals(Position.valueOf("ATTACK"))) {
-                Button attackDirect = new Button();
-                attackDirect.setText("Attack direct");
-                attackDirect.setTranslateX(250);
-                attackDirect.setTranslateY(30);
-                attackDirect.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        //if (phase.equal("battle"){
-                        try {
-                            directAttack(user, opoonent, showMonsterFromZone);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    //}else error1.setText("phase eshtebah");
-                });
-                show.getChildren().add(attackDirect);
+            show.getChildren().addAll(creatMonsterZoneButtons());
 
-                Button attack = new Button();
-                attack.setText("Attack");
-                attack.setTranslateX(250);
-                attack.setTranslateY(60);
-                attack.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        //if (phase.equal("battle"){
-                        if (showMonsterFromZone.canAttack) {
-                            AttackCard.user = user;
-                            AttackCard.opponent = opoonent;
-                            AttackCard.showMonsterFromZone = showMonsterFromZone;
-                            try {
-                                clearSelectedCard();
-                                new AttackCard().start(stage);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            error1.setText("amo nmitoni ba in attack bzni");
-                        }
-                        //}else error1.setText("phase eshtebah");
-                    }
-                });
-                show.getChildren().add(attack);
-
-
-                Button change = new Button();
-                if (showMonsterFromZone.position.equals(Position.valueOf("ATTACK"))) {
-                    change.setText("Change To Defense Position");
-                    change.setTranslateX(250);
-                    change.setTranslateY(90);
-                    change.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent actionEvent) {
-                            if (showMonsterFromZone.canChange) {
-                                String natije = MonsterControllerInGame.positionDefend(showMonsterFromZone);
-                                error1.setText(natije);
-                                show.getChildren().clear();
-                                creatBoard();
-                            }else error1.setText("chand bar?ye bar avaz kardi");
-                        }
-                    });
-                }
-
-                show.getChildren().add(change);
-            } else if (showMonsterFromZone.position.equals(Position.valueOf("DEFEND"))) {
-                Button change = new Button();
-                change.setText("Change To Attack Position");
-                change.setTranslateX(250);
-                change.setTranslateY(90);
-                change.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        if (showMonsterFromZone.canChange) {
-
-                            String natije = MonsterControllerInGame.positionAttack(showMonsterFromZone);
-                            error1.setText(natije);
-                            show.getChildren().clear();
-                            creatBoard();
-                        }else error1.setText("chand bar?ye bar avaz kardi");
-                    }
-                });
-                show.getChildren().add(change);
-            } else if (showMonsterFromZone.position.equals(Position.valueOf("HIDDEN"))) {
-                Button change = new Button();
-                change.setText("Flip Summon");
-                change.setTranslateX(250);
-                change.setTranslateY(90);
-                change.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        if (showMonsterFromZone.canChange) {
-                            String natije = MonsterControllerInGame.flipSummon(showMonsterFromZone);
-                            error1.setText(natije);
-                            show.getChildren().clear();
-                            creatBoard();
-                        }else error1.setText("chand bar?ye bar avaz kardi");
-                    }
-                });
-                show.getChildren().add(change);
-            }
         } else if (showMonsterFromZoneOpponent != null) {
             show.getChildren().clear();
             show.getChildren().add(showMonsterCard(opoonent, showMonsterFromZoneOpponent));
         }
 
 
-        field.getChildren().addAll(creatUserField(user, field, "user"));
-        field.getChildren().addAll(creatUserField(opoonent, field, "opponent"));
+        field.getChildren().addAll(creatMonsterField(user, field, "user"));
+        field.getChildren().addAll(creatMonsterField(opoonent, field, "opponent"));
         hand.getChildren().addAll(creatUserHand(UserLogined.user, hand, "user"));
         opponentHand.getChildren().addAll(creatUserHand(UserLogined.opponent, opponentHand, "opponent"));
         if (user.NumOfGrave != 0) {
@@ -364,8 +133,19 @@ public class GameGraphic1 extends Application {
 
     }
 
-
-    public ArrayList<ShopCard> creatUserField(User user1, AnchorPane anchorPane, String who) {
+    public ArrayList<ShopCard> creatSpellField(User user1 , String who){
+        ArrayList<ShopCard> allCards = new ArrayList<>();
+        int x = 163, y = 0;
+        if (who.equals("user")) {
+            y = 471;
+        } else {
+            if (who.equals("opponent")) {
+                y = 290;
+            }
+        }
+        for(User)
+    }
+    public ArrayList<ShopCard> creatMonsterField(User user1, String who) {
         ArrayList<ShopCard> allCards = new ArrayList<>();
         int x = 163, y = 0;
         if (who.equals("user")) {
@@ -503,45 +283,6 @@ public class GameGraphic1 extends Application {
     }
 
 
-    public void directAttack(User user, User opoonent, MonsterForUser monsterForUser) throws Exception {
-        if (dasteAval) {
-            error1.setText("it is daste aval kako");
-        } else if (phase.equals("battle")) {
-            boolean checkIfOpponentMonsterZoneEmpty = true;
-            for (int a = 0; a < 5; a++) {
-                if (opoonent.monsterZone[a] != null) {
-                    checkIfOpponentMonsterZoneEmpty = false;
-                    break;
-                }
-            }
-            if (checkIfOpponentMonsterZoneEmpty) {
-                if (monsterForUser.position.equals(Position.valueOf("ATTACK"))) {
-                    opoonent.lifePoint -= monsterForUser.ATK;
-                    if (opoonent.lifePoint < 0) opoonent.lifePoint = 0;
-                    if (opoonent.lifePoint == 0) {
-                        endGame();
-                    }
-                    error1.setText("you opponent receives " + monsterForUser.ATK + " battale damage");
-                    opponentLifePoint1.setText(opoonent.lifePoint + "");
-
-
-                } else if (monsterForUser.position.equals(Position.valueOf("DEFEND"))) {
-                    opoonent.lifePoint -= monsterForUser.DEF;
-                    if (opoonent.lifePoint < 0) opoonent.lifePoint = 0;
-                    if (opoonent.lifePoint == 0) {
-                        endGame();
-                    }
-                    error1.setText("you opponent receives " + monsterForUser.DEF + " battale damage");
-                    opponentLifePoint1.setText(opoonent.lifePoint + "");
-                }// age hidden bashe chi mishe?flip summon?
-            } else {
-                error1.setText("you can’t attack the opponent directly");
-            }
-        } else {
-            error1.setText("you can’t do this action in this phase");
-        }
-    }
-
     public void clearSelectedCard() {
 
         if (showCardMonsterHand != null) {
@@ -589,7 +330,7 @@ public class GameGraphic1 extends Application {
 
     }
 
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public ShopCard creatGrave(User user, String who) {
         int x = 0, y = 0, height = 0, weight = 0;
         if (who.equals("user")) {
@@ -600,7 +341,7 @@ public class GameGraphic1 extends Application {
             height = 150;
         } else if (who.equals("opponent")) {
             x = 493;
-            y = 9;
+            y = 5;
 
             weight = 45;
             height = 62;
@@ -680,4 +421,288 @@ public class GameGraphic1 extends Application {
         user.NumOfGrave = 0;
         new MainMenu().start(stage);
     }
+
+    public ShopCard showMonsterCard(User user, MonsterForUser monsterForUser) {
+        if (showCardMonsterHand != null || showCardMonsterOpponentHand != null || showMonsterFromZone != null || showMonsterFromZoneOpponent != null) {
+            ShopCard card;
+            if (showMonsterFromZoneOpponent != null) {
+                if (showMonsterFromZoneOpponent.position.equals(Position.valueOf("HIDDEN"))) {
+                    card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+                } else {
+                    card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+                }
+            } else
+                card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+
+            card.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (showCardMonsterHand != null) {
+
+                        user.handMonster.add(monsterForUser);
+                        showCardMonsterHand = null;
+                        hand.getChildren().clear();
+
+                    } else if (showCardMonsterOpponentHand != null) {
+
+                        opoonent.handMonster.add(monsterForUser);
+                        showCardMonsterOpponentHand = null;
+                        opponentHand.getChildren().clear();
+
+                    } else if (showMonsterFromZone != null) {
+
+                        user.monsterZone[showMonsterFromZone.address] = showMonsterFromZone;
+                        showMonsterFromZone = null;
+                        field.getChildren().clear();
+
+                    } else if (showMonsterFromZoneOpponent != null) {
+                        opoonent.monsterZone[showMonsterFromZoneOpponent.address] = showMonsterFromZoneOpponent;
+                        showMonsterFromZoneOpponent = null;
+                        field.getChildren().clear();
+                    }
+
+                    show.getChildren().clear();
+                    creatBoard();
+                }
+            });
+            return card;
+        }
+        return null;
+    }
+
+
+    public void directAttack(User user, User opoonent, MonsterForUser monsterForUser) throws Exception {
+        if (dasteAval) {
+            error1.setText("it is daste aval kako");
+        } else if (phase.equals("battle")) {
+            boolean checkIfOpponentMonsterZoneEmpty = true;
+            for (int a = 0; a < 5; a++) {
+                if (opoonent.monsterZone[a] != null) {
+                    checkIfOpponentMonsterZoneEmpty = false;
+                    break;
+                }
+            }
+            if (checkIfOpponentMonsterZoneEmpty) {
+                if (monsterForUser.position.equals(Position.valueOf("ATTACK"))) {
+                    opoonent.lifePoint -= monsterForUser.ATK;
+                    if (opoonent.lifePoint < 0) opoonent.lifePoint = 0;
+                    if (opoonent.lifePoint == 0) {
+                        endGame();
+                    }
+                    error1.setText("you opponent receives " + monsterForUser.ATK + " battale damage");
+                    opponentLifePoint1.setText(opoonent.lifePoint + "");
+
+
+                } else if (monsterForUser.position.equals(Position.valueOf("DEFEND"))) {
+                    opoonent.lifePoint -= monsterForUser.DEF;
+                    if (opoonent.lifePoint < 0) opoonent.lifePoint = 0;
+                    if (opoonent.lifePoint == 0) {
+                        endGame();
+                    }
+                    error1.setText("you opponent receives " + monsterForUser.DEF + " battale damage");
+                    opponentLifePoint1.setText(opoonent.lifePoint + "");
+                }// age hidden bashe chi mishe?flip summon?
+            } else {
+                error1.setText("you can’t attack the opponent directly");
+            }
+        } else {
+            error1.setText("you can’t do this action in this phase");
+        }
+    }
+
+
+
+    public ArrayList<Button> creatMonsterZoneButtons(){
+        ArrayList<Button>buttons=new ArrayList<>();
+        if (showMonsterFromZone.position.equals(Position.valueOf("ATTACK"))) {
+            Button attackDirect = new Button();
+            attackDirect.setText("Attack direct");
+            attackDirect.setTranslateX(250);
+            attackDirect.setTranslateY(30);
+            attackDirect.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    //if (phase.equal("battle"){
+                    try {
+                        directAttack(user, opoonent, showMonsterFromZone);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                //}else error1.setText("phase eshtebah");
+            });
+            show.getChildren().add(attackDirect);
+
+            Button attack = new Button();
+            attack.setText("Attack");
+            attack.setTranslateX(250);
+            attack.setTranslateY(60);
+            attack.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    //if (phase.equal("battle"){
+                    if (showMonsterFromZone.canAttack) {
+                        AttackCard.user = user;
+                        AttackCard.opponent = opoonent;
+                        AttackCard.showMonsterFromZone = showMonsterFromZone;
+                        try {
+                            clearSelectedCard();
+                            new AttackCard().start(stage);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        error1.setText("amo nmitoni ba in attack bzni");
+                    }
+                    //}else error1.setText("phase eshtebah");
+                }
+            });
+            show.getChildren().add(attack);
+
+
+            Button change = new Button();
+            if (showMonsterFromZone.position.equals(Position.valueOf("ATTACK"))) {
+                change.setText("Change To Defense Position");
+                change.setTranslateX(250);
+                change.setTranslateY(90);
+                change.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        if (showMonsterFromZone.canChange) {
+                            String natije = MonsterControllerInGame.positionDefend(showMonsterFromZone);
+                            error1.setText(natije);
+                            show.getChildren().clear();
+                            creatBoard();
+                        }else error1.setText("chand bar?ye bar avaz kardi");
+                    }
+                });
+            }
+
+            buttons.add(change);
+        } else if (showMonsterFromZone.position.equals(Position.valueOf("DEFEND"))) {
+            Button change = new Button();
+            change.setText("Change To Attack Position");
+            change.setTranslateX(250);
+            change.setTranslateY(90);
+            change.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (showMonsterFromZone.canChange) {
+
+                        String natije = MonsterControllerInGame.positionAttack(showMonsterFromZone);
+                        error1.setText(natije);
+                        show.getChildren().clear();
+                        creatBoard();
+                    }else error1.setText("chand bar?ye bar avaz kardi");
+                }
+            });
+            buttons.add(change);
+        } else if (showMonsterFromZone.position.equals(Position.valueOf("HIDDEN"))) {
+            Button change = new Button();
+            change.setText("Flip Summon");
+            change.setTranslateX(250);
+            change.setTranslateY(90);
+            change.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (showMonsterFromZone.canChange) {
+                        String natije = MonsterControllerInGame.flipSummon(showMonsterFromZone);
+                        error1.setText(natije);
+                        show.getChildren().clear();
+                        creatBoard();
+                    }else error1.setText("chand bar?ye bar avaz kardi");
+                }
+            });
+            buttons.add(change);
+        }
+        return buttons;
+    }
+    public ArrayList<Button> creatHandMonsterButton(){
+        ArrayList<Button> buttons=new ArrayList<>();
+        Button summon = new Button();
+        summon.setText("Summon");
+        summon.setTranslateX(250);
+        summon.setTranslateY(30);
+        summon.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                //if (phase.equals("phase1") || phase.equals("phase2")) {
+                //if (!hasSummon) {
+                String nextStep = "";
+                if (showCardMonsterHand.level <= 4) {
+                    nextStep = MonsterControllerInGame.summon(showCardMonsterHand, user);
+                } else {
+                    TributePart.user = user;
+                    TributePart.setOrSum = "sum";
+                    try {
+                        new TributePart().start(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (nextStep.equals("summoned successfully")) {
+                    hasSummon = true;
+                    showCardMonsterHand = null;
+                    show.getChildren().clear();
+                    field.getChildren().clear();
+                    creatBoard();
+                }
+                    /*} else {
+                        error1.setText("ye bar gozashti dige");
+                    }
+                 /*else{
+                 ja else ava shod. tanzim she !
+                        error1.setText("phase ro eshtebah omadi dadsh");
+                    }
+
+                  */
+            }
+        });
+        buttons.add(summon);
+
+        Button set = new Button();
+        set.setText("Set");
+        set.setTranslateX(250);
+        set.setTranslateY(60);
+        set.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                //if (phase.equals("phase1") || phase.equals("phase2")) {
+                if (!hasSummon) {
+                    String nextStep = "";
+                    if (showCardMonsterHand.level <= 4) {
+                        nextStep = MonsterControllerInGame.set(showCardMonsterHand, user);
+                    } else {
+                        TributePart.user = user;
+                        TributePart.setOrSum = "set";
+                        try {
+                            new TributePart().start(stage);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (nextStep.equals("set successfully")) {
+                        hasSummon = true;
+                        showCardMonsterHand = null;
+                        show.getChildren().clear();
+                        field.getChildren().clear();
+                        creatBoard();
+                    }
+                } else {
+                    error1.setText("ye bar gozashti dige");
+                }
+                 /*else{
+                 ja else ava shod. tanzim she !
+                        error1.setText("phase ro eshtebah omadi dadsh");
+                    }
+
+                  */
+            }
+        });
+        buttons.add(set);
+        return buttons;
+    }
+
 }
