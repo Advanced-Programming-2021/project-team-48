@@ -13,6 +13,7 @@ import sample.controller.*;
 import sample.controller.Game.GameController;
 import sample.model.Card.CartReader;
 import sample.model.Card.MonsterForUser;
+import sample.model.Card.SpellCardForUser;
 import sample.model.Deck;
 import sample.model.User;
 
@@ -71,8 +72,6 @@ public class DuelMenu extends Application {
         BuyCard.BuyCard("Curtain of the dark ones", naweed);
         BuyCard.BuyCard("Feral Imp", naweed);
         BuyCard.BuyCard("Feral Imp", naweed);
-        BuyCard.BuyCard("Feral Imp", naweed);
-        BuyCard.BuyCard("Dark magician", naweed);
         BuyCard.BuyCard("Dark magician", naweed);
         BuyCard.BuyCard("Dark magician", naweed);
         BuyCard.BuyCard("Wattkid", naweed);
@@ -80,13 +79,25 @@ public class DuelMenu extends Application {
         BuyCard.BuyCard("Wattkid", naweed);
         BuyCard.BuyCard("Baby dragon", naweed);
         BuyCard.BuyCard("Baby dragon", naweed);
-        BuyCard.BuyCard("Baby dragon", naweed);
+        BuyCard.BuyCard("Yami", naweed);
+        BuyCard.BuyCard("Yami", naweed);
+        BuyCard.BuyCard("Yami", naweed);
         BuyCard.BuyCard("Hero of the east", naweed);
         BuyCard.BuyCard("Hero of the east", naweed);
         BuyCard.BuyCard("Hero of the east", naweed);
         BuyCard.BuyCard("Battle warrior", naweed);
-        BuyCard.BuyCard("Battle warrior", naweed);
-        BuyCard.BuyCard("Battle warrior", naweed);
+        BuyCard.BuyCard("Raigeki", naweed);
+        BuyCard.BuyCard("Raigeki", naweed);
+        BuyCard.BuyCard("Raigeki", naweed);
+        BuyCard.BuyCard("Pot of Greed", naweed);
+        BuyCard.BuyCard("Pot of Greed", naweed);
+        BuyCard.BuyCard("Pot of Greed", naweed);
+        BuyCard.BuyCard("Dark Hole", naweed);
+        BuyCard.BuyCard("Dark Hole", naweed);
+        BuyCard.BuyCard("Dark Hole", naweed);
+        BuyCard.BuyCard("Black Pendant", naweed);
+        BuyCard.BuyCard("Black Pendant", naweed);
+        BuyCard.BuyCard("Black Pendant", naweed);
 
         Deck deck1 = new Deck(naweed, "naweeds deck");
 
@@ -94,6 +105,9 @@ public class DuelMenu extends Application {
             MonsterAdderToDeck.AddMonsterToMain(deck1, monsterForUser);
         }
 
+        for (SpellCardForUser spellCardForUser:naweed.allSpells){
+            SpellAdderToDeck.AddSpellToMain(deck1,spellCardForUser);
+        }
         UserLogined.user.hasActiveDeck = true;
         UserLogined.user.setActiveDeck(deck1);
         UserLogined.opponent=naweed;
@@ -128,8 +142,6 @@ public class DuelMenu extends Application {
         BuyCard.BuyCard("Curtain of the dark ones", arian);
         BuyCard.BuyCard("Feral Imp", arian);
         BuyCard.BuyCard("Feral Imp", arian);
-        BuyCard.BuyCard("Feral Imp", arian);
-        BuyCard.BuyCard("Dark magician", arian);
         BuyCard.BuyCard("Dark magician", arian);
         BuyCard.BuyCard("Dark magician", arian);
         BuyCard.BuyCard("Wattkid", arian);
@@ -137,18 +149,34 @@ public class DuelMenu extends Application {
         BuyCard.BuyCard("Wattkid", arian);
         BuyCard.BuyCard("Baby dragon", arian);
         BuyCard.BuyCard("Baby dragon", arian);
-        BuyCard.BuyCard("Baby dragon", arian);
+        BuyCard.BuyCard("Yami", arian);
+        BuyCard.BuyCard("Yami", arian);
+        BuyCard.BuyCard("Yami", arian);
         BuyCard.BuyCard("Hero of the east", arian);
         BuyCard.BuyCard("Hero of the east", arian);
         BuyCard.BuyCard("Hero of the east", arian);
         BuyCard.BuyCard("Battle warrior", arian);
-        BuyCard.BuyCard("Battle warrior", arian);
-        BuyCard.BuyCard("Battle warrior", arian);
+        BuyCard.BuyCard("Raigeki", arian);
+        BuyCard.BuyCard("Raigeki", arian);
+        BuyCard.BuyCard("Raigeki", arian);
+        BuyCard.BuyCard("Pot of Greed", arian);
+        BuyCard.BuyCard("Pot of Greed", arian);
+        BuyCard.BuyCard("Pot of Greed", arian);
+        BuyCard.BuyCard("Dark Hole", arian);
+        BuyCard.BuyCard("Dark Hole", arian);
+        BuyCard.BuyCard("Dark Hole", arian);
+        BuyCard.BuyCard("Black Pendant", arian);
+        BuyCard.BuyCard("Black Pendant", arian);
+        BuyCard.BuyCard("Black Pendant", arian);
+
 
         Deck deck = new Deck(arian, "arians deck");
 
         for (MonsterForUser monsterForUser : arian.allMonsters) {
             MonsterAdderToDeck.AddMonsterToMain(deck, monsterForUser);
+        }
+        for (SpellCardForUser spellCardForUser:arian.allSpells){
+            SpellAdderToDeck.AddSpellToMain(deck,spellCardForUser);
         }
 
        /* arian.handMonster.add(arian.allMonsters.get(0));

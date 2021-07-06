@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.MonsterControllerInGame;
+import sample.SpellControllerInGame;
 import sample.controller.DeleteDeck;
 import sample.controller.Game.DrawCard;
 import sample.controller.UserLogined;
@@ -38,9 +39,14 @@ public class GameGraphic1 extends Application {
 
     private static SpellCardForUser showCardSpellHand;
     private static SpellCardForUser showCardSpellOpponentHand;
+    private static SpellCardForUser showSpellFromZone;
+    private static SpellCardForUser showSpellFromZoneOpponent;
 
     private static TrapCardForUser showCardTrapHand;
     private static TrapCardForUser showCardTrapOpponentHand;
+    private static TrapCardForUser showTrapFromZone;
+    private static TrapCardForUser showTrapFromZoneOpponent;
+
 
     public static User winner;
     public static User loser;
@@ -58,8 +64,6 @@ public class GameGraphic1 extends Application {
     public Text phase1;
     @FXML
     private AnchorPane anchorPane1;
-    @FXML
-    private Button nextPhase;
 
     @FXML
     private AnchorPane hand;
@@ -98,32 +102,46 @@ public class GameGraphic1 extends Application {
     }
 
 
-
     public void creatBoard() {
         if (showCardMonsterHand != null) {
             show.getChildren().clear();
-            show.getChildren().add(showMonsterCard(user, showCardMonsterHand));
+            show.getChildren().add(showMonsterCard(showCardMonsterHand));
             show.getChildren().addAll(creatHandMonsterButton());
-
         } else if (showCardMonsterOpponentHand != null) {
             show.getChildren().clear();
-            show.getChildren().add(showMonsterCard(opoonent, showCardMonsterOpponentHand));
-
+            show.getChildren().add(showMonsterCard(showCardMonsterOpponentHand));
         } else if (showMonsterFromZone != null) {
             show.getChildren().clear();
-            show.getChildren().add(showMonsterCard(user, showMonsterFromZone));
+            show.getChildren().add(showMonsterCard(showMonsterFromZone));
             show.getChildren().addAll(creatMonsterZoneButtons());
-
         } else if (showMonsterFromZoneOpponent != null) {
             show.getChildren().clear();
-            show.getChildren().add(showMonsterCard(opoonent, showMonsterFromZoneOpponent));
+            show.getChildren().add(showMonsterCard(showMonsterFromZoneOpponent));
+        } else if (showCardSpellHand != null) {
+            show.getChildren().clear();
+            show.getChildren().add(creatShowSpell(showCardSpellHand));
+            show.getChildren().addAll(creatSpellHandButton());
+        } else if (showCardSpellOpponentHand != null) {
+            show.getChildren().clear();
+            show.getChildren().add(creatShowSpell(showCardSpellOpponentHand));
+        } else if (showSpellFromZone != null) {
+            show.getChildren().clear();
+            show.getChildren().add(creatShowSpell(showSpellFromZone));
+            show.getChildren().addAll(creatSpellHandButton());
+        } else if (showSpellFromZoneOpponent != null) {
+            show.getChildren().clear();
+            show.getChildren().add(creatShowSpell(showSpellFromZoneOpponent));
         }
 
 
-        field.getChildren().addAll(creatMonsterField(user, field, "user"));
-        field.getChildren().addAll(creatMonsterField(opoonent, field, "opponent"));
+        field.getChildren().addAll(creatMonsterField(user, "user"));
+        field.getChildren().addAll(creatMonsterField(opoonent, "opponent"));
+        field.getChildren().addAll(creatSpellField(user, "user"));
+        field.getChildren().addAll(creatSpellField(opoonent, "opponent"));
+
         hand.getChildren().addAll(creatUserHand(UserLogined.user, hand, "user"));
         opponentHand.getChildren().addAll(creatUserHand(UserLogined.opponent, opponentHand, "opponent"));
+
         if (user.NumOfGrave != 0) {
             anchorPane1.getChildren().add(creatGrave(user, "user"));
         }
@@ -133,18 +151,146 @@ public class GameGraphic1 extends Application {
 
     }
 
-    public ArrayList<ShopCard> creatSpellField(User user1 , String who){
+
+    public ArrayList<Button> creatSpellHandButton() {
+        ArrayList<Button> buttons = new ArrayList<>();
+        if (showSpellFromZone != null && !showSpellFromZone.position.equals(Position.valueOf("ATTACK"))) {
+            Button activeOnSet = new Button();
+            activeOnSet.setText("Active Spell");
+            activeOnSet.setTranslateX(250);
+            activeOnSet.setTranslateY(30);
+            activeOnSet.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                   String nextStep= SpellControllerInGame.SpellActiver(showSpellFromZone, user);
+                   error1.setText(nextStep);
+                }
+            });
+            buttons.add(activeOnSet);
+            return buttons;
+        } else {
+            Button active = new Button();
+            active.setText("Active Spell");
+            active.setTranslateX(250);
+            active.setTranslateY(30);
+            active.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    String nextStep = SpellControllerInGame.SpellActiver(showCardSpellHand, user);
+                    if (nextStep.equals("spell activated")) {
+                        showCardSpellHand = null;
+                        error1.setText(nextStep);
+                        show.getChildren().clear();
+                        field.getChildren().clear();
+                        creatBoard();
+                    }
+                }
+            });
+            buttons.add(active);
+
+            Button set = new Button();
+            set.setText("Set Spell");
+            set.setTranslateX(250);
+            set.setTranslateY(60);
+            set.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    String nextStep = SpellControllerInGame.SpellSeter(showCardSpellHand, user);
+                    if (nextStep.equals("set successfully")) {
+                        showCardSpellHand = null;
+                        error1.setText(nextStep);
+                        show.getChildren().clear();
+                        field.getChildren().clear();
+                        creatBoard();
+                    }
+                }
+            });
+            buttons.add(set);
+
+            return buttons;
+        }
+    }
+
+
+    public ArrayList<ShopCard> creatSpellField(User user1, String who) {
         ArrayList<ShopCard> allCards = new ArrayList<>();
         int x = 163, y = 0;
         if (who.equals("user")) {
-            y = 471;
+            y = 620;
         } else {
             if (who.equals("opponent")) {
-                y = 290;
+                y = 150;
             }
         }
-        for(User)
+        for (int a = 0; a < 5; a++) {
+            if (user1.spellZone[a] != null && user1.trapZone[a] == null) {
+
+                ShopCard card;
+                if (user1.spellZone[a].position.equals(Position.valueOf("ATTACK"))) {
+                    card = new ShopCard(x, y, 120, 90, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + user1.spellZone[a].getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
+                } else {
+                    card = new ShopCard(x, y, 120, 90, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+                }
+                int finalA = a;
+
+                card.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        clearSelectedCard();
+                        if (who.equals("user")) {
+                            showSpellFromZone = user1.spellZone[finalA];
+                            user1.spellZone[finalA] = null;
+                        } else {
+                            showSpellFromZoneOpponent = user1.spellZone[finalA];
+                            user1.spellZone[finalA] = null;
+                        }
+                        field.getChildren().clear();
+                        creatBoard();
+                    }
+                });
+                allCards.add(card);
+                x += 120;
+            } else if (user1.spellZone[a] == null && user1.trapZone[a] != null) {
+                ShopCard card = new ShopCard(x, y, 120, 90, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + user1.spellZone[a].getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
+
+
+                int finalA = a;
+                card.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        clearSelectedCard();
+                        showTrapFromZone = user1.trapZone[finalA];
+                        user1.trapZone[finalA] = null;
+                        creatBoard();
+                    }
+                });
+                allCards.add(card);
+                x += 120;
+            }
+        }
+
+        return allCards;
     }
+
+    public ShopCard creatShowSpell(SpellCardForUser spellCardForUser) {
+        ShopCard card;
+        if (showSpellFromZoneOpponent != null && !spellCardForUser.position.equals(Position.valueOf("ATTACK"))) {
+            card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+        } else
+            card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + spellCardForUser.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
+        card.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                clearSelectedCard();
+                hand.getChildren().clear();
+                show.getChildren().clear();
+                creatBoard();
+            }
+        });
+        return card;
+    }
+
+
     public ArrayList<ShopCard> creatMonsterField(User user1, String who) {
         ArrayList<ShopCard> allCards = new ArrayList<>();
         int x = 163, y = 0;
@@ -185,10 +331,11 @@ public class GameGraphic1 extends Application {
                     card.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
-                            clearSelectedCard();
+
                             showMonsterFromZoneOpponent = user1.monsterZone[finalF];
                             user1.monsterZone[finalF] = null;
                             field.getChildren().clear();
+                            clearSelectedCard();
                             creatBoard();
                         }
                     });
@@ -255,34 +402,6 @@ public class GameGraphic1 extends Application {
         }
     }
 
-    public ArrayList<ShopCard> creatUserHand(User user, AnchorPane anchorPane, String who) {
-        ArrayList<ShopCard> allCards = new ArrayList<>();
-        int x = 547;
-        for (MonsterForUser monsterForUser : user.handMonster) {
-            ShopCard card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
-            x -= 110;
-            card.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    if (who.equals("user")) {
-                        clearSelectedCard();
-                        showCardMonsterHand = monsterForUser;
-                    } else if (who.equals("opponent")) {
-                        clearSelectedCard();
-                        showCardMonsterOpponentHand = monsterForUser;
-                    }
-
-                    user.handMonster.remove(monsterForUser);
-                    anchorPane.getChildren().clear();
-                    creatBoard();
-                }
-            });
-            allCards.add(card);
-        }
-        return allCards;
-    }
-
-
     public void clearSelectedCard() {
 
         if (showCardMonsterHand != null) {
@@ -317,6 +436,18 @@ public class GameGraphic1 extends Application {
             showCardSpellOpponentHand = null;
         }
 
+        if (showSpellFromZone != null) {
+            user.spellZone[showSpellFromZone.address] = showSpellFromZone;
+            showSpellFromZone = null;
+        }
+
+
+        if (showSpellFromZoneOpponent != null) {
+            opoonent.spellZone[showSpellFromZoneOpponent.address] = showSpellFromZoneOpponent;
+            showSpellFromZoneOpponent = null;
+        }
+
+
         if (showCardTrapHand != null) {
             user.handTrap.add(showCardTrapHand);
             showCardTrapHand = null;
@@ -331,6 +462,77 @@ public class GameGraphic1 extends Application {
     }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    public ArrayList<ShopCard> creatUserHand(User user1, AnchorPane anchorPane, String who) {
+        ArrayList<ShopCard> allCards = new ArrayList<>();
+        int x = 547;
+        for (MonsterForUser monsterForUser : user1.handMonster) {
+            ShopCard card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+            x -= 110;
+            card.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (who.equals("user")) {
+                        clearSelectedCard();
+                        showCardMonsterHand = monsterForUser;
+                    } else if (who.equals("opponent")) {
+                        clearSelectedCard();
+                        showCardMonsterOpponentHand = monsterForUser;
+                    }
+
+                    user1.handMonster.remove(monsterForUser);
+                    anchorPane.getChildren().clear();
+                    creatBoard();
+                }
+            });
+            allCards.add(card);
+        }
+
+        for (SpellCardForUser spellCardForUser : user1.handSpell) {
+            ShopCard card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + spellCardForUser.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
+            x -= 110;
+            card.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (who.equals("user")) {
+                        clearSelectedCard();
+                        showCardSpellHand = spellCardForUser;
+                    } else if (who.equals("opponent")) {
+                        clearSelectedCard();
+                        showCardSpellOpponentHand = spellCardForUser;
+                    }
+                    user1.handSpell.remove(spellCardForUser);
+                    anchorPane.getChildren().clear();
+                    creatBoard();
+                }
+            });
+            allCards.add(card);
+        }
+
+        for (TrapCardForUser trapCardForUser : user1.handTrap) {
+            ShopCard card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCardForUser.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
+            x -= 110;
+            card.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (who.equals("user")) {
+                        clearSelectedCard();
+                        showCardTrapHand = trapCardForUser;
+                    } else if (who.equals("opponent")) {
+                        clearSelectedCard();
+                        showCardTrapOpponentHand = trapCardForUser;
+                    }
+                    user1.handTrap.remove(trapCardForUser);
+                    anchorPane.getChildren().clear();
+                    creatBoard();
+                }
+            });
+            allCards.add(card);
+        }
+
+        return allCards;
+    }
+
     public ShopCard creatGrave(User user, String who) {
         int x = 0, y = 0, height = 0, weight = 0;
         if (who.equals("user")) {
@@ -366,16 +568,16 @@ public class GameGraphic1 extends Application {
     }
 
     public void endGame() throws Exception {
-        if (user.lifePoint!=0){
-            winner=user;
-            loser=opoonent;
-        }else {
-            loser=user;
-            winner=opoonent;
+        if (user.lifePoint != 0) {
+            winner = user;
+            loser = opoonent;
+        } else {
+            loser = user;
+            winner = opoonent;
         }
-        winner.setMoney(winner.getMoney()+ user.getLifePoint()+1000);
-        loser.setMoney(winner.getMoney()+ 100);
-        winner.setScore(winner.getScore()+1000);
+        winner.setMoney(winner.getMoney() + user.getLifePoint() + 1000);
+        loser.setMoney(winner.getMoney() + 100);
+        winner.setScore(winner.getScore() + 1000);
         error = "";
         for (int i = 0; i < user.monsterZone.length; i++) {
             if (user.monsterZone[i] != null) {
@@ -422,14 +624,15 @@ public class GameGraphic1 extends Application {
         new MainMenu().start(stage);
     }
 
-    public ShopCard showMonsterCard(User user, MonsterForUser monsterForUser) {
+
+    public ShopCard showMonsterCard(MonsterForUser monsterForUser) {
         if (showCardMonsterHand != null || showCardMonsterOpponentHand != null || showMonsterFromZone != null || showMonsterFromZoneOpponent != null) {
             ShopCard card;
             if (showMonsterFromZoneOpponent != null) {
                 if (showMonsterFromZoneOpponent.position.equals(Position.valueOf("HIDDEN"))) {
                     card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
                 } else {
-                    card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+                    card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + showMonsterFromZoneOpponent.getName().replace(" ", "").replace("-", "") + ".jpg")))));
                 }
             } else
                 card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
@@ -439,13 +642,13 @@ public class GameGraphic1 extends Application {
                 public void handle(MouseEvent mouseEvent) {
                     if (showCardMonsterHand != null) {
 
-                        user.handMonster.add(monsterForUser);
+                        user.handMonster.add(showCardMonsterHand);
                         showCardMonsterHand = null;
                         hand.getChildren().clear();
 
                     } else if (showCardMonsterOpponentHand != null) {
 
-                        opoonent.handMonster.add(monsterForUser);
+                        opoonent.handMonster.add(showCardMonsterOpponentHand);
                         showCardMonsterOpponentHand = null;
                         opponentHand.getChildren().clear();
 
@@ -511,9 +714,8 @@ public class GameGraphic1 extends Application {
     }
 
 
-
-    public ArrayList<Button> creatMonsterZoneButtons(){
-        ArrayList<Button>buttons=new ArrayList<>();
+    public ArrayList<Button> creatMonsterZoneButtons() {
+        ArrayList<Button> buttons = new ArrayList<>();
         if (showMonsterFromZone.position.equals(Position.valueOf("ATTACK"))) {
             Button attackDirect = new Button();
             attackDirect.setText("Attack direct");
@@ -573,7 +775,7 @@ public class GameGraphic1 extends Application {
                             error1.setText(natije);
                             show.getChildren().clear();
                             creatBoard();
-                        }else error1.setText("chand bar?ye bar avaz kardi");
+                        } else error1.setText("chand bar?ye bar avaz kardi");
                     }
                 });
             }
@@ -593,7 +795,7 @@ public class GameGraphic1 extends Application {
                         error1.setText(natije);
                         show.getChildren().clear();
                         creatBoard();
-                    }else error1.setText("chand bar?ye bar avaz kardi");
+                    } else error1.setText("chand bar?ye bar avaz kardi");
                 }
             });
             buttons.add(change);
@@ -610,15 +812,16 @@ public class GameGraphic1 extends Application {
                         error1.setText(natije);
                         show.getChildren().clear();
                         creatBoard();
-                    }else error1.setText("chand bar?ye bar avaz kardi");
+                    } else error1.setText("chand bar?ye bar avaz kardi");
                 }
             });
             buttons.add(change);
         }
         return buttons;
     }
-    public ArrayList<Button> creatHandMonsterButton(){
-        ArrayList<Button> buttons=new ArrayList<>();
+
+    public ArrayList<Button> creatHandMonsterButton() {
+        ArrayList<Button> buttons = new ArrayList<>();
         Button summon = new Button();
         summon.setText("Summon");
         summon.setTranslateX(250);

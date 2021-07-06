@@ -126,21 +126,7 @@ public class DeckShow extends Application {
         }
 
         for (TrapCardForUser trapCard : UserLogined.deck.allTrapCardsForUserMain) {
-            if (trapCard.getName().equals("Magic Jammer")) {
-                ShopCard card = new ShopCard(i, j, 195, 180, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCard.getName().replace(" ", "").replace("-", "") + ".png")))));
-                allcards.add(card);
-                card.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        String nextStep = TrapAdderToDeck.AddTrapToSideDeck(UserLogined.deck, trapCard);
-                        if (nextStep.equals("done")) {
-                            sideDeck.getChildren().addAll(creatSideDeck());
-                            mainDeck.getChildren().clear();
-                            mainDeck.getChildren().addAll(creatMainDeck());
-                        }
-                    }
-                });
-            } else {
+
                 ShopCard card = new ShopCard(i, j, 195, 180, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCard.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
                 allcards.add(card);
                 card.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -154,7 +140,6 @@ public class DeckShow extends Application {
                         }
                     }
                 });
-            }
             i += 200;
             if (i == 1000) {
                 i = 0;
@@ -291,38 +276,24 @@ public class DeckShow extends Application {
         }
 
         for (TrapCardForUser trapCard : UserLogined.user.allTraps) {
-            if (trapCard.getName().equals("Magic Jammer")) {
-                ShopCard card = new ShopCard(i, 0, 195, 180, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCard.getName().replace(" ", "").replace("-", "") + ".png")))));
-                allcards.add(card);
-                card.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        String nextStep = TrapAdderToDeck.AddTrapToMain(UserLogined.deck, trapCard);
-                        if (nextStep.equals("done")) {
-                            mainDeck.getChildren().addAll(creatMainDeck());
-                            allCards.getChildren().clear();
-                            allCards.getChildren().addAll(creatAllCards());
-                        }
-                    }
-                });
-            } else {
 
-                ShopCard card = new ShopCard(i, 0, 195, 180, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCard.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
-                allcards.add(card);
-                card.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        String nextStep = TrapAdderToDeck.AddTrapToMain(UserLogined.deck, trapCard);
-                        if (nextStep.equals("done")) {
-                            mainDeck.getChildren().addAll(creatMainDeck());
-                            allCards.getChildren().clear();
-                            allCards.getChildren().addAll(creatAllCards());
-                        }
+
+            ShopCard card = new ShopCard(i, 0, 195, 180, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCard.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
+            allcards.add(card);
+            card.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    String nextStep = TrapAdderToDeck.AddTrapToMain(UserLogined.deck, trapCard);
+                    if (nextStep.equals("done")) {
+                        mainDeck.getChildren().addAll(creatMainDeck());
+                        allCards.getChildren().clear();
+                        allCards.getChildren().addAll(creatAllCards());
                     }
-                });
-            }
-            i += 200;
-        }
+                }
+            });
+
+        i += 200;
+    }
         return allcards;
     }
 

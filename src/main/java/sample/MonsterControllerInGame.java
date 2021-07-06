@@ -197,11 +197,13 @@ public class MonsterControllerInGame {
         for (int a = 0; a < 5; a++) {
             if (user.monsterZone[a] == null) {
                 hasEmpty = true;
+
                 monsterForUser.field = Field.valueOf("GAME");
                 monsterForUser.address = a;
                 monsterForUser.position = Position.valueOf("ATTACK");
                 user.monsterZone[a] = monsterForUser;
                 user.handMonster.remove(monsterForUser);
+
                 Game.hasSummonInThisRound = true;
                 GameGraphic1.hasSummon=true;
                 return "summoned successfully";

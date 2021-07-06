@@ -86,11 +86,16 @@ public class AttackCard extends Application {
         opponentCards.getChildren().addAll(creatOpponent(opponent));
 
         if (selectedMonster != null) {
-            ShopCard selected = new ShopCard(573, 47, 407, 275, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + selectedMonster.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+            ShopCard selected;
+            if (selectedMonster.position.equals(Position.valueOf("HIDDEN"))){
+                selected = new ShopCard(573, 47, 407, 275, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+            }else
+            selected = new ShopCard(573, 47, 407, 275, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + selectedMonster.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+
             selected.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    selectedMonster=null;
+                    selectedMonster = null;
                     attackPart.getChildren().clear();
                     creatBoard();
                 }
@@ -103,13 +108,16 @@ public class AttackCard extends Application {
         ArrayList<ShopCard> allCards = new ArrayList<>();
         int x = 750;
         for (int j = 0; j < user.monsterZone.length; j++) {
+            ShopCard card;
             if (user.monsterZone[j] != null) {
-                ShopCard card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + user.monsterZone[j].getName().replace(" ", "").replace("-", "") + ".jpg")))));
-                if (user.monsterZone[j].position.equals(Position.valueOf("HIDDEN"))){
+                if (user.monsterZone[j].position.equals(Position.valueOf("HIDDEN"))) {
+                    card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
                     card.setRotate(90);
-                }
-                if (user.monsterZone[j].position.equals(Position.valueOf("DEFEND"))){
-                    card.setRotate(90);
+                } else {
+                    card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + user.monsterZone[j].getName().replace(" ", "").replace("-", "") + ".jpg")))));
+                    if (user.monsterZone[j].position.equals(Position.valueOf("DEFEND"))) {
+                        card.setRotate(90);
+                    }
                 }
                 x -= 145;
                 int finalJ = j;
@@ -128,12 +136,13 @@ public class AttackCard extends Application {
     }
 
     public void attackClicked() throws Exception {
-        if (selectedMonster!=null){
-            Game.attack(showMonsterFromZone,selectedMonster,user,opponent);
-            showMonsterFromZone.canAttack=false;
+        if (selectedMonster != null) {
+            Game.attack(showMonsterFromZone, selectedMonster, user, opponent);
+            showMonsterFromZone.canAttack = false;
             new GameGraphic1().start(stage);
         }
     }
+
     public void back() throws Exception {
         new GameGraphic1().start(stage);
     }

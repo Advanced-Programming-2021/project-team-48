@@ -29,7 +29,7 @@ public class ShopMenu extends Application {
     private Text money;
     @FXML
     private Text username;
-    private ArrayList<Text> allHowMany=new ArrayList<>();
+    private ArrayList<Text> allHowMany = new ArrayList<>();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -89,7 +89,7 @@ public class ShopMenu extends Application {
                 j += 100 + 460;
                 c += 100 + 460;
             }
-           allCards.add( new ShopCard(i, j,460,325, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterCard.replace(" ", "").replace("-", "") + ".jpg"))))));
+            allCards.add(new ShopCard(i, j, 460, 325, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterCard.replace(" ", "").replace("-", "") + ".jpg"))))));
             Button button = new Button();
             button.setText("Buy");
             button.setId(monsterCard);
@@ -106,15 +106,13 @@ public class ShopMenu extends Application {
         }
 
 
-
-
         for (String spellCard : allSpell) {
             if (i == 1155 + 385) {
                 i = 0;
                 j += 100 + 460;
                 c += 100 + 460;
             }
-            allCards.add(new ShopCard(i, j,460,325, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + spellCard.replace(" ", "").replace("-", "").replace("'", "") + ".jpg"))))));
+            allCards.add(new ShopCard(i, j, 460, 325, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + spellCard.replace(" ", "").replace("-", "").replace("'", "") + ".jpg"))))));
             Button button = new Button();
             button.setText("Buy");
             button.setOnAction(new EventHandler<ActionEvent>() {
@@ -135,33 +133,20 @@ public class ShopMenu extends Application {
                 j += 100 + 460;
                 c += 100 + 460;
             }
-            if (trapCard.equals("Magic Jammer")) {
-                allCards.add(new ShopCard(i, j,460,325, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCard.replace(" ", "").replace("-", "") + ".png"))))));
-                Button button = new Button();
-                button.setText("Buy");
-                button.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        BuyClicked(trapCard);
-                    }
-                });
-                button.setLayoutX(i + 10);
-                button.setLayoutY(c);
-                innerAnchorPane.getChildren().add(button);
-            } else {
-                allCards.add(new ShopCard(i, j,460,325, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCard.replace(" ", "").replace("-", "").replace("'", "") + ".jpg"))))));
-                Button button = new Button();
-                button.setText("Buy");
-                button.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        BuyClicked(trapCard);
-                    }
-                });
-                button.setLayoutX(i + 10);
-                button.setLayoutY(c);
-                innerAnchorPane.getChildren().add(button);
-            }
+
+            allCards.add(new ShopCard(i, j, 460, 325, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCard.replace(" ", "").replace("-", "").replace("'", "") + ".jpg"))))));
+            Button button = new Button();
+            button.setText("Buy");
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    BuyClicked(trapCard);
+                }
+            });
+            button.setLayoutX(i + 10);
+            button.setLayoutY(c);
+            innerAnchorPane.getChildren().add(button);
+
             i += 385;
         }
         return allCards;
@@ -173,11 +158,11 @@ public class ShopMenu extends Application {
     }
 
     public void BuyClicked(String cardName) {
-        String nextStep=BuyCard.BuyCard(cardName,UserLogined.user);
-        if (nextStep.equals("done")){
-            money.setText(UserLogined.user.getMoney()+"");
-            for (Text newHowMany:allHowMany){
-                if (newHowMany.getId().equals("numberOf" + cardName)){
+        String nextStep = BuyCard.BuyCard(cardName, UserLogined.user);
+        if (nextStep.equals("done")) {
+            money.setText(UserLogined.user.getMoney() + "");
+            for (Text newHowMany : allHowMany) {
+                if (newHowMany.getId().equals("numberOf" + cardName)) {
                     newHowMany.setText("You Have " + HowManyCard.YouHave(UserLogined.user, cardName) + " Of This Card");
                     break;
                 }

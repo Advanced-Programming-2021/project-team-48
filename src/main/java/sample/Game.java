@@ -199,7 +199,7 @@ public class Game {
                     if (spellCardForUser.address == address) {
                         isFind = true;
                         System.out.println("card selected");
-                        spellControlerInGame.spellSelectedFromHand(spellCardForUser, user, opponent, phase);
+                        SpellControllerInGame.spellSelectedFromHand(spellCardForUser, user, opponent, phase);
                         break;
                     }
                 }
