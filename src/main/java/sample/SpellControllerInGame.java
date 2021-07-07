@@ -1,10 +1,12 @@
 package sample;
 
+import sample.controller.Game.Effect;
 import sample.model.Card.Field;
 import sample.model.Card.Position;
 import sample.model.Card.Property;
 import sample.model.Card.SpellCardForUser;
 import sample.model.User;
+import sample.view.graphic.GameGraphic1;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -12,7 +14,7 @@ import java.util.regex.Pattern;
 
 public class SpellControllerInGame {
 
-    public static void spellSelectedFromHand(SpellCardForUser spellCardForUser, User user, User opponent, String phase) {
+    public static void spellSelectedFromHand(SpellCardForUser spellCardForUser, User user, User opponent, String phase) throws Exception {
         Scanner scanner = new Scanner(System.in);
         String input = "";
         while (!input.equals("select -d")) {
@@ -28,7 +30,7 @@ public class SpellControllerInGame {
                     if (spellCardForUser.getProperty().equals(Property.valueOf("FIELD"))) {
                         FieldActiver(spellCardForUser, user);
                     } else {
-                        System.out.println(SpellActiver(spellCardForUser, user));
+                        System.out.println(SpellActiver(spellCardForUser, user, opponent));
                     }
                 } else {
                     System.out.println("you can’t activate an effect on this turn");
@@ -70,7 +72,7 @@ public class SpellControllerInGame {
         }
     }
 
-    public static String SpellActiver(SpellCardForUser spellCardForUser, User user) {
+    public static String SpellActiver(SpellCardForUser spellCardForUser, User user, User opponent) throws Exception {
         boolean isFull = true;
         for (int a = 0; a < 5; a++) {
             if (user.spellZone[a] == null && user.trapZone[a] == null) {
@@ -81,13 +83,7 @@ public class SpellControllerInGame {
             for (int a = 0; a < 5; a++) {
                 if (user.spellZone[a] == null && user.trapZone[a] == null) {
 
-                    user.spellZone[a] = spellCardForUser;
-                    user.allSpells.remove(spellCardForUser);
-                    user.spellZone[a].position = Position.valueOf("ATTACK");
-                    user.spellZone[a].address = a;
-                    user.spellZone[a].field = Field.valueOf("GAME");
-                    user.handSpell.remove(spellCardForUser);
-
+                    Effect.activeSpell(spellCardForUser, user, opponent);
                     return ("spell activated");
 
                     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -127,4 +123,19 @@ public class SpellControllerInGame {
         return "error";
     }
 
+    public static void sendSpellToGrave(SpellCardForUser spellCardForUser, User user) {
+        if (GameGraphic1.showCardSpellHand != null) {
+            user.spellZone[spellCardForUser.address] = null;
+            user.spellGrave.add(GameGraphic1.showCardSpellHand);
+            GameGraphic1.showCardSpellHand = null;
+        } else if (GameGraphic1.showSpellFromZone != null) {
+            user.spellZone[spellCardForUser.address] = null;
+            user.spellGrave.add(GameGraphic1.showSpellFromZone);
+            GameGraphic1.showSpellFromZone = null;
+        }
+
+        spellCardForUser.address = user.NumOfGrave;
+        user.NumOfGrave++;
+        spellCardForUser.field = Field.GRAVE;
+    }
 }

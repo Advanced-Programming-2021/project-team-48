@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import sample.controller.UserLogined;
 import sample.model.Card.Card;
 import sample.model.Card.MonsterForUser;
+import sample.model.Card.SpellCardForUser;
+import sample.model.Card.TrapCardForUser;
 import sample.model.User;
 
 import java.util.ArrayList;
@@ -45,6 +47,16 @@ public class Grave extends Application {
         int x=10,y=10;
         for (MonsterForUser monsterForUser:user.monsterGrave){
             ShopCard card = new ShopCard(x, y, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+            allCards.add(card);
+            x+=242+20;
+        }
+        for (SpellCardForUser spellCardForUser:user.spellGrave){
+            ShopCard card = new ShopCard(x, y, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + spellCardForUser.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
+            allCards.add(card);
+            x+=242+20;
+        }
+        for (TrapCardForUser trapCardForUser: user.trapGrave){
+            ShopCard card = new ShopCard(x, y, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCardForUser.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
             allCards.add(card);
             x+=242+20;
         }

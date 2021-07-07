@@ -105,17 +105,18 @@ public class DuelMenu extends Application {
             MonsterAdderToDeck.AddMonsterToMain(deck1, monsterForUser);
         }
 
-        for (SpellCardForUser spellCardForUser:naweed.allSpells){
-            SpellAdderToDeck.AddSpellToMain(deck1,spellCardForUser);
+        for (SpellCardForUser spellCardForUser : naweed.allSpells) {
+            SpellAdderToDeck.AddSpellToMain(deck1, spellCardForUser);
         }
         UserLogined.user.hasActiveDeck = true;
         UserLogined.user.setActiveDeck(deck1);
-        UserLogined.opponent=naweed;
+        UserLogined.opponent = naweed;
         //</user2>
 
         //<user1>
         User arian = new User("arian", "qhzvini", "123");
         UserLogined.user = arian;
+
         BuyCard.BuyCard("Battle Ox", arian);
         BuyCard.BuyCard("Battle Ox", arian);
         BuyCard.BuyCard("Battle Ox", arian);
@@ -167,7 +168,46 @@ public class DuelMenu extends Application {
         BuyCard.BuyCard("Dark Hole", arian);
         BuyCard.BuyCard("Black Pendant", arian);
         BuyCard.BuyCard("Black Pendant", arian);
-        BuyCard.BuyCard("Black Pendant", arian);
+
+
+
+        System.out.println(BuyCard.BuyCard("Sword Of dark destruction", arian));
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+        BuyCard.BuyCard("Sword Of dark destruction", arian);
+
+
 
 
         Deck deck = new Deck(arian, "arians deck");
@@ -175,8 +215,8 @@ public class DuelMenu extends Application {
         for (MonsterForUser monsterForUser : arian.allMonsters) {
             MonsterAdderToDeck.AddMonsterToMain(deck, monsterForUser);
         }
-        for (SpellCardForUser spellCardForUser:arian.allSpells){
-            SpellAdderToDeck.AddSpellToMain(deck,spellCardForUser);
+        for (SpellCardForUser spellCardForUser : arian.allSpells) {
+            SpellAdderToDeck.AddSpellToMain(deck, spellCardForUser);
         }
 
        /* arian.handMonster.add(arian.allMonsters.get(0));
@@ -198,10 +238,6 @@ public class DuelMenu extends Application {
 
         UserLogined.user.hasActiveDeck = true;
         UserLogined.user.setActiveDeck(deck);
-
-
-
-
 
 
         //</user1>
@@ -228,20 +264,20 @@ public class DuelMenu extends Application {
         if (three.isSelected()) rounds = 3;
         String nextStep = StartGameController.Game(opponent.getText(), UserLogined.user, rounds);
         error.setText(nextStep);
-        if (nextStep.equals("done1")) {
+        //if (nextStep.equals("done1")) {
             GameGraphic1.deckTempUser.copyDeck(UserLogined.user.getActiveDeck());
             GameGraphic1.deckTempOpponent.copyDeck(UserLogined.opponent.getActiveDeck());
-            GameGraphic1 gameGraphic1=new GameGraphic1();
+            GameGraphic1 gameGraphic1 = new GameGraphic1();
             gameGraphic1.start(stage);
             //GameGraphic2 gameGraphic2=new GameGraphic2();
             //gameGraphic2.start(stage);
-           // new GameGraphic1().start(stage);
+            // new GameGraphic1().start(stage);
             // GameController gameController = new GameController(UserLogined.user,UserLogined.opponent);
             //GameGraphic1.gameController=gameController;
             //GameController.gameGraphic1=gameGraphic1;
 
         }
-    }
+    //}
 
     public static void main(String[] args) {
         launch(args);

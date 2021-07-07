@@ -24,7 +24,7 @@ public class Game {
     private int[] khodm = {4, 2, 0, 1, 3};
 
 
-    public Game(User user1, User user2) {
+    public Game(User user1, User user2) throws Exception {
         setUser1(user1);
         setUser2(user2);
         user1.setLifePoint(8000);
@@ -33,7 +33,7 @@ public class Game {
     }
 
 
-    public void run() {
+    public void run() throws Exception {
         for (int i = 0; i < 4; i++) {
             System.out.println("user 1:");
             drawPhase(user1, user2, "aval");
@@ -44,7 +44,7 @@ public class Game {
         while (bool) {
             bool = play(user1, user2);
             if (bool) {
-                bool = play(user2, user1);
+                bool =  play(user2, user1);
             }
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -75,7 +75,7 @@ public class Game {
         user1.NumOfGrave=0;
     }
 
-    private boolean play(User user, User opponent) {
+    private boolean play(User user, User opponent) throws Exception {
         hasSummonInThisRound = false;
         showField(user, opponent);
         if (user.getActiveDeck().numberOfCardsInMain == 0||user.getLifePoint()==0||opponent.getLifePoint()==0) {
@@ -98,7 +98,7 @@ public class Game {
     }
 
 
-    private void mainPhase1(User user, User opponent) {
+    private void mainPhase1(User user, User opponent) throws Exception {
         showField(user,opponent);
         phase = "phase1";
         System.out.println("phase: Main Phase 1");
@@ -117,7 +117,7 @@ public class Game {
     }
 
 
-    private void battlePhase(User user, User opponent) {
+    private void battlePhase(User user, User opponent) throws Exception {
         phase = "battle";
         showField(user,opponent);
         String input = "";
@@ -148,7 +148,7 @@ public class Game {
     }
 
 
-    private void drawPhase(User user, User opponent, String faz) {
+    private void drawPhase(User user, User opponent, String faz) throws Exception {
         if (faz != "aval") {
             phase = "draw";
             System.out.println("phase: draw phase");
@@ -174,7 +174,7 @@ public class Game {
 //-------------------------------------------------------------------------------------------------------
 
 
-    public boolean select(User user, User opponent, String input, String phase) {
+    public boolean select(User user, User opponent, String input, String phase) throws Exception {
         boolean checker = false;
         Pattern pattern = Pattern.compile("select --hand ([\\d]+)");
         //what dose it do in other phase than phase1 and phase2???????????????????????????????

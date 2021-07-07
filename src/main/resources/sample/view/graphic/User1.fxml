@@ -44,5 +44,11 @@
       <AnchorPane fx:id="field" layoutX="651.0" layoutY="-7.0" prefHeight="757.0" prefWidth="848.0" style="-fx-background-color: #0e9aa7;" styleClass="gameField" stylesheets="@you-gay-oh.css" />
       <AnchorPane fx:id="opponentHand" layoutX="-2.0" layoutY="52.0" prefHeight="150.0" prefWidth="652.0" style="-fx-background-color: #c2dde6;" />
       <Button layoutX="10.0" layoutY="523.0" mnemonicParsing="false" onAction="#back" prefHeight="52.0" prefWidth="50.0" styleClass="exitButton" stylesheets="@you-gay-oh.css" />
+      <Text fx:id="asliRemain" fill="WHITE" layoutX="38.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="43.200008392333984">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Text>
+      <Text fx:id="asliRemainOpponent" fill="WHITE" layoutX="297.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="21.5999755859375" />
    </children>
 </AnchorPane>

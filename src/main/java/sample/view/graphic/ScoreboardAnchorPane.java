@@ -45,6 +45,14 @@ public class ScoreboardAnchorPane extends AnchorPane {
         nickname.setTextFill(Color.web("#83d0c9",0.8));
         this.getChildren().add(nickname);
 
+        Label score=new Label();
+        score.setText(user.getScore()+"");
+        score.setTranslateX(1000);
+        score.setTranslateY(15);
+        score.setFont(new Font("Cambria", 32));
+        score.setTextFill(Color.web("#83d0c9",0.8));
+        this.getChildren().add(score);
+
         this.setPrefWidth(1500);
         this.setPrefHeight(80);
         this.setTranslateX(0);

@@ -11,7 +11,7 @@ public class MonsterCard extends Card {
     public int level;
     public int ATK;
     public int DEF;
-    public MonsterType monsterTYpe;
+    public MonsterType monsterType;
     protected Attribute attribute;
     private static ArrayList<MonsterCard> allMonsterCards;
 
@@ -54,7 +54,7 @@ public class MonsterCard extends Card {
     }
 
     public void setMonsterTYpe(MonsterType monsterTYpe) {
-        this.monsterTYpe = monsterTYpe;
+        this.monsterType = monsterTYpe;
     }
 
     public void setAttribute(Attribute attribute) {
@@ -73,8 +73,8 @@ public class MonsterCard extends Card {
         return level;
     }
 
-    public MonsterType getMonsterTYpe() {
-        return monsterTYpe;
+    public MonsterType getMonsterType() {
+        return monsterType;
     }
 
     public Attribute getAttribute() {
