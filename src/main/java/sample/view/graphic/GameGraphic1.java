@@ -82,8 +82,8 @@ public class GameGraphic1 extends Application {
 
     public static String phase = "start";
     public static String error = "";
-    public  User user = UserLogined.user;
-    public  User opponent = UserLogined.opponent;
+    public User user = UserLogined.user;
+    public User opponent = UserLogined.opponent;
     public static boolean dasteAval = true;
     public static boolean hasSummon = false;
 
@@ -190,7 +190,7 @@ public class GameGraphic1 extends Application {
             });
             buttons.add(activeOnSet);
             return buttons;
-        } else if (showCardSpellHand!=null){
+        } else if (showCardSpellHand != null) {
             Button active = new Button();
             active.setText("Active Spell");
             active.setTranslateX(250);
@@ -208,7 +208,7 @@ public class GameGraphic1 extends Application {
                         error1.setText(nextStep);
                         show.getChildren().clear();
                         field.getChildren().clear();
-                        showCardSpellHand=null;
+                        showCardSpellHand = null;
                         creatBoard();
                     }
                 }
@@ -904,13 +904,29 @@ public class GameGraphic1 extends Application {
                 if (showCardMonsterHand.level <= 4) {
                     nextStep = MonsterControllerInGame.summon(showCardMonsterHand, user);
                 } else {
-                    TributePart.user = user;
-                    TributePart.setOrSum = "sum";
-                    try {
-                        new TributePart().start(stage);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    int i = 0;
+                    for (int a = 0; a < 5; a++) {
+                        if (user.monsterZone[a] != null) {
+                            i++;
+                        }
                     }
+                    boolean canContinue = false;
+                    if (showCardMonsterHand.level <= 6 && i > 0) {
+                        canContinue = true;
+                    }
+                    if (showCardMonsterHand.level > 6 && i > 1) {
+                        canContinue = true;
+                    }
+                    if (canContinue) {
+
+                        TributePart.user = user;
+                        TributePart.setOrSum = "sum";
+                        try {
+                            new TributePart().start(stage);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }else error1.setText("not enough cards to tribute");
                 }
 
                 if (nextStep.equals("summoned successfully")) {
@@ -946,13 +962,29 @@ public class GameGraphic1 extends Application {
                     if (showCardMonsterHand.level <= 4) {
                         nextStep = MonsterControllerInGame.set(showCardMonsterHand, user);
                     } else {
-                        TributePart.user = user;
-                        TributePart.setOrSum = "set";
-                        try {
-                            new TributePart().start(stage);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        int i = 0;
+                        for (int a = 0; a < 5; a++) {
+                            if (user.monsterZone[a] != null) {
+                                i++;
+                            }
                         }
+                        boolean canContinue = false;
+                        if (showCardMonsterHand.level <= 6 && i > 0) {
+                            canContinue = true;
+                        }
+                        if (showCardMonsterHand.level > 6 && i > 1) {
+                            canContinue = true;
+                        }
+                        if (canContinue) {
+
+                            TributePart.user = user;
+                            TributePart.setOrSum = "set";
+                            try {
+                                new TributePart().start(stage);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }else error1.setText("not enough cards to tribute");
                     }
 
                     if (nextStep.equals("set successfully")) {

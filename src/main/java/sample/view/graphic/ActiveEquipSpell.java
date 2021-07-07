@@ -113,7 +113,7 @@ public class ActiveEquipSpell extends Application {
             if (user.monsterZone[j] != null) {
                 boolean canContinue = true;
                 if (spellToActive.getName().equals("Sword Of dark destruction")) {
-                    if (!user.monsterZone[j].monsterType.equals(MonsterType.SPELLCASTER) || !user.monsterZone[j].monsterType.equals(MonsterType.FIEND)) {
+                    if (!(user.monsterZone[j].monsterType.equals(MonsterType.SPELLCASTER) || user.monsterZone[j].monsterType.equals(MonsterType.FIEND))) {
                         canContinue = false;
                     }
                 }

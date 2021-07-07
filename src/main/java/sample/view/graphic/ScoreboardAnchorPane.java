@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import sample.controller.UserLogined;
 import sample.model.User;
 
 import java.util.ArrayList;
@@ -57,6 +58,9 @@ public class ScoreboardAnchorPane extends AnchorPane {
         this.setPrefHeight(80);
         this.setTranslateX(0);
         this.setTranslateY((number-1)*90+15);
+        if (user.equals(UserLogined.user)){
+            this.setStyle("-fx-background-color: #536878");
+        }else
         this.setStyle("-fx-background-color: #451e3e");
 
         allScorePane.add(this);

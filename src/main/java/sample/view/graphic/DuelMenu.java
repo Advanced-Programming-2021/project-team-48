@@ -39,7 +39,7 @@ public class DuelMenu extends Application {
     }
 
     public void initialize() {
-
+/*
         //<temp>
         new CartReader();
 
@@ -233,8 +233,6 @@ public class DuelMenu extends Application {
         naweed.handMonster.add(naweed.allMonsters.get(4));
 
 
-        */
-
 
         UserLogined.user.hasActiveDeck = true;
         UserLogined.user.setActiveDeck(deck);
@@ -242,6 +240,7 @@ public class DuelMenu extends Application {
 
         //</user1>
         //</temp>
+        */
 
 
         one.setSelected(true);
