@@ -25,6 +25,7 @@ import sample.model.Card.TrapCardForUser;
 import sample.model.Deck;
 import sample.model.User;
 
+import java.security.spec.RSAOtherPrimeInfo;
 import java.util.ArrayList;
 
 public class GameGraphic1 extends Application {
@@ -744,7 +745,9 @@ public class GameGraphic1 extends Application {
 
 
     public void directAttack(User user, User opoonent, MonsterForUser monsterForUser) throws Exception {
-        if (dasteAval) {
+        if (!monsterForUser.canAttack) {
+            error1.setText("this card already attacked");
+        } else if (dasteAval) {
             error1.setText("it is daste aval kako");
         } else if (phase.equals("battle")) {
             boolean checkIfOpponentMonsterZoneEmpty = true;
@@ -773,7 +776,7 @@ public class GameGraphic1 extends Application {
                     }
                     error1.setText("you opponent receives " + monsterForUser.DEF + " battale damage");
                     opponentLifePoint1.setText(opoonent.lifePoint + "");
-                }// age hidden bashe chi mishe?flip summon?
+                }
             } else {
                 error1.setText("you can’t attack the opponent directly");
             }
@@ -793,14 +796,14 @@ public class GameGraphic1 extends Application {
             attackDirect.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    //if (phase.equal("battle"){
-                    try {
-                        directAttack(user, opponent, showMonsterFromZone);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    if (phase.equals("battle")) {
+                        try {
+                            directAttack(user, opponent, showMonsterFromZone);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else error1.setText("phase eshtebah");
                 }
-                //}else error1.setText("phase eshtebah");
             });
             show.getChildren().add(attackDirect);
 
@@ -811,21 +814,20 @@ public class GameGraphic1 extends Application {
             attack.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    //if (phase.equal("battle"){
-                    if (showMonsterFromZone.canAttack) {
-                        AttackCard.user = user;
-                        AttackCard.opponent = opponent;
-                        AttackCard.showMonsterFromZone = showMonsterFromZone;
-                        try {
-                            clearSelectedCard();
-                            new AttackCard().start(stage);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        error1.setText("amo nmitoni ba in attack bzni");
-                    }
-                    //}else error1.setText("phase eshtebah");
+                    if (phase.equals("battle")) {
+                        if (showMonsterFromZone.canAttack) {
+                            AttackCard.user = user;
+                            AttackCard.opponent = opponent;
+                            AttackCard.showMonsterFromZone = showMonsterFromZone;
+                            try {
+                                clearSelectedCard();
+                                new AttackCard().start(stage);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else error1.setText("amo nmitoni ba in attack bzni");
+
+                    } else error1.setText("phase eshtebah");
                 }
             });
             show.getChildren().add(attack);
@@ -877,7 +879,12 @@ public class GameGraphic1 extends Application {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     if (showMonsterFromZone.canChange) {
-                        String natije = MonsterControllerInGame.flipSummon(showMonsterFromZone);
+                        String natije = null;
+                        try {
+                            natije = MonsterControllerInGame.flipSummon(showMonsterFromZone);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         error1.setText(natije);
                         show.getChildren().clear();
                         creatBoard();
@@ -898,53 +905,51 @@ public class GameGraphic1 extends Application {
         summon.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                //if (phase.equals("phase1") || phase.equals("phase2")) {
-                //if (!hasSummon) {
-                String nextStep = "";
-                if (showCardMonsterHand.level <= 4) {
-                    nextStep = MonsterControllerInGame.summon(showCardMonsterHand, user);
-                } else {
-                    int i = 0;
-                    for (int a = 0; a < 5; a++) {
-                        if (user.monsterZone[a] != null) {
-                            i++;
-                        }
-                    }
-                    boolean canContinue = false;
-                    if (showCardMonsterHand.level <= 6 && i > 0) {
-                        canContinue = true;
-                    }
-                    if (showCardMonsterHand.level > 6 && i > 1) {
-                        canContinue = true;
-                    }
-                    if (canContinue) {
+                if (phase.equals("phase1") || phase.equals("phase2")) {
+                    if (!hasSummon) {
+                        String nextStep = "";
+                        if (showCardMonsterHand.level <= 4) {
+                            nextStep = MonsterControllerInGame.summon(showCardMonsterHand, user);
+                        } else {
+                            int i = 0;
+                            for (int a = 0; a < 5; a++) {
+                                if (user.monsterZone[a] != null) {
+                                    i++;
+                                }
+                            }
+                            boolean canContinue = false;
+                            if (showCardMonsterHand.level <= 6 && i > 0) {
+                                canContinue = true;
+                            }
+                            if (showCardMonsterHand.level > 6 && i > 1) {
+                                canContinue = true;
+                            }
+                            if (canContinue) {
 
-                        TributePart.user = user;
-                        TributePart.setOrSum = "sum";
-                        try {
-                            new TributePart().start(stage);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                                TributePart.user = user;
+                                TributePart.setOrSum = "sum";
+                                try {
+                                    new TributePart().start(stage);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else error1.setText("not enough cards to tribute");
                         }
-                    }else error1.setText("not enough cards to tribute");
-                }
 
-                if (nextStep.equals("summoned successfully")) {
-                    hasSummon = true;
-                    showCardMonsterHand = null;
-                    show.getChildren().clear();
-                    field.getChildren().clear();
-                    creatBoard();
-                }
-                    /*} else {
+                        if (nextStep.equals("summoned successfully")) {
+                            hasSummon = true;
+                            showCardMonsterHand = null;
+                            show.getChildren().clear();
+                            field.getChildren().clear();
+                            creatBoard();
+                        }
+                    } else {
                         error1.setText("ye bar gozashti dige");
                     }
-                 /*else{
-                 ja else ava shod. tanzim she !
-                        error1.setText("phase ro eshtebah omadi dadsh");
-                    }
 
-                  */
+                } else {
+                    error1.setText("phase ro eshtebah omadi dadsh");
+                }
             }
         });
         buttons.add(summon);
@@ -956,53 +961,51 @@ public class GameGraphic1 extends Application {
         set.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                //if (phase.equals("phase1") || phase.equals("phase2")) {
-                if (!hasSummon) {
-                    String nextStep = "";
-                    if (showCardMonsterHand.level <= 4) {
-                        nextStep = MonsterControllerInGame.set(showCardMonsterHand, user);
+                if (phase.equals("phase1") || phase.equals("phase2")) {
+                    if (!hasSummon) {
+                        String nextStep = "";
+                        if (showCardMonsterHand.level <= 4) {
+                            nextStep = MonsterControllerInGame.set(showCardMonsterHand, user);
+                        } else {
+                            int i = 0;
+                            for (int a = 0; a < 5; a++) {
+                                if (user.monsterZone[a] != null) {
+                                    i++;
+                                }
+                            }
+                            boolean canContinue = false;
+                            if (showCardMonsterHand.level <= 6 && i > 0) {
+                                canContinue = true;
+                            }
+                            if (showCardMonsterHand.level > 6 && i > 1) {
+                                canContinue = true;
+                            }
+                            if (canContinue) {
+
+                                TributePart.user = user;
+                                TributePart.setOrSum = "set";
+                                try {
+                                    new TributePart().start(stage);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else error1.setText("not enough cards to tribute");
+                        }
+
+                        if (nextStep.equals("set successfully")) {
+                            hasSummon = true;
+                            showCardMonsterHand = null;
+                            show.getChildren().clear();
+                            field.getChildren().clear();
+                            creatBoard();
+                        }
                     } else {
-                        int i = 0;
-                        for (int a = 0; a < 5; a++) {
-                            if (user.monsterZone[a] != null) {
-                                i++;
-                            }
-                        }
-                        boolean canContinue = false;
-                        if (showCardMonsterHand.level <= 6 && i > 0) {
-                            canContinue = true;
-                        }
-                        if (showCardMonsterHand.level > 6 && i > 1) {
-                            canContinue = true;
-                        }
-                        if (canContinue) {
-
-                            TributePart.user = user;
-                            TributePart.setOrSum = "set";
-                            try {
-                                new TributePart().start(stage);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }else error1.setText("not enough cards to tribute");
+                        error1.setText("ye bar gozashti dige");
                     }
 
-                    if (nextStep.equals("set successfully")) {
-                        hasSummon = true;
-                        showCardMonsterHand = null;
-                        show.getChildren().clear();
-                        field.getChildren().clear();
-                        creatBoard();
-                    }
                 } else {
-                    error1.setText("ye bar gozashti dige");
+                    error1.setText("phase ro eshtebah omadi dadsh");
                 }
-                 /*else{
-                 ja else ava shod. tanzim she !
-                        error1.setText("phase ro eshtebah omadi dadsh");
-                    }
-
-                  */
             }
         });
         buttons.add(set);

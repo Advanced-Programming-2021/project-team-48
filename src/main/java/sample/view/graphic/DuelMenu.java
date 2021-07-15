@@ -268,12 +268,6 @@ public class DuelMenu extends Application {
             GameGraphic1.deckTempOpponent.copyDeck(UserLogined.opponent.getActiveDeck());
             GameGraphic1 gameGraphic1 = new GameGraphic1();
             gameGraphic1.start(stage);
-            //GameGraphic2 gameGraphic2=new GameGraphic2();
-            //gameGraphic2.start(stage);
-            // new GameGraphic1().start(stage);
-            // GameController gameController = new GameController(UserLogined.user,UserLogined.opponent);
-            //GameGraphic1.gameController=gameController;
-            //GameController.gameGraphic1=gameGraphic1;
 
         }
     //}

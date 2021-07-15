@@ -4,6 +4,7 @@ import sample.model.Card.Field;
 import sample.model.Card.MonsterForUser;
 import sample.model.Card.Position;
 import sample.model.User;
+import sample.view.graphic.CardDestroy;
 import sample.view.graphic.GameGraphic1;
 
 import java.util.Scanner;
@@ -14,11 +15,10 @@ public class MonsterControllerInGame {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void selectedMonsterFromZone(MonsterForUser monsterForUser, User user, User opponent, String phase) {
+    public static void selectedMonsterFromZone(MonsterForUser monsterForUser, User user, User opponent, String phase) throws Exception {
         Scanner scanner = new Scanner(System.in);
         String input = "";
         while (true) {
-            System.out.println("select part monster zone");
             input = scanner.nextLine();
             boolean checker = false;
 
@@ -28,7 +28,10 @@ public class MonsterControllerInGame {
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                ProgramController.CardShow(monsterForUser.getName());
+                if (monsterForUser.user.equals(opponent) && monsterForUser.position.equals(Position.HIDDEN)) {
+                    System.out.println("you can't see this card because it is hidden");
+                } else
+                    ProgramController.CardShow(monsterForUser.getName());
             }
 
             pattern = Pattern.compile("set --position attack");
@@ -68,7 +71,9 @@ public class MonsterControllerInGame {
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                if (Game.dasteAval) {
+                if (!monsterForUser.canAttack) {
+                    System.out.println("this card already attacked");
+                } else if (Game.dasteAval) {
                     System.out.println("it is not allowed because it is daste aval :)");
                 } else if (phase.equals("battle")) {
                     boolean checkIfOpponentMonsterZoneEmpty = true;
@@ -81,13 +86,9 @@ public class MonsterControllerInGame {
                     if (checkIfOpponentMonsterZoneEmpty) {
                         if (monsterForUser.position.equals(Position.valueOf("ATTACK"))) {
                             opponent.lifePoint -= monsterForUser.ATK;
-                            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            monsterForUser.canAttack = false;
                             System.out.println("you opponent receives " + monsterForUser.ATK + " battale damage");
-                        } else if (monsterForUser.position.equals(Position.valueOf("DEFEND"))) {
-                            opponent.lifePoint -= monsterForUser.DEF;
-                            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            System.out.println("you opponent receives " + monsterForUser.DEF + " battale damage");
-                        }// age hidden bashe chi mishe?flip summon?
+                        }
                     } else {
                         System.out.println("you can’t attack the opponent directly");
                     }
@@ -105,12 +106,10 @@ public class MonsterControllerInGame {
                 if (Game.dasteAval) {
                     System.out.println("it is not allowed because it is daste aval :)");
                 } else if (phase.equals("battle")) {
-                    boolean checkIfOpponentMonsterZoneEmpty = true;
                     if (opponent.monsterZone[address] != null) {
-                        checkIfOpponentMonsterZoneEmpty = false;
-                    }
-                    if (!checkIfOpponentMonsterZoneEmpty) {
-                        Game.attack(monsterForUser, opponent.monsterZone[address], user, opponent);
+                        String nextStep = (Game.attack(monsterForUser, opponent.monsterZone[address], user, opponent));
+                        if (nextStep.equals("tamam")) Game.endGame(user, opponent);
+                        else System.out.println(nextStep);
                     } else {
                         System.out.println("there is no card to attack here");
                     }
@@ -131,17 +130,22 @@ public class MonsterControllerInGame {
         Scanner scanner = new Scanner(System.in);
         String input = "";
         while (true) {
-            System.out.println("selected monster from hand part");
             input = scanner.nextLine();
             boolean checker = false;
 
-            if (input.equals("select -d")) return;
+            if (input.equals("select -d")) {
+                System.out.println("card deselected");
+                return;
+            }
 
             Pattern pattern = Pattern.compile("card show --selected");
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
                 checker = true;
-                ProgramController.CardShow(monsterForUser.getName());
+                if (!monsterForUser.user.equals(user)) {
+                    System.out.println("you can't see this card because it is in opponent's hand");
+                } else
+                    ProgramController.CardShow(monsterForUser.getName());
             }
 
             pattern = Pattern.compile("summon");
@@ -149,7 +153,6 @@ public class MonsterControllerInGame {
             if (matcher.find()) {
                 checker = true;
                 if (phase.equals("phase1") || phase.equals("phase2")) {
-                    //!!!!!!!!!!!!!!!!!!!!!!has summon???
                     if (Game.hasSummonInThisRound) {
                         System.out.println("you already summoned/set on this turn");
                     } else {
@@ -185,6 +188,21 @@ public class MonsterControllerInGame {
         if (monsterForUser.level <= 4) {
             return summon(monsterForUser, user);
         } else {
+            int i = 0;
+            for (int a = 0; a < 5; a++) {
+                if (user.monsterZone[a] != null) {
+                    i++;
+                }
+            }
+            if (monsterForUser.level <= 6) {
+                if (i <= 0) {
+                    return "there are not enough cards for tribute";
+                }
+            } else if (monsterForUser.level > 6) {
+                if (i <= 1) {
+                    return "there are not enough cards for tribute";
+                }
+            }
             if (tributeConsol(monsterForUser, user)) {
                 return summon(monsterForUser, user);
             }
@@ -203,9 +221,8 @@ public class MonsterControllerInGame {
                 monsterForUser.position = Position.valueOf("ATTACK");
                 user.monsterZone[a] = monsterForUser;
                 user.handMonster.remove(monsterForUser);
-
                 Game.hasSummonInThisRound = true;
-                GameGraphic1.hasSummon=true;
+                GameGraphic1.hasSummon = true;
                 return "summoned successfully";
 
             }
@@ -216,14 +233,14 @@ public class MonsterControllerInGame {
         return "damn it";
     }
 
-    public static void tributeGraphic(User user,MonsterForUser tributeCard) {
+    public static void tributeGraphic(User user, MonsterForUser tributeCard) {
         tributeCard.field = Field.valueOf("GRAVE");
         user.monsterGrave.add(tributeCard);
         tributeCard.address = user.NumOfGrave;
         user.NumOfGrave++;
-        for (int i=0;i<user.monsterZone.length;i++){
-            if (user.monsterZone[i]==tributeCard){
-                user.monsterZone[i]=null;
+        for (int i = 0; i < user.monsterZone.length; i++) {
+            if (user.monsterZone[i] == tributeCard) {
+                user.monsterZone[i] = null;
             }
         }
     }
@@ -272,8 +289,10 @@ public class MonsterControllerInGame {
             if (checker >= 2) {
                 System.out.println("enter an address to tribute");
                 String temp = scanner.nextLine();
+                if (temp.equals("back"))return false;
                 int address = Integer.parseInt(temp);
                 address--;
+                if (address>=0)
                 if (user.monsterZone[address] == null) {
                     System.out.println("there no monsters one this address");
                 } else {
@@ -311,11 +330,11 @@ public class MonsterControllerInGame {
 
     public static String positionAttack(MonsterForUser monsterForUser) {
         if (monsterForUser.position.equals(Position.valueOf("ATTACK"))) {
-           return "this card is already in the wanted position";
+            return "this card is already in the wanted position";
         } else {
             if (monsterForUser.position.equals(Position.valueOf("DEFEND"))) {
                 monsterForUser.position = Position.valueOf("ATTACK");
-                monsterForUser.canChange=false;
+                monsterForUser.canChange = false;
                 return ("monster card position changed successfully");
             }
         }
@@ -328,28 +347,48 @@ public class MonsterControllerInGame {
         } else {
             if (monsterForUser.position.equals(Position.valueOf("ATTACK"))) {
                 monsterForUser.position = Position.valueOf("DEFEND");
-                monsterForUser.canChange=false;
+                monsterForUser.canChange = false;
                 return ("monster card position changed successfully");
             }
         }
         return "error";
     }
 
-    public static String flipSummon(MonsterForUser monsterForUser) {
+    public static String flipSummon(MonsterForUser monsterForUser) throws Exception {
         if (monsterForUser.position.equals(Position.valueOf("HIDDEN"))) {
+            if(monsterForUser.getName().equals("Man-Eater Bug")){
+                new CardDestroy().start(GameGraphic1.stage);
+            }
             monsterForUser.position = Position.valueOf("ATTACK");
-            monsterForUser.canChange=false;
+            monsterForUser.canChange = false;
             return "flip summoned successfully";
         } else {
             return ("you can’t flip summon this card");
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!age taze gozashte bashe nmishe flip krd!!!!!!!!!!!!!!!
         }
     }
 
     private static void setController(MonsterForUser monsterForUser, User user) {
+
         if (monsterForUser.level <= 4) {
             System.out.println(set(monsterForUser, user));
         } else {
+            int i = 0;
+            for (int a = 0; a < 5; a++) {
+                if (user.monsterZone[a] != null) {
+                    i++;
+                }
+            }
+            if (monsterForUser.level <= 6) {
+                if (i <= 0) {
+                    System.out.println("there are not enough cards for tribute");
+                    return;
+                }
+            } else if (monsterForUser.level > 6) {
+                if (i <= 1) {
+                    System.out.println("there are not enough cards for tribute");
+                    return;
+                }
+            }
             if (tributeConsol(monsterForUser, user)) {
                 System.out.println(set(monsterForUser, user));
             }

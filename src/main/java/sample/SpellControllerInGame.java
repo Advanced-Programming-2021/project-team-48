@@ -20,7 +20,11 @@ public class SpellControllerInGame {
         while (!input.equals("select -d")) {
             input = scanner.nextLine();
             boolean checker = false;
-            checker = Game.generalSelected(spellCardForUser);
+
+            if (input.equals("summon")){
+                checker=true;
+                System.out.println("you can't summon spell");
+            }
 
             Pattern pattern = Pattern.compile("activate effect");
             Matcher matcher = pattern.matcher(input);
@@ -40,12 +44,24 @@ public class SpellControllerInGame {
             pattern = Pattern.compile("set");
             matcher = pattern.matcher(input);
             if (matcher.find()) {
+
                 checker = true;
                 if (phase.equals("phase1") || phase.equals("phase2")) {
                     System.out.println(SpellSeter(spellCardForUser, user));
                 } else {
-                    System.out.println("you can’t activate an effect on this turn");
+                    System.out.println("you can’t do this action in this phase");
                 }
+            }
+
+            if (input.equals("card show --selected")) {
+                checker = true;
+                if (!spellCardForUser.user.equals(user)) {
+                    System.out.println("you can't see this card because it is in opponent's hand");
+                } else
+                ProgramController.CardShow(spellCardForUser.getName());
+            }
+            if (!checker) {
+                System.out.println("invalid input");
             }
         }
     }

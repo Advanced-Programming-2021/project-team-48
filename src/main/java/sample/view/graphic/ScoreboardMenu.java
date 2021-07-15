@@ -17,6 +17,7 @@ public class ScoreboardMenu extends Application {
     private static Stage stage;
     @FXML
     private AnchorPane innerAnchorPane;
+
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
@@ -31,12 +32,12 @@ public class ScoreboardMenu extends Application {
         innerAnchorPane.getChildren().addAll(creatScorePane());
     }
 
-    public ArrayList<ScoreboardAnchorPane> creatScorePane(){
+    public ArrayList<ScoreboardAnchorPane> creatScorePane() {
         SortUserList.Sort();
-        int i=1;
-        for (int j=0;j<20;j++){
-            if (j==User.getListOfUsers().size())break;
-            new ScoreboardAnchorPane(i,User.getListOfUsers().get(j));
+        int i = 1;
+        for (int j = 0; j < 20; j++) {
+            if (j == User.getListOfUsers().size()) break;
+            new ScoreboardAnchorPane(i, User.getListOfUsers().get(j));
             i++;
         }
         return ScoreboardAnchorPane.getAllScorePane();

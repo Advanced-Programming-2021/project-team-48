@@ -12,19 +12,30 @@ import java.util.Random;
 public class DrawCard {
 
     public static String draw(User user) {
-        int i = 0;
+        int i = 0,j=0;
         for (MonsterForUser monsterForUser : user.handMonster) {
             i++;
+            if (monsterForUser.address==j){
+                j++;
+            }
         }
         for (SpellCardForUser spellCardForUser : user.handSpell) {
             i++;
+            if (spellCardForUser.address==j){
+                j++;
+            }
         }
         for (TrapCardForUser trapCardForUser : user.handTrap) {
             i++;
+            if (trapCardForUser.address==j){
+                j++;
+            }
         }
         if (i >= 6) {
             return "Hand is full";
         }
+
+        i=j;
         Random random = new Random();
         int r = random.nextInt(3);
         boolean check = false;

@@ -16,8 +16,12 @@ public class trapControllerInGame {
         while (!input.equals("select -d")) {
             input = scanner.nextLine();
             boolean checker = false;
-            checker = Game.generalSelected(trapCardForUser);
 
+
+            if (input.equals("summon")){
+                checker=true;
+                System.out.println("you can't summon trap");
+            }
 
             Pattern pattern = Pattern.compile("set");
             Matcher matcher = pattern.matcher(input);
@@ -28,6 +32,16 @@ public class trapControllerInGame {
                 } else {
                     System.out.println("you can’t activate an effect on this turn");
                 }
+            }
+
+            if (input.equals("card show --selected")){
+                if (!trapCardForUser.user.equals(user)) {
+                    System.out.println("you can't see this card because it is in opponent's hand");
+                } else
+                ProgramController.CardShow(trapCardForUser.getName());
+            }
+            if (!checker){
+                System.out.println("invalid input");
             }
 
         }

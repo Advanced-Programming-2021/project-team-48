@@ -45,13 +45,23 @@ public class DeckShow extends Application {
         if (UserLogined.user.hasActiveDeck) {
             if (UserLogined.user.getActiveDeck().getName().equals(UserLogined.deck.getName())) {
                 active.setSelected(true);
-
                 active.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         active.setSelected(false);
                         UserLogined.user.hasActiveDeck = false;
                         UserLogined.user.setActiveDeck(null);
+                    }
+                });
+            } else {
+                active.setSelected(false);
+
+                active.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        active.setSelected(true);
+                        UserLogined.user.hasActiveDeck = true;
+                        UserLogined.user.setActiveDeck(UserLogined.deck);
                     }
                 });
             }
@@ -127,19 +137,19 @@ public class DeckShow extends Application {
 
         for (TrapCardForUser trapCard : UserLogined.deck.allTrapCardsForUserMain) {
 
-                ShopCard card = new ShopCard(i, j, 195, 180, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCard.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
-                allcards.add(card);
-                card.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        String nextStep = TrapAdderToDeck.AddTrapToSideDeck(UserLogined.deck, trapCard);
-                        if (nextStep.equals("done")) {
-                            sideDeck.getChildren().addAll(creatSideDeck());
-                            mainDeck.getChildren().clear();
-                            mainDeck.getChildren().addAll(creatMainDeck());
-                        }
+            ShopCard card = new ShopCard(i, j, 195, 180, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCard.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
+            allcards.add(card);
+            card.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    String nextStep = TrapAdderToDeck.AddTrapToSideDeck(UserLogined.deck, trapCard);
+                    if (nextStep.equals("done")) {
+                        sideDeck.getChildren().addAll(creatSideDeck());
+                        mainDeck.getChildren().clear();
+                        mainDeck.getChildren().addAll(creatMainDeck());
                     }
-                });
+                }
+            });
             i += 200;
             if (i == 1000) {
                 i = 0;
@@ -292,8 +302,8 @@ public class DeckShow extends Application {
                 }
             });
 
-        i += 200;
-    }
+            i += 200;
+        }
         return allcards;
     }
 

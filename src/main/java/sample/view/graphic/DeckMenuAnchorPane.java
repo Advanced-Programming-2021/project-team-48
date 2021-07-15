@@ -22,7 +22,10 @@ public class DeckMenuAnchorPane extends AnchorPane {
         this.setTranslateX(0);
         this.setPrefWidth(1500);
         this.setPrefHeight(40);
-        this.setStyle("-fx-background-color: #e4dcf1");
+        if (deck.equals(UserLogined.user.getActiveDeck())) {
+            this.setStyle("-fx-background-color: #ea3f3f");
+        } else
+            this.setStyle("-fx-background-color: #e4dcf1");
 
         Label name = new Label();
         name.setText(deck.getName());
@@ -31,8 +34,6 @@ public class DeckMenuAnchorPane extends AnchorPane {
         name.setFont(new Font("Cambria", 32));
         name.setTextFill(Color.web("#594F4F", 0.8));
         this.getChildren().add(name);
-
-
 
 
         Button edit = new Button();
@@ -45,7 +46,7 @@ public class DeckMenuAnchorPane extends AnchorPane {
         edit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                UserLogined.deck=deck;
+                UserLogined.deck = deck;
                 try {
                     DeckMenu.goToDeckShow();
                 } catch (Exception e) {

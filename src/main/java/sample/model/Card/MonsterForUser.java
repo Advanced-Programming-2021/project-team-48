@@ -10,7 +10,7 @@ public class MonsterForUser<User, Deck> extends MonsterCard {
     public Field field;
     public boolean isInDeck;
     public Deck deck;
-    public boolean canAttack=false;
+    public boolean canAttack=true;
     public boolean canChange=true;
     public  SpellCardForUser spell;
 
