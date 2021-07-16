@@ -10,7 +10,6 @@ public class MonsterAdderToDeck {
         if (deck.numberOfCardsInMain >= 60) {
             return "full";
         } else {
-//3 ta bishtar nabashe:
             int check = 0;
             for (MonsterForUser monster : deck.allMonsterForUserMain) {
                 if (monsterForUser.getName().equals(monster.getName())) {
@@ -33,7 +32,8 @@ public class MonsterAdderToDeck {
             } else {
                 if (!monsterForUser.isInDeck) {
                     deck.allMonsterForUserMain.add(monsterForUser);
-                    //deck.user.allMonsters.remove(monsterForUser);
+                    //inja comment she age mikahi aval user sakhte she!
+                    deck.user.allMonsters.remove(monsterForUser);
                     deck.numberOfCardsInMain++;
                     monsterForUser.deck = deck;
                     monsterForUser.isInDeck = true;

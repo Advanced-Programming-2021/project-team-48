@@ -35,6 +35,22 @@ public class DeckMenuAnchorPane extends AnchorPane {
         name.setTextFill(Color.web("#594F4F", 0.8));
         this.getChildren().add(name);
 
+        Label main = new Label();
+        main.setText("Main: "+deck.numberOfCardsInMain);
+        main.setTranslateX(500);
+        main.setTranslateY(0);
+        main.setFont(new Font("Cambria", 32));
+        main.setTextFill(Color.web("#594F4F", 0.8));
+        this.getChildren().add(main);
+
+        Label side = new Label();
+        side.setText("Side: "+deck.numberOfCardsInSide);
+        side.setTranslateX(800);
+        side.setTranslateY(0);
+        side.setFont(new Font("Cambria", 32));
+        side.setTextFill(Color.web("#594F4F", 0.8));
+        this.getChildren().add(side);
+
 
         Button edit = new Button();
         edit.setText("Edit");

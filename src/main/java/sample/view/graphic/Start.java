@@ -22,6 +22,7 @@ public class Start extends Application {
     private TextField passwordVorodi;
     @FXML
     private Text error;
+    public static String errorOut="";
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -31,7 +32,10 @@ public class Start extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
+    public void initialize() {
+        error.setText(errorOut);
+        errorOut="";
+    }
     public static void main(String[] args) {
         launch(args);
     }

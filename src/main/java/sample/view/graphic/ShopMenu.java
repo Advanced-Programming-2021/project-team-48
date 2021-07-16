@@ -29,6 +29,8 @@ public class ShopMenu extends Application {
     private Text money;
     @FXML
     private Text username;
+    @FXML
+    private Text error;
     private ArrayList<Text> allHowMany = new ArrayList<>();
 
     @Override
@@ -162,7 +164,9 @@ public class ShopMenu extends Application {
 
     public void BuyClicked(String cardName) {
         String nextStep = BuyCard.BuyCard(cardName, UserLogined.user);
+
         if (nextStep.equals("done")) {
+            error.setText("you bought "+cardName);
             money.setText(UserLogined.user.getMoney() + "");
             for (Text newHowMany : allHowMany) {
                 if (newHowMany.getId().equals("numberOf" + cardName)) {
@@ -170,6 +174,6 @@ public class ShopMenu extends Application {
                     break;
                 }
             }
-        }
+        }else error.setText("not enough money");
     }
 }

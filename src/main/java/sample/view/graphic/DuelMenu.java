@@ -263,14 +263,13 @@ public class DuelMenu extends Application {
         if (three.isSelected()) rounds = 3;
         String nextStep = StartGameController.Game(opponent.getText(), UserLogined.user, rounds);
         error.setText(nextStep);
-        //if (nextStep.equals("done1")) {
+        if (nextStep.equals("done1")) {
             GameGraphic1.deckTempUser.copyDeck(UserLogined.user.getActiveDeck());
             GameGraphic1.deckTempOpponent.copyDeck(UserLogined.opponent.getActiveDeck());
             GameGraphic1 gameGraphic1 = new GameGraphic1();
             gameGraphic1.start(stage);
-
         }
-    //}
+    }
 
     public static void main(String[] args) {
         launch(args);

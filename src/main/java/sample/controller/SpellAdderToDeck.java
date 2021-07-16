@@ -6,10 +6,9 @@ import sample.model.Deck;
 
 public class SpellAdderToDeck {
     public static String AddSpellToMain(Deck deck, SpellCardForUser spellCardForUser) {
-       /*if (deck.numberOfCardsInMain >= 60) {
+       if (deck.numberOfCardsInMain >= 60) {
             return "full";
         } else {
-//3 ta bishtar nabashe:
             int check = 0;
             for (SpellCardForUser spellCardForUser1:deck.allSpellCardsForUserMain) {
                 if (spellCardForUser1.getName().equals(spellCardForUser.getName())) {
@@ -24,15 +23,14 @@ public class SpellAdderToDeck {
                 if (check == 3) break;
             }
 
-            //
 
             if (check >= 3) {
                 return "three";
             } else {
 
-        */
+
                 if (!spellCardForUser.isInDeck) {
-                    //UserLogined.user.allSpells.remove(spellCardForUser);
+                    UserLogined.user.allSpells.remove(spellCardForUser);
                     deck.allSpellCardsForUserMain.add(spellCardForUser);
                     deck.numberOfCardsInMain++;
                     spellCardForUser.deck = deck;
@@ -41,9 +39,9 @@ public class SpellAdderToDeck {
                 } else {
                     return "card is in a deck!!!!!!!!!!!!!!!!!!!!!!!!!!!";
                 }
-          //  }
+           }
 
-//        }
+       }
     }
 
     public static String AddSpelllToSideDeck(Deck deck, SpellCardForUser spellCardForUser) {

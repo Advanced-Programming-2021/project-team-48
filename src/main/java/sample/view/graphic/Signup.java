@@ -51,6 +51,7 @@ public class Signup extends Application {
         String nextStep = SignupController.creatUser(usernameVorodi.getText(), nickname.getText(), passwordVorodi.getText());
         if (nextStep.equals("user created successfully!")) {
             User.getUserByUsername(usernameVorodi.getText()).setAvatar(new Image(String.valueOf(getClass().getResource(imageAddress))));
+            Start.errorOut="user created successfully!";
             new Start().start(stage);
         } else {
             error.setText(nextStep);
