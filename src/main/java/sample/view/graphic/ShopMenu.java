@@ -112,6 +112,7 @@ public class ShopMenu extends Application {
                 j += 100 + 460;
                 c += 100 + 460;
             }
+
             allCards.add(new ShopCard(i, j, 460, 325, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + spellCard.replace(" ", "").replace("-", "").replace("'", "") + ".jpg"))))));
             Button button = new Button();
             button.setText("Buy");
@@ -126,6 +127,8 @@ public class ShopMenu extends Application {
             innerAnchorPane.getChildren().add(button);
             i += 385;
         }
+
+
 
         for (String trapCard : allTrap) {
             if (i == 1155 + 385) {

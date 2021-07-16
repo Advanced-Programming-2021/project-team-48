@@ -1,7 +1,11 @@
 package sample.model.Card;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 
@@ -11,10 +15,45 @@ public class CartReader {
     private static ArrayList<TrapCard> trapCards = new ArrayList<>();
 
 
-
-
     public CartReader() {
-        run();
+        csv();
+        //run();
+    }
+
+    private void csv() {
+
+        boolean aval = true;
+        try (BufferedReader br = new BufferedReader(new FileReader(String.valueOf("C:\\Users\\amirhossein\\Desktop\\project-team-48-komak\\src\\main\\resources\\sample\\model\\Card\\Monster.csv")))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!aval) {
+                    String[] values = line.split(",");
+                    monsterCards.add(new MonsterCard(values[0],values[7],Integer.parseInt(values[8]),Integer.parseInt(values[1]),values[4],Integer.parseInt(values[5]),Integer.parseInt(values[6]),MonsterType.valueOf(values[3].toUpperCase(Locale.ROOT)), Attribute.valueOf(values[2].toUpperCase(Locale.ROOT))));
+                } else aval = false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        aval = true;
+        try (BufferedReader br = new BufferedReader(new FileReader(String.valueOf("C:\\Users\\amirhossein\\Desktop\\project-team-48-komak\\src\\main\\resources\\sample\\model\\Card\\SpellTrap.csv")))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!aval) {
+                    String[] values = line.split(",");
+                    if (values[1].equals("Trap")){
+
+                        trapCards.add(new TrapCard(values[0],values[3],Integer.parseInt(values[5]), Property.valueOf(values[2].toUpperCase(Locale.ROOT)),Status.valueOf(values[4].toUpperCase(Locale.ROOT))));
+                    }else {
+
+                        spellCards.add(new SpellCard(values[0],values[3],Integer.parseInt(values[5]),Property.valueOf(values[2].toUpperCase(Locale.ROOT)),Status.valueOf(values[4].toUpperCase(Locale.ROOT))));
+                    }
+                } else aval = false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void run() {
@@ -48,9 +87,9 @@ public class CartReader {
         monsterCards.add(new MonsterCard("Texchanger", "Once per turn, when your monster is targeted for an attack: You can negate that attack, then Special Summon 1 Cyberse Normal Monster from your hand, smaple.model.Deck, or GY.", 200, 1, "Effect", 100, 100, MonsterType.valueOf("Cyberse".toUpperCase(Locale.ROOT)), Attribute.valueOf("DARK".toUpperCase(Locale.ROOT))));
         monsterCards.add(new MonsterCard("Leotron", "A territorial electronic monster that guards its own domain.", 2500, 4, "Normal", 2000, 0, MonsterType.valueOf("Cyberse".toUpperCase(Locale.ROOT)), Attribute.valueOf("EARTH".toUpperCase(Locale.ROOT))));
         monsterCards.add(new MonsterCard("The Calculator", "The ATK of this card is the combined Levels of all face-up monsters you control x 300.", 8000, 5, "Effect", 0, 0, MonsterType.valueOf("Thunder".toUpperCase(Locale.ROOT)), Attribute.valueOf("LIGHT".toUpperCase(Locale.ROOT))));
-        monsterCards.add(new MonsterCard("Alexandrite Dragon", "Many of the czars' lost jewels can be found in the scales of this priceless dragon. Its creator remains a mystery, along with how they acquired the imperial treasures. But whosoever finds this dragon has hit the jackpot... whether they know it or not.", 2600, 4, "Normal",2000 , 100, MonsterType.valueOf("Dragon".toUpperCase(Locale.ROOT)), Attribute.valueOf("LIGHT".toUpperCase(Locale.ROOT))));
+        monsterCards.add(new MonsterCard("Alexandrite Dragon", "Many of the czars' lost jewels can be found in the scales of this priceless dragon. Its creator remains a mystery, along with how they acquired the imperial treasures. But whosoever finds this dragon has hit the jackpot... whether they know it or not.", 2600, 4, "Normal", 2000, 100, MonsterType.valueOf("Dragon".toUpperCase(Locale.ROOT)), Attribute.valueOf("LIGHT".toUpperCase(Locale.ROOT))));
         monsterCards.add(new MonsterCard("Mirage Dragon", "Your opponent cannot activate Trap Cards during the Battle Phase.", 2500, 4, "Effect", 1600, 600, MonsterType.valueOf("Dragon".toUpperCase(Locale.ROOT)), Attribute.valueOf("LIGHT".toUpperCase(Locale.ROOT))));
-        monsterCards.add(new MonsterCard("Herald of Creation", "Once per turn: You can discard 1 card, then target 1 Level 7 or higher monster in your Graveyard; add that target to your hand.", 2700, 4, "Effect", 1800,  600, MonsterType.valueOf("Spellcaster".toUpperCase(Locale.ROOT)), Attribute.valueOf("LIGHT".toUpperCase(Locale.ROOT))));
+        monsterCards.add(new MonsterCard("Herald of Creation", "Once per turn: You can discard 1 card, then target 1 Level 7 or higher monster in your Graveyard; add that target to your hand.", 2700, 4, "Effect", 1800, 600, MonsterType.valueOf("Spellcaster".toUpperCase(Locale.ROOT)), Attribute.valueOf("LIGHT".toUpperCase(Locale.ROOT))));
         monsterCards.add(new MonsterCard("Exploder Dragon", "If this card is destroyed by battle and sent to the Graveyard: Destroy the monster that destroyed it. Neither player takes any battle damage from attacks involving this attacking card.", 1000, 3, "Effect", 1000, 0, MonsterType.valueOf("Dragon".toUpperCase(Locale.ROOT)), Attribute.valueOf("EARTH".toUpperCase(Locale.ROOT))));
         monsterCards.add(new MonsterCard("Warrior Dai Grepher", "The warrior who can manipulate dragons. Nobody knows his mysterious past.", 3400, 4, "Normal", 1700, 1600, MonsterType.valueOf("Warrior".toUpperCase(Locale.ROOT)), Attribute.valueOf("EARTH".toUpperCase(Locale.ROOT))));
         monsterCards.add(new MonsterCard("Dark Blade", "They say he is a dragon-manipulating warrior from the dark world. His attack is tremendous, using his great swords with vicious power.", 3500, 4, "Normal", 1800, 1500, MonsterType.valueOf("Warrior".toUpperCase(Locale.ROOT)), Attribute.valueOf("DARK".toUpperCase(Locale.ROOT))));
@@ -94,7 +133,6 @@ public class CartReader {
         spellCards.add(new SpellCard("United We Stand", "The equipped monster gains 800 ATK/DEF for each face-up monster you control.", 4300, Property.valueOf("Equip".toUpperCase(Locale.ROOT)), Status.valueOf("unlimited".toUpperCase(Locale.ROOT))));
         spellCards.add(new SpellCard("Magnum Shield", "Equip only to a Warrior-Type monster. Apply this effect, depending on its battle position. ● Attack Position: It gains ATK equal to its original DEF. ● Defense Position: It gains DEF equal to its original ATK.", 4300, Property.valueOf("Equip".toUpperCase(Locale.ROOT)), Status.valueOf("unlimited".toUpperCase(Locale.ROOT))));
         spellCards.add(new SpellCard("Advanced Ritual Art", "This card can be used to Ritual Summon any 1 Ritual Monster. You must also send Normal Monsters from your smaple.model.Deck to the Graveyard whose total Levels equal the Level of that Ritual Monster.", 3000, Property.valueOf("Ritual".toUpperCase(Locale.ROOT)), Status.valueOf("unlimited".toUpperCase(Locale.ROOT))));
-
 
 
 //        try {

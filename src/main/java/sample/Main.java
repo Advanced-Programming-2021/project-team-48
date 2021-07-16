@@ -18,7 +18,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         new CartReader();
 
-
         //<user2>
         User naweed = new User("naweed", "ahmadvand", "321");
         UserLogined.user = naweed;
@@ -186,7 +185,7 @@ public class Main {
         naweed.handMonster.add(naweed.allMonsters.get(4));
 
 
-        */
+
         UserLogined.user.hasActiveDeck = true;
         UserLogined.user.setActiveDeck(deck);
 
@@ -194,8 +193,11 @@ public class Main {
         //</user1>
         //</temp>
 
+        */
+
         //new ProgramController();
         Start.main(args);
+
     }
 
 }
