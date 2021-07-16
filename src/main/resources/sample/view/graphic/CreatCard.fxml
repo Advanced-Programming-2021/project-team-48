@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="750.0" prefWidth="1500.0" style="-fx-background-color: #8874a3;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.view.graphic.CreatCard">
+   <children>
+      <Button layoutX="493.0" layoutY="598.0" mnemonicParsing="false" onAction="#backCLicked" prefHeight="26.0" prefWidth="183.0" text="Back To Mian Menu" />
+      <Button layoutX="493.0" layoutY="557.0" mnemonicParsing="false" onAction="#creatCardClicked" prefHeight="26.0" prefWidth="183.0" text="Creat Card" />
+      <Text layoutX="443.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
+      <TextArea fx:id="description" layoutX="536.0" layoutY="294.0" prefHeight="200.0" prefWidth="200.0" />
+      <TextField fx:id="name" layoutX="537.0" layoutY="137.0" />
+      <Text layoutX="574.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Creat Card Menu" />
+      <Text layoutX="442.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attack" />
+      <TextField fx:id="attack" layoutX="536.0" layoutY="176.0" />
+      <Text layoutX="442.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Deffence" />
+      <TextField fx:id="deffence" layoutX="536.0" layoutY="212.0" />
+      <Text layoutX="445.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level" />
+      <TextField fx:id="level" layoutX="536.0" layoutY="252.0" />
+      <Text layoutX="443.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
+      <Text fx:id="error" fill="#e72626" layoutX="276.0" layoutY="528.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="901.939208984375">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

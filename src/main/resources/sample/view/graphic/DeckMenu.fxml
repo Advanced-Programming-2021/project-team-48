@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="750.0" prefWidth="1500.0" style="-fx-background-color: #2e003e;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.view.graphic.DeckMenu">
@@ -18,5 +19,10 @@
       <Label layoutX="7.0" layoutY="5.0" text="Username:" textFill="WHITE" />
       <Label layoutX="736.0" layoutY="5.0" text="Deck Menu" textFill="WHITE" />
       <Text fx:id="username" fill="WHITE" layoutX="72.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="470.1367416381836" />
+      <Text fx:id="error" fill="#f40101" layoutX="407.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="298.1367492675781">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

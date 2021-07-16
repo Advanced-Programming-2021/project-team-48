@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="750.0" prefWidth="1500.0" styleClass="mainMenuBackground" stylesheets="@you-gay-oh.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.view.graphic.MainMenu">
    <children>
-      <Button layoutX="750.0" layoutY="187.0" mnemonicParsing="false" onAction="#dueClicked" prefHeight="41.0" prefWidth="267.0" text="Duel">
+      <Button layoutX="750.0" layoutY="128.0" mnemonicParsing="false" onAction="#dueClicked" prefHeight="41.0" prefWidth="267.0" text="Duel">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -17,5 +17,6 @@
       <Button layoutX="750.0" layoutY="462.0" mnemonicParsing="false" onAction="#LogoutClicked" prefHeight="42.0" prefWidth="267.0" text="Log out" />
       <Button layoutX="750.0" layoutY="521.0" mnemonicParsing="false" onAction="#ExitClicked" prefHeight="42.0" prefWidth="267.0" text="Exit" />
       <Button layoutX="750.0" layoutY="408.0" mnemonicParsing="false" onAction="#Shop" prefHeight="42.0" prefWidth="267.0" text="Shop" />
+      <Button layoutX="750.0" layoutY="186.0" mnemonicParsing="false" onAction="#creatClicked" prefHeight="42.0" prefWidth="267.0" text="Creat Card" />
    </children>
 </AnchorPane>

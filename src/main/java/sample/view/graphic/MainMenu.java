@@ -39,11 +39,14 @@ public class MainMenu extends Application {
 
     public void DeckClicked() throws Exception {
         new DeckMenu().start(stage);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     public void dueClicked() throws Exception {
         new DuelMenu().start(stage);
+    }
+
+    public void creatClicked() throws Exception {
+        new CreatCard().start(stage);
     }
 
     public void ExitClicked() {

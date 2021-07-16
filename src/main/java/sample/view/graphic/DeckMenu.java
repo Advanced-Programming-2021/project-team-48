@@ -27,6 +27,9 @@ public class DeckMenu extends Application {
     public AnchorPane innerAnchorPane;
     @FXML
     private Text username;
+    @FXML
+    private Text error;
+    public static String errorOut="";
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -38,6 +41,8 @@ public class DeckMenu extends Application {
     }
 
     public void initialize() {
+        error.setText(errorOut);
+        errorOut="";
         username.setText(UserLogined.user.getUsername());
         int i = 0;
         for (Deck deck : UserLogined.user.allDecks) {

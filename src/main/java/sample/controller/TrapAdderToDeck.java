@@ -9,7 +9,7 @@ public class TrapAdderToDeck {
         if (deck.numberOfCardsInMain >= 60) {
             return "full";
         } else {
-//3 ta bishtar nabashe:
+
             int check = 0;
             for (TrapCardForUser trapCardForUser1:deck.allTrapCardsForUserMain) {
                 if (trapCardForUser1.getName().equals(trapCardForUser.getName())) {
@@ -23,7 +23,7 @@ public class TrapAdderToDeck {
                 }
                 if (check == 3) break;
             }
-            //
+
 
             if (check >= 3) {
                 return "three";

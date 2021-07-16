@@ -91,7 +91,11 @@ public class ActiveEquipSpell extends Application {
         cards.getChildren().addAll(creatOpponent());
 
         if (selectedMonster != null) {
-            ShopCard selected = new ShopCard(573, 47, 407, 275, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + selectedMonster.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+            ShopCard selected;
+            if (selectedMonster.type.equals("added")){
+                selected = new ShopCard(573, 47, 407, 275, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+            }else
+            selected = new ShopCard(573, 47, 407, 275, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + selectedMonster.getName().replace(" ", "").replace("-", "") + ".jpg")))));
 
             selected.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override

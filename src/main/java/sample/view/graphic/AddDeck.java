@@ -36,6 +36,7 @@ public class AddDeck extends Application {
         String nextStep=DeckCreat.creat(deckName.getText(), UserLogined.user);
         error.setText(nextStep);
         if (nextStep.equals("deck created successfully!")){
+            DeckMenu.errorOut="deck created successfully!";
             new DeckMenu().start(stage);
         }
     }
