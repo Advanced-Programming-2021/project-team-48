@@ -1,4 +1,4 @@
-module you.gay.oh {
+module project5 {
     requires javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
@@ -6,6 +6,12 @@ module you.gay.oh {
     requires javafx.media;
 
 
+    opens sample.controller;
+    exports sample.controller;
+    opens sample.model;
+    exports sample.model;
     opens sample.view.graphic;
     exports sample.view.graphic;
+    opens sample;
+    exports sample;
 }

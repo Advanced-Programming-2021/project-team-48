@@ -304,7 +304,9 @@ public class GameGraphic1 extends Application {
 
     public ShopCard creatShowSpell(SpellCardForUser spellCardForUser) {
         ShopCard card;
-        if (showSpellFromZoneOpponent != null && !spellCardForUser.position.equals(Position.valueOf("ATTACK"))) {
+        if (showCardSpellOpponentHand != null)
+            card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+        else if (showSpellFromZoneOpponent != null && !spellCardForUser.position.equals(Position.valueOf("ATTACK"))) {
             card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
         } else
             card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + spellCardForUser.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
@@ -537,7 +539,11 @@ public class GameGraphic1 extends Application {
         ArrayList<ShopCard> allCards = new ArrayList<>();
         int x = 547;
         for (MonsterForUser monsterForUser : user1.handMonster) {
-            ShopCard card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
+            ShopCard card;
+            if (who.equals("opponent")) {
+                card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+            } else
+                card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/" + monsterForUser.getName().replace(" ", "").replace("-", "") + ".jpg")))));
             x -= 110;
             card.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -559,7 +565,11 @@ public class GameGraphic1 extends Application {
         }
 
         for (SpellCardForUser spellCardForUser : user1.handSpell) {
-            ShopCard card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + spellCardForUser.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
+            ShopCard card;
+            if (who.equals("opponent")) {
+                card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+            } else
+                card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + spellCardForUser.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
             x -= 110;
             card.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -580,7 +590,11 @@ public class GameGraphic1 extends Application {
         }
 
         for (TrapCardForUser trapCardForUser : user1.handTrap) {
-            ShopCard card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCardForUser.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
+            ShopCard card;
+            if (who.equals("opponent")) {
+                card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+            } else
+                card = new ShopCard(x, 8, 156, 103, new Image(String.valueOf((getClass().getResource("Assets/Cards/SpellTrap/" + trapCardForUser.getName().replace(" ", "").replace("-", "").replace("'", "") + ".jpg")))));
             x -= 110;
             card.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -698,7 +712,9 @@ public class GameGraphic1 extends Application {
     public ShopCard showMonsterCard(MonsterForUser monsterForUser) {
         if (showCardMonsterHand != null || showCardMonsterOpponentHand != null || showMonsterFromZone != null || showMonsterFromZoneOpponent != null) {
             ShopCard card;
-            if (showMonsterFromZoneOpponent != null) {
+            if (showCardMonsterOpponentHand != null) {
+                card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
+            } else if (showMonsterFromZoneOpponent != null) {
                 if (showMonsterFromZoneOpponent.position.equals(Position.valueOf("HIDDEN"))) {
                     card = new ShopCard(0, 10, 362, 242, new Image(String.valueOf((getClass().getResource("Assets/Cards/Monsters/Unknown.jpg")))));
                 } else {
