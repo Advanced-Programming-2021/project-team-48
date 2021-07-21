@@ -30,7 +30,7 @@ public class SpellAdderToDeck {
 
 
                 if (!spellCardForUser.isInDeck) {
-                    UserLogined.user.allSpells.remove(spellCardForUser);
+                    //UserLogined.user.allSpells.remove(spellCardForUser);
                     deck.allSpellCardsForUserMain.add(spellCardForUser);
                     deck.numberOfCardsInMain++;
                     spellCardForUser.deck = deck;

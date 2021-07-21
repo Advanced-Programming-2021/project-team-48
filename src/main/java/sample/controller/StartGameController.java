@@ -24,10 +24,10 @@ public class StartGameController {
                         if (user2.getActiveDeck().isValid().equals("valid")) {
                             if (round == 1) {
                                 UserLogined.opponent=user2;
-                                //new Game(user, user2,1,1);
+                                new Game(user, user2,1,1);
                                 return "done1";
                             } else if (round == 3) {
-                                //new Game(UserLogined.user,UserLogined.opponent,3,1);
+                                new Game(UserLogined.user,UserLogined.opponent,3,1);
                                 return "khuck";
                             } else {
                                 return "number of rounds is not supported";

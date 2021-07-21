@@ -17,7 +17,6 @@ public class CartReader {
 
     public CartReader() {
         csv();
-
     }
 
     private void csv() {

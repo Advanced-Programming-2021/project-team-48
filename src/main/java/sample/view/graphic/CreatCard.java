@@ -51,7 +51,10 @@ public class CreatCard extends Application {
         attack.clear();
         deffence.clear();
         description.clear();
-        error.setText("creat card created and it costs "+deffence1+attack1+" and "+(1-(deffence1+attack1)/100)+"deacresed from "+UserLogined.user.getNickname());
+        level.clear();
+        int i=deffence1+attack1;
+        int j=10*((deffence1+attack1)/100);
+        error.setText("card created and it costs "+i+" and "+j+"deacresed from "+UserLogined.user.getNickname());
     }
 
     public void backCLicked() throws Exception {

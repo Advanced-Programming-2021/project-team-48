@@ -419,6 +419,7 @@ public class ProgramController {
             }
 
             if (input.equals("2")) {
+                checker = true;
                 System.out.println("enter old password:");
                 String oldPassword = scanner.nextLine();
                 System.out.println("enter new password:");

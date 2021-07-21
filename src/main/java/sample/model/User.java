@@ -13,7 +13,6 @@ public class User {
     private String password;
     private int score = 0;
     private long money = 10000000;
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public int lifePoint = 8000;
     private Image avatar;
     public ArrayList<MonsterForUser> handMonster = new ArrayList<>();
