@@ -1,5 +1,7 @@
 package sample.view.graphic;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import sample.MonsterControllerInGame;
 import sample.SpellControllerInGame;
 import sample.controller.DeleteDeck;
@@ -25,6 +28,11 @@ import sample.model.Card.TrapCardForUser;
 import sample.model.Deck;
 import sample.model.User;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.Socket;
 import java.security.spec.RSAOtherPrimeInfo;
 import java.util.ArrayList;
 
@@ -32,7 +40,7 @@ public class GameGraphic1 extends Application {
     public static Stage stage;
 
     public static Deck deckTempUser = new Deck(UserLogined.user.getActiveDeck().user, "komaki1");
-    public static Deck deckTempOpponent = new Deck(UserLogined.opponent.getActiveDeck().user, "komaki2");
+   public static Deck deckTempOpponent = new Deck(UserLogined.opponent.getActiveDeck().user, "komaki2");
 
     public static MonsterForUser showCardMonsterHand;
     private static MonsterForUser showCardMonsterOpponentHand;
@@ -48,6 +56,8 @@ public class GameGraphic1 extends Application {
     private static TrapCardForUser showCardTrapOpponentHand;
     private static TrapCardForUser showTrapFromZone;
     private static TrapCardForUser showTrapFromZoneOpponent;
+
+    private Timeline timer;
 
 
     public static User winner;
@@ -99,6 +109,54 @@ public class GameGraphic1 extends Application {
     }
 
     public void initialize() {
+        Socket socket = null;
+        try {
+            socket=new Socket("localhost", 7001);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DataOutputStream dataOutputStream= null;
+        try {
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DataOutputStream finalDataOutputStream = dataOutputStream;
+        ObjectInputStream objectInputStream = null;
+        try {
+            objectInputStream=new ObjectInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ObjectInputStream finalObjectInputStream = objectInputStream;
+        KeyFrame frame = new KeyFrame(Duration.seconds(0.5), event -> {
+
+            try {
+                finalDataOutputStream.writeUTF("sendUser,");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                finalDataOutputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                opponent= (User) finalObjectInputStream.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            opponentLifePoint1.setText(opponent.lifePoint+"");
+            opponentHand.getChildren().clear();
+            field.getChildren().clear();
+            creatBoard();
+        });
+        this.timer = new Timeline(frame);
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+
         nickName1.setText(UserLogined.user.getNickname());
         lifePoint1.setText(user.lifePoint + "");
         opponentLifePoint1.setText(opponent.lifePoint + "");
@@ -461,9 +519,6 @@ public class GameGraphic1 extends Application {
                     user.monsterZone[i].canChange = true;
                 }
             }
-            User user = UserLogined.user;
-            UserLogined.user = UserLogined.opponent;
-            UserLogined.opponent = user;
             dasteAval = false;
             clearSelectedCard();
             hasSummon = false;

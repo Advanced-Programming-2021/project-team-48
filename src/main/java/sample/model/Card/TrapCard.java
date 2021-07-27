@@ -2,9 +2,10 @@ package sample.model.Card;
 
 import javafx.scene.image.Image;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TrapCard extends Card {
+public class TrapCard extends Card  implements Serializable {
     private Property property;
     private Status status;
     private static ArrayList<TrapCard> allTrapCard ;

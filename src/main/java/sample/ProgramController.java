@@ -40,7 +40,7 @@ public class ProgramController {
                 String nickname = scanner.nextLine();
                 System.out.println("enter password");
                 String password = scanner.nextLine();
-                System.out.println(SignupController.creatUser(username, nickname, password));
+                System.out.println(SignupController.creatUser(username, nickname, password,"Assets/Characters/Chara001.dds1.png"));
             }
 
 
@@ -71,38 +71,38 @@ public class ProgramController {
                 username = matcher.group(1);
                 nickname = matcher.group(2);
                 password = matcher.group(3);
-                System.out.println(SignupController.creatUser(username, nickname, password));
+                System.out.println(SignupController.creatUser(username, nickname, password,"Assets/Characters/Chara001.dds1.png"));
             } else if (matcher1.find()) {
                 checker = true;
                 username = matcher1.group(2);
                 nickname = matcher1.group(1);
                 password = matcher1.group(3);
-                System.out.println(SignupController.creatUser(username, nickname, password));
+                System.out.println(SignupController.creatUser(username, nickname, password,"Assets/Characters/Chara001.dds1.png"));
             } else if (matcher2.find()) {
                 checker = true;
                 username = matcher2.group(1);
                 nickname = matcher2.group(3);
                 password = matcher2.group(2);
-                System.out.println(SignupController.creatUser(username, nickname, password));
+                System.out.println(SignupController.creatUser(username, nickname, password,"Assets/Characters/Chara001.dds1.png"));
             } else if (matcher3.find()) {
                 checker = true;
 
                 username = matcher3.group(3);
                 nickname = matcher3.group(1);
                 password = matcher3.group(2);
-                System.out.println(SignupController.creatUser(username, nickname, password));
+                System.out.println(SignupController.creatUser(username, nickname, password,"Assets/Characters/Chara001.dds1.png"));
             } else if (matcher4.find()) {
                 checker = true;
                 username = matcher4.group(2);
                 nickname = matcher4.group(3);
                 password = matcher4.group(1);
-                System.out.println(SignupController.creatUser(username, nickname, password));
+                System.out.println(SignupController.creatUser(username, nickname, password,"Assets/Characters/Chara001.dds1.png"));
             } else if (matcher5.find()) {
                 checker = true;
                 username = matcher5.group(3);
                 nickname = matcher5.group(2);
                 password = matcher5.group(1);
-                System.out.println(SignupController.creatUser(username, nickname, password));
+                System.out.println(SignupController.creatUser(username, nickname, password,"Assets/Characters/Chara001.dds1.png"));
             }
 
 
@@ -113,7 +113,10 @@ public class ProgramController {
                 System.out.println("enter password:");
                 password = scanner.nextLine();
                 String nextStep = LoginController.login(username, password);
-                if (nextStep.equals("OK")) {
+                pattern = Pattern.compile("OK,(.*)");
+                matcher1 = pattern.matcher(nextStep);
+                if (matcher1.find()) {
+                    User.getUserByUsername(username).token = matcher1.group(1);
                     System.out.println("user logged in successfully!");
                     mainMenu(User.getUserByUsername(username));
                 } else System.out.println(nextStep);
@@ -133,8 +136,12 @@ public class ProgramController {
                 username = matcher.group(1);
                 password = matcher.group(2);
                 String nextStep = LoginController.login(username, password);
-                if (nextStep.equals("OK")) {
+
+                pattern = Pattern.compile("OK,(.*)");
+                matcher1 = pattern.matcher(nextStep);
+                if (matcher1.find()) {
                     System.out.println("user logged in successfully!");
+                    User.getUserByUsername(username).token = matcher1.group(1);
                     mainMenu(User.getUserByUsername(username));
                 } else System.out.println(nextStep);
             } else if (matcher1.find()) {
@@ -142,7 +149,10 @@ public class ProgramController {
                 username = matcher1.group(2);
                 password = matcher.group(1);
                 String nextStep = LoginController.login(username, password);
-                if (nextStep.equals("OK")) {
+                pattern = Pattern.compile("OK,(.*)");
+                matcher1 = pattern.matcher(nextStep);
+                if (matcher1.find()) {
+                    User.getUserByUsername(username).token = matcher1.group(1);
                     System.out.println("user logged in successfully!");
                     mainMenu(User.getUserByUsername(username));
                 } else System.out.println(nextStep);
@@ -226,7 +236,7 @@ public class ProgramController {
                 matcher = pattern.matcher(temp);
                 if (matcher.find()) {
                     int round = Integer.parseInt(temp);
-                    System.out.println(StartGameController.Game(user2Username, user, round));
+                    System.out.println(StartGameController.Game( user, round));
                 } else System.out.println("invalid round");
             }
             pattern = Pattern.compile("duel --new --second-player ([^\\s]+) --rounds ([\\d])");
@@ -243,13 +253,13 @@ public class ProgramController {
                 user2Username = matcher.group(1);
                 String temp = matcher.group(2);
                 round = Integer.parseInt(temp);
-                System.out.println(StartGameController.Game(user2Username, user, round));
+                System.out.println(StartGameController.Game( user, round));
             } else if (matcher1.find()) {
                 checker = true;
                 user2Username = matcher1.group(2);
                 String temp = matcher1.group(1);
                 round = Integer.parseInt(temp);
-                System.out.println(StartGameController.Game(user2Username, user, round));
+                System.out.println(StartGameController.Game(user, round));
             }
 
 
@@ -1244,5 +1254,7 @@ public class ProgramController {
             System.out.println("side deck is full");
         }
     }
+
+
 
 }

@@ -1,6 +1,8 @@
 package sample.model.Card;
 
-public enum CardType {
+import java.io.Serializable;
+
+public enum CardType  implements Serializable {
     MONSTER,
     SPELL,
     TRAP;

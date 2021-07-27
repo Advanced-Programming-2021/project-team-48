@@ -33,7 +33,7 @@ public class MonsterAdderToDeck {
                 if (!monsterForUser.isInDeck) {
                     deck.allMonsterForUserMain.add(monsterForUser);
                     //inja comment she age mikahi aval user sakhte she!
-                    //deck.user.allMonsters.remove(monsterForUser);
+                    deck.user.allMonsters.remove(monsterForUser);
                     deck.numberOfCardsInMain++;
                     monsterForUser.deck = deck;
                     monsterForUser.isInDeck = true;

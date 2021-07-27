@@ -1,6 +1,8 @@
 package sample.model.Card;
 
-public enum Property {
+import java.io.Serializable;
+
+public enum Property  implements Serializable {
     NORMAL,
     COUNTER,
     FIELD,

@@ -7,13 +7,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ImageInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.controller.SignupController;
-import sample.controller.UserLogined;
 import sample.model.User;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class Signup extends Application {
@@ -31,7 +38,7 @@ public class Signup extends Application {
     private Text done;
     @FXML
     private ImageView avatar;
-    private String imageAddress = "Assets/Characters/Chara001.dds1.png";
+    private String imageAddress = "C:\\Users\\amirhossein\\Desktop\\project-team-48-komak\\src\\main\\resources\\sample\\view\\graphic\\Assets\\Characters\\Chara001.dds1.png";
     private int i = 1;
 
     @Override
@@ -48,10 +55,13 @@ public class Signup extends Application {
     }
 
     public void Signup() throws Exception {
-        String nextStep = SignupController.creatUser(usernameVorodi.getText(), nickname.getText(), passwordVorodi.getText());
+        String nextStep = SignupController.creatUser(usernameVorodi.getText(), nickname.getText(), passwordVorodi.getText(), imageAddress);
+
         if (nextStep.equals("user created successfully!")) {
-            User.getUserByUsername(usernameVorodi.getText()).setAvatar(new Image(String.valueOf(getClass().getResource(imageAddress))));
-            Start.errorOut="user created successfully!";
+
+            new User(usernameVorodi.getText(), nickname.getText(), passwordVorodi.getText(), imageAddress);
+
+            Start.errorOut = "user created successfully!";
             new Start().start(stage);
         } else {
             error.setText(nextStep);
@@ -61,16 +71,20 @@ public class Signup extends Application {
     public void NextAvatar() {
         if (i != 38) {
             i++;
-            avatar.setImage(new Image(String.valueOf((getClass().getResource("Assets/Characters/Chara001.dds" + i + ".png")))));
-            imageAddress="Assets/Characters/Chara001.dds" + i + ".png";
+
+            avatar.setImage(new Image(new File("C:\\Users\\amirhossein\\Desktop\\project-team-48-komak\\src\\main\\resources\\sample\\view\\graphic\\Assets\\Characters\\Chara001.dds" + i + ".png").toURI().toString()));
+
+            imageAddress = "C:\\Users\\amirhossein\\Desktop\\project-team-48-komak\\src\\main\\resources\\sample\\view\\graphic\\Assets\\Characters\\Chara001.dds" + i + ".png";
         }
     }
 
     public void preAvatar() {
         if (i != 1) {
             i--;
-            avatar.setImage(new Image(String.valueOf((getClass().getResource("Assets/Characters/Chara001.dds" + i + ".png")))));
-            imageAddress="Assets/Characters/Chara001.dds" + i + ".png";
+            avatar.setImage(new Image(new File("C:\\Users\\amirhossein\\Desktop\\project-team-48-komak\\src\\main\\resources\\sample\\view\\graphic\\Assets\\Characters\\Chara001.dds" + i + ".png").toURI().toString()));
+
+
+            imageAddress = "C:\\Users\\amirhossein\\Desktop\\project-team-48-komak\\src\\main\\resources\\sample\\view\\graphic\\Assets\\Characters\\Chara001.dds" + i + ".png";
         }
     }
 }

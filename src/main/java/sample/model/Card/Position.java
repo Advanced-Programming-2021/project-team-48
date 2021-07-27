@@ -1,6 +1,8 @@
 package sample.model.Card;
 
-public enum Position {
+import java.io.Serializable;
+
+public enum Position  implements Serializable {
     ATTACK,
     DEFEND,
     HIDDEN;

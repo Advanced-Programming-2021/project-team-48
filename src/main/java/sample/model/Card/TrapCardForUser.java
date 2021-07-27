@@ -1,6 +1,8 @@
 package sample.model.Card;
 
-public class TrapCardForUser<User, Deck> extends TrapCard{
+import java.io.Serializable;
+
+public class TrapCardForUser<User, Deck> extends TrapCard implements Serializable {
     public static int numberOfCard=0;
     public int cardNumber;
     public User user;

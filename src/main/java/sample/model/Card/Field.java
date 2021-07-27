@@ -1,5 +1,7 @@
 package sample.model.Card;
 
-public enum Field {
+import java.io.Serializable;
+
+public enum Field  implements Serializable {
     GRAVE, HAND, GAME, DECK;
 }

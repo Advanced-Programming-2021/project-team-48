@@ -1,21 +1,47 @@
 package sample.controller;
 
-import sample.model.User;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
 
 public class SignupController {
-    public static String creatUser(String username, String nickname, String password) {
-        for (User user : User.getListOfUsers()) {
-            if (user.getUsername().equals(username)) {
-               return "user with username " + username + " already exists";
-            }
+    public static String creatUser(String username, String nickname, String password,String imageAddress) {
+        Socket socket = null;
+        try {
+            socket=new Socket("localhost", 7001);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        for (User user : User.getListOfUsers()) {
-            if (user.getNickname().equals(nickname)) {
-                return "user with nickname " + nickname + " already exists";
-            }
+        DataOutputStream dataOutputStream= null;
+        try {
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        new User(username, nickname, password);
-        return "user created successfully!";
+        DataInputStream dataInputStream = null;
+        try {
+            dataInputStream=new DataInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            dataOutputStream.writeUTF("creatUser," + username + "," + nickname + "," + password+","+imageAddress);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            return dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "error";
     }
-
 }
+

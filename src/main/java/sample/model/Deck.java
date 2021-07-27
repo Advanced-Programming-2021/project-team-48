@@ -4,9 +4,10 @@ import sample.model.Card.MonsterForUser;
 import sample.model.Card.SpellCardForUser;
 import sample.model.Card.TrapCardForUser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Deck implements Cloneable {
+public class Deck implements Serializable {
     private String name;
     public User user;
     public int numberOfCardsInMain;

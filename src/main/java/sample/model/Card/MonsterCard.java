@@ -3,9 +3,10 @@ package sample.model.Card;
 import javafx.scene.image.Image;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MonsterCard extends Card {
+public class MonsterCard extends Card  implements Serializable {
 
     public String type;
     public int level;

@@ -5,16 +5,24 @@ import sample.model.Card.MonsterForUser;
 import sample.model.Card.SpellCardForUser;
 import sample.model.Card.TrapCardForUser;
 
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.Socket;
+import java.net.URL;
 import java.util.ArrayList;
 
-public class User {
-    private String username;
-    private String nickname;
-    private String password;
-    private int score = 0;
+
+public class User implements Serializable {
+
+
+    public String username;
+    public String nickname;
+    public String password;
+
+    public int score = 0;
     private long money = 10000000;
     public int lifePoint = 8000;
-    private Image avatar;
+    public String token;
     public ArrayList<MonsterForUser> handMonster = new ArrayList<>();
     public ArrayList<SpellCardForUser> handSpell = new ArrayList<>();
     public ArrayList<TrapCardForUser> handTrap = new ArrayList<>();
@@ -24,28 +32,25 @@ public class User {
     public ArrayList<TrapCardForUser> trapGrave = new ArrayList<>();
     public int NumOfGrave = 0;
 
+    public String imageAddress;
     public MonsterForUser[] monsterZone = new MonsterForUser[5];
     public SpellCardForUser[] spellZone = new SpellCardForUser[5];
     public TrapCardForUser[] trapZone = new TrapCardForUser[5];
     public SpellCardForUser fieldZone;
 
 
-    private static ArrayList<User> listOfUsers;
-    static {
-        listOfUsers = new ArrayList<>();
-    }
-
-
     public ArrayList<MonsterForUser> allMonsters = new ArrayList<>();
 
-    public ArrayList<TrapCardForUser> allTraps=new ArrayList<>();
+    public ArrayList<TrapCardForUser> allTraps = new ArrayList<>();
 
     public ArrayList<SpellCardForUser> allSpells;
+
     {
         allSpells = new ArrayList<>();
     }
 
     public ArrayList<Deck> allDecks;
+
     {
         allDecks = new ArrayList<>();
     }
@@ -54,11 +59,50 @@ public class User {
     public boolean hasActiveDeck = false;
 
     //-------------------------------------------------
-    public User(String username, String nickname, String password) {
+    public User(String username, String nickname, String password, String imageAddress) {
         setUsername(username);
         setNickname(nickname);
-        setPassword(password);
-        listOfUsers.add(this);
+        this.password = password;
+        this.imageAddress = imageAddress;
+
+        Socket socket = null;
+        try {
+            socket = new Socket("localhost", 7001);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DataOutputStream dataOutputStream = null;
+        try {
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DataInputStream dataInputStream = null;
+        try {
+            dataInputStream = new DataInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            dataOutputStream.writeUTF("sendingNewUser");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream())) {
+                objectOutputStream.writeObject(this);
+                objectOutputStream.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void setUsername(String username) {
@@ -77,9 +121,6 @@ public class User {
         return lifePoint;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public void setMoney(long money) {
         this.money = money;
@@ -97,12 +138,8 @@ public class User {
         return activeDeck;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public static User getUserByUsername(String username) {
-        for (User user : listOfUsers) {
+        for (User user : User.getListOfUsers()) {
             if (user.username.equals(username)) {
                 return user;
             }
@@ -110,9 +147,6 @@ public class User {
         return null;
     }
 
-    public static ArrayList<User> getListOfUsers() {
-        return listOfUsers;
-    }
 
     public long getMoney() {
         return money;
@@ -126,9 +160,6 @@ public class User {
         return username;
     }
 
-    public static boolean passwordChecker(String username, String password) {
-        return User.getUserByUsername(username).getPassword().equals(password);
-    }
 
     public int getScore() {
         return score;
@@ -144,15 +175,51 @@ public class User {
         return null;
     }
 
-    public void decreaseLP(int damage){
+    public void decreaseLP(int damage) {
         this.lifePoint -= damage;
     }
 
-    public void setAvatar(Image avatar) {
-        this.avatar = avatar;
+
+
+
+    public static ArrayList<User> getListOfUsers() {
+        ArrayList<User> allUsers = new ArrayList<>();
+        Socket socket = null;
+        try {
+            socket = new Socket("localhost", 7001);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DataOutputStream dataOutputStream = null;
+        try {
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            dataOutputStream.writeUTF("userList");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+            try {
+                allUsers = (ArrayList<User>) objectInputStream.readObject();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return allUsers;
     }
 
     public Image getAvatar() {
-        return avatar;
+        return (new Image(new File(imageAddress).toURI().toString()));
     }
 }

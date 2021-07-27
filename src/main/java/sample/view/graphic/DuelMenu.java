@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -28,6 +29,8 @@ public class DuelMenu extends Application {
     private CheckBox one;
     @FXML
     private CheckBox three;
+    @FXML
+    private Button req;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -39,210 +42,6 @@ public class DuelMenu extends Application {
     }
 
     public void initialize() {
-/*
-        //<temp>
-        new CartReader();
-
-        //<user2>
-        User naweed = new User("", "ahmadvand", "321");
-        UserLogined.user = naweed;
-        BuyCard.BuyCard("Battle Ox", naweed);
-        BuyCard.BuyCard("Battle Ox", naweed);
-        BuyCard.BuyCard("Battle Ox", naweed);
-        BuyCard.BuyCard("Axe Raider", naweed);
-        BuyCard.BuyCard("Axe Raider", naweed);
-        BuyCard.BuyCard("Axe Raider", naweed);
-        BuyCard.BuyCard("Yomi Ship", naweed);
-        BuyCard.BuyCard("Yomi Ship", naweed);
-        BuyCard.BuyCard("Yomi Ship", naweed);
-        BuyCard.BuyCard("Horn Imp", naweed);
-        BuyCard.BuyCard("Horn Imp", naweed);
-        BuyCard.BuyCard("Horn Imp", naweed);
-        BuyCard.BuyCard("Silver Fang", naweed);
-        BuyCard.BuyCard("Silver Fang", naweed);
-        BuyCard.BuyCard("Silver Fang", naweed);
-        BuyCard.BuyCard("Suijin", naweed);
-        BuyCard.BuyCard("Suijin", naweed);
-        BuyCard.BuyCard("Suijin", naweed);
-        BuyCard.BuyCard("Fireyarou", naweed);
-        BuyCard.BuyCard("Fireyarou", naweed);
-        BuyCard.BuyCard("Fireyarou", naweed);
-        BuyCard.BuyCard("Curtain of the dark ones", naweed);
-        BuyCard.BuyCard("Curtain of the dark ones", naweed);
-        BuyCard.BuyCard("Curtain of the dark ones", naweed);
-        BuyCard.BuyCard("Feral Imp", naweed);
-        BuyCard.BuyCard("Feral Imp", naweed);
-        BuyCard.BuyCard("Dark magician", naweed);
-        BuyCard.BuyCard("Dark magician", naweed);
-        BuyCard.BuyCard("Wattkid", naweed);
-        BuyCard.BuyCard("Wattkid", naweed);
-        BuyCard.BuyCard("Wattkid", naweed);
-        BuyCard.BuyCard("Baby dragon", naweed);
-        BuyCard.BuyCard("Baby dragon", naweed);
-        BuyCard.BuyCard("Yami", naweed);
-        BuyCard.BuyCard("Yami", naweed);
-        BuyCard.BuyCard("Yami", naweed);
-        BuyCard.BuyCard("Hero of the east", naweed);
-        BuyCard.BuyCard("Hero of the east", naweed);
-        BuyCard.BuyCard("Hero of the east", naweed);
-        BuyCard.BuyCard("Battle warrior", naweed);
-        BuyCard.BuyCard("Raigeki", naweed);
-        BuyCard.BuyCard("Raigeki", naweed);
-        BuyCard.BuyCard("Raigeki", naweed);
-        BuyCard.BuyCard("Pot of Greed", naweed);
-        BuyCard.BuyCard("Pot of Greed", naweed);
-        BuyCard.BuyCard("Pot of Greed", naweed);
-        BuyCard.BuyCard("Dark Hole", naweed);
-        BuyCard.BuyCard("Dark Hole", naweed);
-        BuyCard.BuyCard("Dark Hole", naweed);
-        BuyCard.BuyCard("Black Pendant", naweed);
-        BuyCard.BuyCard("Black Pendant", naweed);
-        BuyCard.BuyCard("Black Pendant", naweed);
-
-        Deck deck1 = new Deck(naweed, "naweeds deck");
-
-        for (MonsterForUser monsterForUser : naweed.allMonsters) {
-            MonsterAdderToDeck.AddMonsterToMain(deck1, monsterForUser);
-        }
-
-        for (SpellCardForUser spellCardForUser : naweed.allSpells) {
-            SpellAdderToDeck.AddSpellToMain(deck1, spellCardForUser);
-        }
-        UserLogined.user.hasActiveDeck = true;
-        UserLogined.user.setActiveDeck(deck1);
-        UserLogined.opponent = naweed;
-        //</user2>
-
-        //<user1>
-        User arian = new User("arian", "qhzvini", "123");
-        UserLogined.user = arian;
-
-        BuyCard.BuyCard("Battle Ox", arian);
-        BuyCard.BuyCard("Battle Ox", arian);
-        BuyCard.BuyCard("Battle Ox", arian);
-        BuyCard.BuyCard("Axe Raider", arian);
-        BuyCard.BuyCard("Axe Raider", arian);
-        BuyCard.BuyCard("Axe Raider", arian);
-        BuyCard.BuyCard("Yomi Ship", arian);
-        BuyCard.BuyCard("Yomi Ship", arian);
-        BuyCard.BuyCard("Yomi Ship", arian);
-        BuyCard.BuyCard("Horn Imp", arian);
-        BuyCard.BuyCard("Horn Imp", arian);
-        BuyCard.BuyCard("Horn Imp", arian);
-        BuyCard.BuyCard("Silver Fang", arian);
-        BuyCard.BuyCard("Silver Fang", arian);
-        BuyCard.BuyCard("Silver Fang", arian);
-        BuyCard.BuyCard("Suijin", arian);
-        BuyCard.BuyCard("Suijin", arian);
-        BuyCard.BuyCard("Suijin", arian);
-        BuyCard.BuyCard("Fireyarou", arian);
-        BuyCard.BuyCard("Fireyarou", arian);
-        BuyCard.BuyCard("Fireyarou", arian);
-        BuyCard.BuyCard("Curtain of the dark ones", arian);
-        BuyCard.BuyCard("Curtain of the dark ones", arian);
-        BuyCard.BuyCard("Curtain of the dark ones", arian);
-        BuyCard.BuyCard("Feral Imp", arian);
-        BuyCard.BuyCard("Feral Imp", arian);
-        BuyCard.BuyCard("Dark magician", arian);
-        BuyCard.BuyCard("Dark magician", arian);
-        BuyCard.BuyCard("Wattkid", arian);
-        BuyCard.BuyCard("Wattkid", arian);
-        BuyCard.BuyCard("Wattkid", arian);
-        BuyCard.BuyCard("Baby dragon", arian);
-        BuyCard.BuyCard("Baby dragon", arian);
-        BuyCard.BuyCard("Yami", arian);
-        BuyCard.BuyCard("Yami", arian);
-        BuyCard.BuyCard("Yami", arian);
-        BuyCard.BuyCard("Hero of the east", arian);
-        BuyCard.BuyCard("Hero of the east", arian);
-        BuyCard.BuyCard("Hero of the east", arian);
-        BuyCard.BuyCard("Battle warrior", arian);
-        BuyCard.BuyCard("Raigeki", arian);
-        BuyCard.BuyCard("Raigeki", arian);
-        BuyCard.BuyCard("Raigeki", arian);
-        BuyCard.BuyCard("Pot of Greed", arian);
-        BuyCard.BuyCard("Pot of Greed", arian);
-        BuyCard.BuyCard("Pot of Greed", arian);
-        BuyCard.BuyCard("Dark Hole", arian);
-        BuyCard.BuyCard("Dark Hole", arian);
-        BuyCard.BuyCard("Dark Hole", arian);
-        BuyCard.BuyCard("Black Pendant", arian);
-        BuyCard.BuyCard("Black Pendant", arian);
-
-
-
-        System.out.println(BuyCard.BuyCard("Sword Of dark destruction", arian));
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-        BuyCard.BuyCard("Sword Of dark destruction", arian);
-
-
-
-
-        Deck deck = new Deck(arian, "arians deck");
-
-        for (MonsterForUser monsterForUser : arian.allMonsters) {
-            MonsterAdderToDeck.AddMonsterToMain(deck, monsterForUser);
-        }
-        for (SpellCardForUser spellCardForUser : arian.allSpells) {
-            SpellAdderToDeck.AddSpellToMain(deck, spellCardForUser);
-        }
-
-       /* arian.handMonster.add(arian.allMonsters.get(0));
-        arian.handMonster.add(arian.allMonsters.get(3));
-        arian.handMonster.add(arian.allMonsters.get(6));
-        arian.handMonster.add(arian.allMonsters.get(9));
-        arian.handMonster.add(arian.allMonsters.get(12));
-        arian.handMonster.add(arian.allMonsters.get(15));
-
-        naweed.handMonster.add(naweed.allMonsters.get(0));
-        naweed.handMonster.add(naweed.allMonsters.get(1));
-        naweed.handMonster.add(naweed.allMonsters.get(2));
-        naweed.handMonster.add(naweed.allMonsters.get(3));
-        naweed.handMonster.add(naweed.allMonsters.get(4));
-
-
-
-        UserLogined.user.hasActiveDeck = true;
-        UserLogined.user.setActiveDeck(deck);
-
-
-        //</user1>
-        //</temp>
-        */
-
-
         one.setSelected(true);
 
     }
@@ -261,13 +60,19 @@ public class DuelMenu extends Application {
         int rounds = 0;
         if (one.isSelected()) rounds = 1;
         if (three.isSelected()) rounds = 3;
-        String nextStep = StartGameController.Game(opponent.getText(), UserLogined.user, rounds);
-        error.setText(nextStep);
+        error.setText("waiting for opponent...");
+        req.setText("cancel");
+        String nextStep = StartGameController.Game( UserLogined.user, rounds);
         if (nextStep.equals("done1")) {
             GameGraphic1.deckTempUser.copyDeck(UserLogined.user.getActiveDeck());
             GameGraphic1.deckTempOpponent.copyDeck(UserLogined.opponent.getActiveDeck());
+            System.out.println(UserLogined.opponent.username);
+            System.out.println(UserLogined.user.username);
             GameGraphic1 gameGraphic1 = new GameGraphic1();
             gameGraphic1.start(stage);
+        }else {
+            error.setText(nextStep);
+
         }
     }
 

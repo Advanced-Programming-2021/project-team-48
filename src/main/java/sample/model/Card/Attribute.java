@@ -1,6 +1,8 @@
 package sample.model.Card;
 
-public enum Attribute {
+import java.io.Serializable;
+
+public enum Attribute  implements Serializable {
     EARTH,
     WIND,
     WATER,

@@ -1,7 +1,9 @@
 package sample.model.Card;
 
 
-public class MonsterForUser<User, Deck> extends MonsterCard {
+import java.io.Serializable;
+
+public class MonsterForUser<User, Deck> extends MonsterCard implements Serializable {
     public static int numberOfCard=0;
     public int cardNumber;
     public User user;

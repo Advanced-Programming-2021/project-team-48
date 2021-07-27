@@ -12,12 +12,13 @@ import sample.model.User;
 import sample.view.graphic.Start;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
         new CartReader();
-
+/*
 //<user2>
         User naweed = new User("naweed", "ahmadvand", "321");
         UserLogined.user = naweed;
@@ -176,11 +177,13 @@ public class Main {
         //</temp>
 
 
+ */
 
 
-        new ProgramController();
-        //Start.main(args);
 
+        //new ProgramController();
+
+        Start.main(args);
     }
 
 }

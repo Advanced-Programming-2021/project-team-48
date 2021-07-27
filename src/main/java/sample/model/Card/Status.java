@@ -1,6 +1,8 @@
 package sample.model.Card;
 
-public enum Status {
+import java.io.Serializable;
+
+public enum Status  implements Serializable {
     UNLIMITED,
     LIMITED;
 }

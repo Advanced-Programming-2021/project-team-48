@@ -1,8 +1,9 @@
 package sample.model.Card;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Card {
+public class Card  implements Serializable {
     protected String name;
     protected String description;
     protected int price;

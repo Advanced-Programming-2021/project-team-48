@@ -74,7 +74,7 @@ public class ProfileMenu extends Application {
     }
 
     public void ChangeAvatarClicked(){
-        UserLogined.user.setAvatar(new Image(String.valueOf((getClass().getResource(imageAddress)))));
+        UserLogined.user.imageAddress=(imageAddress);
         avatarChange.setText("avatar changed successfully!");
     }
 

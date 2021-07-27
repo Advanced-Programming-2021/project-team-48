@@ -1,6 +1,8 @@
 package sample.model.Card;
 
-public class SpellCardForUser<User, Deck> extends SpellCard{
+import java.io.Serializable;
+
+public class SpellCardForUser<User, Deck> extends SpellCard implements Serializable {
     public static int numberOfCard=0;
     public int cardNumber;
     public User user;

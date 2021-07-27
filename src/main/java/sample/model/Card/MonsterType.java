@@ -1,6 +1,8 @@
 package sample.model.Card;
 
-public enum MonsterType {
+import java.io.Serializable;
+
+public enum MonsterType  implements Serializable {
     WARRIOR,
     BEAST,
     FIEND,
