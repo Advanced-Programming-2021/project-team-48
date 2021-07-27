@@ -3,6 +3,7 @@ package sample.Server;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import sample.controller.BuyCard;
 import sample.model.User;
 
 import java.io.*;
@@ -21,11 +22,12 @@ import java.util.regex.Pattern;
 public class Server {
     public static HashMap<String, User> logginedUsers = new HashMap<>();
     public static HashMap<User, String> userAndPassword = new HashMap<>();
-    public static User oneRoundedReq1 = null;
-    public static User oneRoundedReq2 = null;
+    public static String oneRoundedReq1 = "";
+    public static String oneRoundedReq2 = null;
     public static User threeRoundedReq = null;
-    private ArrayList<UserThread> userThreads = new ArrayList<>();
-    ArrayList<String> allChats = new ArrayList<>();
+
+
+    String allChats = "";
     private Timeline timer;
     private static ArrayList<User> listOfUsers = new ArrayList<>();
 
@@ -70,6 +72,7 @@ public class Server {
             System.out.println(input);
             String result = process(input, socket);
             System.out.println(result);
+            System.out.println("--------------------------------");
             if (result.equals("")) break;
 
             dataOutputStream.writeUTF(result);
@@ -103,6 +106,7 @@ public class Server {
         }
 
 
+
         if (input.equals("sendingNewUser")) {
             try {
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -126,6 +130,18 @@ public class Server {
             return changePassword(token, oldPass, newPass);
         }
 
+        pattern = Pattern.compile("^buy,([^,]+),([^,]+)$");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            checker = true;
+            String cardName = matcher.group(1);
+            System.out.println(",,,,,,,,,,,,,,,,,,,,,,,");
+            System.out.println(cardName);
+            System.out.println(",,,,,,,,,,,,,,,,,,,,,,,");
+            String username=matcher.group(2);
+            User user=User.getUserByUsername(username);
+            return BuyCard.BuyCard(cardName,user);
+        }
         pattern = Pattern.compile("^logout,([\\S]+)$");
         matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -153,6 +169,39 @@ public class Server {
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
+
+        }
+
+        pattern = Pattern.compile("save");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            checker = true;
+                ObjectInputStream objectInputStream = null;
+                try {
+                    objectInputStream = new ObjectInputStream(socket.getInputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                User temp = null;
+                try {
+                    temp = (User) objectInputStream.readObject();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(temp.username);
+                Iterator<User> deleter = listOfUsers.iterator();
+                while (deleter.hasNext()) {
+                    User tem = deleter.next();
+                    if (tem.username.equals(temp.username)) {
+                        userAndPassword.remove(tem);
+                        deleter.remove();
+                        break;
+                    }
+                }
+
+
+                listOfUsers.add(temp);
+                userAndPassword.put(temp, temp.password);
 
         }
 
@@ -217,46 +266,36 @@ public class Server {
             return usernameAndScore;
         }
 
-        pattern = Pattern.compile("^startChat,([\\S]+)$");
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            User user=logginedUsers.get(matcher.group(1));
-            ObjectOutputStream objectOutputStream=null;
-            try {
-                objectOutputStream=new ObjectOutputStream(socket.getOutputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                objectOutputStream.writeObject(allChats);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            checker = true;
-            ExecutorService pool = Executors.newCachedThreadPool();
-            UserThread temp = new UserThread(socket, this,user);
-            userThreads.add(temp);
-            pool.execute(temp);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        if (input.equals("getChats")) {
+            return allChats;
         }
 
+        pattern = Pattern.compile("^newMsg,(.+)$");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            checker = true;
+            String massage = matcher.group(1);
+            if (!massage.equals("")) {
+                if (allChats.equals(""))
+                    allChats += massage;
+                else
+                    allChats += "/" + (massage);
+            }
+
+
+        }
         pattern = Pattern.compile("startGame,([\\S]+),([1-3])");
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             checker = true;
             String token = matcher.group(1);
-            int round = Integer.parseInt(matcher.group(2));
             User user = logginedUsers.get(token);
-            System.out.println(user.username);
+            int round = Integer.parseInt(matcher.group(2));
+
             boolean isDone = false;
             if (round == 1) {
                 if (oneRoundedReq1 == null) {
-                    oneRoundedReq1 = user;
+                    oneRoundedReq1 = user.username;
                     while (true) {
                         if (oneRoundedReq2 == null) {
                             try {
@@ -265,64 +304,26 @@ public class Server {
                                 e.printStackTrace();
                             }
                         } else {
-
-
-                            ObjectOutputStream objectOutputStream = null;
-                            try {
-                                objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                objectOutputStream.writeObject(oneRoundedReq2);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                objectOutputStream.flush();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            String temp = oneRoundedReq2;
                             if (isDone) {
-                                String done = "done " + oneRoundedReq2.username + ">>" + oneRoundedReq1.username;
                                 oneRoundedReq2 = null;
                                 oneRoundedReq1 = null;
-                                return done;
                             } else
                                 isDone = true;
+                            return temp;
 
-                            break;
                         }
                     }
-
 
                 } else {
-                    oneRoundedReq2 = user;
-                    while (true) {
-                        ObjectOutputStream objectOutputStream = null;
-                        try {
-                            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            objectOutputStream.writeObject(oneRoundedReq1);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            objectOutputStream.flush();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        if (isDone) {
-                            String done = "done " + oneRoundedReq1.username + ">>" + oneRoundedReq1.username;
-                            oneRoundedReq2 = null;
-                            oneRoundedReq1 = null;
-                            return done;
-                        } else
-                            isDone = true;
-                    }
+                    oneRoundedReq2 = user.username;
+                    String temp=oneRoundedReq1;
+                    if (isDone) {
+                        oneRoundedReq2 = null;
+                        oneRoundedReq1 = null;
+                    } else
+                        isDone = true;
+                    return temp;
                 }
 
             }
@@ -395,12 +396,6 @@ public class Server {
     }
 
 
-    public void SendAll(String message, UserThread userThread) {
-        allChats.add(userThread.user.username+","+message);
-        for (int i = 0; i < userThreads.size(); i++) {
-            userThreads.get(i).Receive(message);
-        }
-    }
 
 }
 

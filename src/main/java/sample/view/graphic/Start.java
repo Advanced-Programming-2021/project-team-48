@@ -91,65 +91,15 @@ public class Start extends Application {
             try {
                 ObjectInputStream objectInputStream=new ObjectInputStream(socket.getInputStream());
                 User user= (User) objectInputStream.readObject();
+                objectInputStream.close();
                 UserLogined.user=user;
                 user.token=token;
                 new MainMenu().start(stage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            /*boolean isFind = false;
-            for (User user : UserKeeper.getListOfUsers()) {
-                if (user.getUsername().equals(usernameVorodi.getText())) {
-                    isFind = true;
-                    user.token = matcher1.group(1);
-                    UserLogined.user = user;
-                    break;
-                }
-            }
-            /*if (!isFind) {
-                String nickName = "";
-                try {
-                    dataOutputStream.writeUTF("getNickname," + usernameVorodi.getText());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    dataOutputStream.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    nickName = SetupConnection.dataInputStream.readUTF();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                User vorodiJadid = new User(usernameVorodi.getText(), nickName,"1","sda");
-                String imageAddress = "";
-                try {
-                    dataOutputStream.writeUTF("getImage," + usernameVorodi.getText());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    dataOutputStream.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    imageAddress = SetupConnection.dataInputStream.readUTF();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                vorodiJadid.setAvatar(new Image(String.valueOf(getClass().getResource(imageAddress))));
-
-
-                vorodiJadid.token = matcher1.group(1);
-                UserLogined.user = vorodiJadid;
-
-             */
+            dataOutputStream.close();
             } else {
                 error.setText(nextStep);
             }

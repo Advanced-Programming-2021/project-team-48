@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="750.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.view.graphic.Chat">
    <children>
@@ -15,5 +16,7 @@
       <TextField fx:id="massage" layoutX="528.0" layoutY="685.0" prefHeight="26.0" prefWidth="857.0" />
       <Button layoutX="55.0" layoutY="685.0" mnemonicParsing="false" onAction="#Back" text="Back To Mian Menu" />
       <Button layoutX="1401.0" layoutY="685.0" mnemonicParsing="false" onAction="#SendClicked" text="Send" />
+      <Text layoutX="81.0" layoutY="672.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Online Users:" />
+      <Text fx:id="online" fill="#d11f1f" layoutX="177.0" layoutY="671.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="186.93670654296875" />
    </children>
 </AnchorPane>

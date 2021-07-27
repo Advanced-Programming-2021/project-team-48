@@ -6,15 +6,12 @@ import sample.model.User;
 import sample.view.graphic.MainMenu;
 
 import javax.print.DocFlavor;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class StartGameController {
 
-    public static String Game(User user, int round) throws Exception {
+    public static String Game(User user, int round)  {
 
         if (user.hasActiveDeck) {
             if (user.getActiveDeck().isValid().equals("valid")) {
@@ -31,6 +28,49 @@ public class StartGameController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    try {
+                        dataOutputStream.writeUTF("save");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        dataOutputStream.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    ObjectOutputStream objectOutputStream=null;
+                    try {
+                        objectOutputStream=new ObjectOutputStream(socket.getOutputStream());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        objectOutputStream.writeObject(UserLogined.user);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        objectOutputStream.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    DataInputStream dataInputStream=null;
+                    try {
+                        dataInputStream= new DataInputStream(socket.getInputStream());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        dataInputStream.readUTF();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
                     try {
                         dataOutputStream.writeUTF("startGame," + UserLogined.user.token + "," + round);
                     } catch (IOException e) {
@@ -42,31 +82,42 @@ public class StartGameController {
                         e.printStackTrace();
                     }
 
-                    if (UserLogined.opponent==null){
-                        System.out.println("kkkkkkkkkkkkkkkkkkk");
-                    }else System.out.println("jjjjjjjjjjjjjjjjjjjjjjj");
-
-                    User user2 = null;
-                    System.out.println("here");
+                    String harif="";
                     try {
-                        ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-                        user2 = (User) objectInputStream.readObject();
-                        UserLogined.opponent = user2;
-                        System.out.println("what");
-                        System.out.println(UserLogined.opponent.username);
-                        System.out.println("------------------");
+                       harif= dataInputStream.readUTF();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    try {
+                        dataOutputStream.writeUTF("sendUser,"+harif);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        dataOutputStream.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    User opp=null;
+                    try {
+                        ObjectInputStream objectInputStream=new ObjectInputStream(socket.getInputStream());
+                        try {
+                            opp= (User) objectInputStream.readObject();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        objectInputStream.close();
+                        UserLogined.opponent=opp;
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("hi");
 
-                    if (user2 != null)
-                        //new Game(user, user2, 1, 1);
                         return "done1";
 
                 } else if (round == 3) {
-                    new Game(UserLogined.user, UserLogined.opponent, 3, 1);
                     return "khuck";
                 } else {
                     return "number of rounds is not supported";
@@ -77,7 +128,6 @@ public class StartGameController {
         } else {
             return (user.getUsername() + " has no active deck");
         }
-        return "error";
 
     }
 }

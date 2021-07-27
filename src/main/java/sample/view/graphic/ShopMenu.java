@@ -16,7 +16,10 @@ import sample.controller.HowManyCard;
 import sample.controller.SortCards;
 import sample.controller.UserLogined;
 import sample.model.Card.Card;
+import sample.model.User;
 
+import java.io.*;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,6 +35,9 @@ public class ShopMenu extends Application {
     @FXML
     private Text error;
     private ArrayList<Text> allHowMany = new ArrayList<>();
+    private Socket socket;
+    private DataOutputStream dataOutputStream;
+    private DataInputStream dataInputStream;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -44,6 +50,21 @@ public class ShopMenu extends Application {
 
     public void initialize() {
         innerAnchorPane.getChildren().addAll(creatCard());
+        try {
+            socket=new Socket("localhost", 7001);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            dataInputStream=new DataInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            dataOutputStream=new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         int i = 10, j = 520;
         int b = 540, c = 560;
@@ -164,6 +185,50 @@ public class ShopMenu extends Application {
 
     public void BuyClicked(String cardName) {
         String nextStep = BuyCard.BuyCard(cardName, UserLogined.user);
+//        try {
+//            dataOutputStream.writeUTF("buy,"+cardName+","+UserLogined.user.username);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        String nextStep="";
+//
+//        System.out.println("a");
+//        try {
+//            nextStep=dataInputStream.readUTF();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("v");
+//
+//        System.out.println("c");
+//
+//
+//        Socket socket1 = null;
+//        try { socket1=new Socket("localhost", 7001);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        DataOutputStream dataOutputStream1=null;
+//        try {
+//            dataOutputStream1=new DataOutputStream(socket1.getOutputStream());
+//            dataOutputStream1.writeUTF("sendUser,"+UserLogined.user.username);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            ObjectInputStream objectInputStream=new ObjectInputStream(socket1.getInputStream());
+//            User user= null;
+//            try {
+//                user = (User) objectInputStream.readObject();
+//            } catch (ClassNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//            UserLogined.user=user;
+//            objectInputStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
 
         if (nextStep.equals("done")) {
             error.setText("you bought "+cardName);
